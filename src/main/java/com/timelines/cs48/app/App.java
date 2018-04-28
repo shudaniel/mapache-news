@@ -1,13 +1,6 @@
 package com.timelines.cs48.app;
 
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
-import com.google.firebase.auth.FirebaseCredentials;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.*;
 import com.google.auth.oauth2.GoogleCredentials;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,7 +28,6 @@ public class App
 
           FirebaseApp.initializeApp(options);
 
-          System.out.println("SUCCESS");
 
         } catch  (IOException e){
           System.out.println("Invalid firebase connection");
