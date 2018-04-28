@@ -27,13 +27,15 @@ public class App
     {
         System.out.println( "Hello World!" );
         try {
-          FileInputStream serviceAccount = new FileInputStream("timelines-6d652-firebase-adminsdk-m2lpy-4b6b1dbdbf.json");
+          FileInputStream serviceAccount = new FileInputStream("src/main/java/com/timelines/cs48/app/timelines-6d652-firebase-adminsdk-m2lpy-4b6b1dbdbf.json");
           FirebaseOptions options = new FirebaseOptions.Builder()
               .setCredentials(GoogleCredentials.fromStream(serviceAccount))
               .setDatabaseUrl("https://timelines-6d652.firebaseio.com/")
               .build();
 
           FirebaseApp.initializeApp(options);
+
+          System.out.println("SUCCESS");
 
         } catch  (IOException e){
           System.out.println("Invalid firebase connection");
