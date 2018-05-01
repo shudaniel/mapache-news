@@ -41,8 +41,8 @@ public class App
         DatabaseReference timelinesRef = ref.child("timelines");
 
         Map<String, Timeline> timelines = new HashMap<>();
-        timelines.put("1", new Timeline("Test1", "The best description ever"));
-        timelines.put("2", new Timeline("Test2", "An even better test description"));
+        Timeline test = new Timeline("Test1", "The best description ever");
+        timelines.put("3", test);
 
 
         timelinesRef.setValue(timelines, new DatabaseReference.CompletionListener() {

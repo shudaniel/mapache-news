@@ -4,7 +4,7 @@ out/
 target/
 
 .DS_Store
-.idea/*
+.idea/
 
 # Log file
 *.log
@@ -27,3 +27,4 @@ target/
 hs_err_pid*
 
 *.json
+timeline.iml
