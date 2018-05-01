@@ -36,29 +36,33 @@ public class App
         }
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference();
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference ref = database.getReference("/");
 
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Object document = dataSnapshot.getValue();
-                System.out.println(document);
-
-            }
-
-            public void onCancelled(DatabaseError arg0) {
-                // TODO Auto-generated method stub
-
-            }
-        }); 
         DatabaseReference timelinesRef = ref.child("timelines");
 
         Map<String, Timeline> timelines = new HashMap<>();
         timelines.put("1", new Timeline("Test1", "The best description ever"));
         timelines.put("2", new Timeline("Test2", "An even better test description"));
 
-        timelinesRef.setValueAsync(timelines);
 
+        timelinesRef.setValue(timelines, new DatabaseReference.CompletionListener() {
 
+            @Override
+            public void onComplete(DatabaseError de, DatabaseReference dr) {
+              if (de != null) {
+                  System.out.println("Data could not be saved " + de.getMessage());
+              } else {
+                  System.out.println("Data saved successfully.");
+              }
+            }
+        });
+
+        try{
+          Thread.sleep(10000);
+        }
+        catch(InterruptedException e){
+          System.out.println("FAILED TO SLEEP");
+        }
         System.out.println( "Goodbye World!" );
 
     }

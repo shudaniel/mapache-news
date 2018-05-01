@@ -8,17 +8,23 @@ import java.util.ArrayList;
 public class Timeline {
     String name;
     String description;
-    int length;
     int id;
     // Keys keys;
     // ArrayList<Article> articles = new ArrayList<>();
     static int timeline_count;
 
+    Timeline(){
+        this.name = "";
+        this.description = "";
+        timeline_count++;
+        id = timeline_count;
+    }
+
     Timeline(String name, String description){
       this.name = name;
       this.description = description;
-      length = 0;
-      id = ++timeline_count;
+      timeline_count++;
+      id = timeline_count;
     }
 
     public String getName() {
@@ -28,6 +34,20 @@ public class Timeline {
     public void setName(String name) {
         this.name = name;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
+    public int getId(){
+        return id;
+    }
+
+
 
     // // Adds article at end of timeline
     // public void addArticle(Article a){
