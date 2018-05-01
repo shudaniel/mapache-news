@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 package com.timelines.cs48.app;
 
-=======
->>>>>>> 537665c8a2ce083245735d919018d5aee0219a7d
+
 /**
  * Created by afunk on 4/18/18.
  */
