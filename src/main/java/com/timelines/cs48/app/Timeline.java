@@ -1,5 +1,3 @@
-package com.timelines.cs48.app;
-
 import java.util.ArrayList;
 
 /**
@@ -48,8 +46,6 @@ public class Timeline {
     public int getId(){
         return id;
     }
-
-
     // Adds article at end of timeline
     public void addArticle(Article a){
         articles.add(a);
