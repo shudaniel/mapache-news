@@ -1,5 +1,3 @@
-package com.timelines.cs48.app;
-
 import java.util.ArrayList;
 
 /**
@@ -7,19 +5,9 @@ import java.util.ArrayList;
  */
 public class Timeline {
     String name;
-    String description;
     int length;
-    int id;
-    // Keys keys;
-    // ArrayList<Article> articles = new ArrayList<>();
-    static int timeline_count;
-
-    Timeline(String name, String description){
-      this.name = name;
-      this.description = description;
-      length = 0;
-      id = ++timeline_count;
-    }
+    Keys keys;
+    ArrayList<Article> articles = new ArrayList<>();
 
     public String getName() {
         return name;
@@ -29,29 +17,29 @@ public class Timeline {
         this.name = name;
     }
 
-    // // Adds article at end of timeline
-    // public void addArticle(Article a){
-    //     articles.add(a);
-    // }
+    // Adds article at end of timeline
+    public void addArticle(Article a){
+        articles.add(a);
+    }
 
-    // // Adds article at user-defined date
-    // public void addArticle(Article a, String date){
-    //     //STUB : uses date-based sorting to insert the article at correct date
-    // }
+    // Adds article at user-defined date
+    public void addArticle(Article a, String date){
+        //STUB : uses date-based sorting to insert the article at correct date
+    }
 
 
 
-    // public void listArticles(){
-    //     //STUB
+    public void listArticles(){
+        //STUB
 
-    //     for(Article article : articles){
-    //         String art_name = article.getName();
-    //         String art_date = article.getDate();
-    //         String art_desc = article.getDescription(); //Maybe necessary -- might be too long for a list
-    //         String art_key = article.getKey();
+        for(Article article : articles){
+            String art_name = article.getName();
+            String art_date = article.getDate();
+            String art_desc = article.getDescription(); //Maybe necessary -- might be too long for a list
+            String art_key = article.getKey();
 
-    //     }
-    //     //Returns list of articles
-    // }
+        }
+        //Returns list of articles
+    }
 
 }
