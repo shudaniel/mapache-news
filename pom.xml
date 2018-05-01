@@ -34,8 +34,8 @@
     </plugins>
   </build>
   <properties>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
   </properties>
   <dependencies>
     <dependency>
@@ -54,7 +54,7 @@
         <artifactId>slf4j-simple</artifactId>
         <version>1.6.4</version>
     </dependency>
-<dependency>
+    <dependency>
       <groupId>com.google.firebase</groupId>
       <artifactId>firebase-admin</artifactId>
       <version>5.11.0</version>
