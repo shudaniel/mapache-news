@@ -7,3 +7,6 @@
 3. Instructions about how to connect java backend with react frontend: https://spring.io/guides/gs/rest-service/
 
 4. Spring documentation: https://docs.spring.io/spring-boot/docs/current/maven-plugin/
+
+5/1/18
+Connected to database to save timeline info
