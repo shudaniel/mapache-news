@@ -11,5 +11,6 @@
 
 5. Spring documentation: https://docs.spring.io/spring-boot/docs/current/maven-plugin/
 
-5/1/18
-Connected to database to save timeline info
+6. To save a new timeline to the database, use this: http://localhost:8080/create?name=Name&description=Description  
+
+
