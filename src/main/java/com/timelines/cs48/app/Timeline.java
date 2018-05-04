@@ -1,3 +1,4 @@
+package com.timelines.cs48.app;
 import java.util.ArrayList;
 
 /**
@@ -8,7 +9,7 @@ public class Timeline {
     String description;
     int id;
     int length;
-    Keys keys;
+    // Keys keys;
     ArrayList<Article> articles = new ArrayList<Article>();
 
     static int timeline_count;
@@ -65,7 +66,7 @@ public class Timeline {
             String art_name = article.getName();
             String art_date = article.getDate();
             String art_desc = article.getDescription(); //Maybe necessary -- might be too long for a list
-            String art_key = article.getKey();
+            // String art_key = article.getKey();
 
         }
         //Returns list of articles

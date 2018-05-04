@@ -8,7 +8,7 @@ public class Article {
     String link;
     String description;
     String date; // We should make a date class that can easily return and organize by date (or use an existing api)
-    Key key;
+    // Keys keys;
 
     Article(){
         name = "";
@@ -24,12 +24,12 @@ public class Article {
         this.date = date;
     }
 
-    Article(String name, String link, String description, String date, Key key){
+    Article(String name, String link, String description, String date, Keys key){
         this.name = name;
         this.link = link;
         this.description = description;
         this.date = date;
-        this.key = key;
+        // this.key = key;
     }
 
     public String getName() {
@@ -64,11 +64,11 @@ public class Article {
         this.date = date;
     }
 
-    public String getKey(){
-        return key.getColor() + " " + key.getName();
-    }
+    // public String getKey(){
+    //     return key.getColor() + " " + key.getName();
+    // }
     
-    public void setKey(Key k){
-        this.key = k;
-    }
+    // public void setKey(Key k){
+    //     this.key = k;
+    // }
 }
