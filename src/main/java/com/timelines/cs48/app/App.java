@@ -13,6 +13,8 @@ public class App
         FirebaseSave saver = new FirebaseSave();
         Timeline test = new Timeline("Test1", "The best description ever");
         saver.saveTimeline(test);
+        Timeline test2 = new Timeline("Test234", "The second best description ever");
+        saver.saveTimeline(test2);
         System.out.println( "Goodbye World!" );
 
     }

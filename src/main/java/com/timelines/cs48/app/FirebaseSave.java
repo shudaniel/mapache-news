@@ -31,16 +31,17 @@ public class FirebaseSave{
   }
 
   public void saveTimeline(Timeline item){
+
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
 
     DatabaseReference timelinesRef = ref.child("timelines");
 
-    Map<String, Timeline> timelines = new HashMap<>();
+    Map<String, Object> timelines = new HashMap<>();
     timelines.put("" + item.getId(), item);
 
 
-    timelinesRef.setValue(timelines, new DatabaseReference.CompletionListener() {
+    timelinesRef.updateChildren(timelines, new DatabaseReference.CompletionListener() {
 
         @Override
         public void onComplete(DatabaseError de, DatabaseReference dr) {
