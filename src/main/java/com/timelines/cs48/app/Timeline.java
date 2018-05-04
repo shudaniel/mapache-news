@@ -8,7 +8,6 @@ public class Timeline {
     String name;
     String description;
     int id;
-    int length;
     // Keys keys;
     ArrayList<Article> articles = new ArrayList<Article>();
 
@@ -55,6 +54,10 @@ public class Timeline {
     // Adds article at user-defined date
     public void addArticle(Article a, String date){
         //STUB : uses date-based sorting to insert the article at correct date
+    }
+
+    public int getLength(){
+        articles.size();
     }
 
 
