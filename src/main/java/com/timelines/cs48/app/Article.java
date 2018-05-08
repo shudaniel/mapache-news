@@ -1,34 +1,41 @@
 package com.timelines.cs48.app;
 
+import java.lang.String;
+import java.util.Date;
+import java.text.*;
+import java.text.ParseException;
+
 /**
  * Created by afunk on 4/18/18.
  */
-public class Article {
+public class Article implements Comparable<Article> {
     String name;
     String link;
     String description;
-    String date; // We should make a date class that can easily return and organize by date (or use an existing api)
-    // Keys keys;
+    String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
+    Date date;
 
     Article(){
         name = "";
         link = "";
         description = "";
-        date = "";
+        dateString = "";
     }
 
     Article(String name, String link, String description, String date){
         this.name = name;
         this.link = link;
         this.description = description;
-        this.date = date;
+        this.dateString = date;
+        this.date = convertStringToDate(this.dateString);
+
     }
 
     Article(String name, String link, String description, String date, Keys key){
         this.name = name;
         this.link = link;
         this.description = description;
-        this.date = date;
+        this.dateString = date;
         // this.key = key;
     }
 
@@ -57,11 +64,31 @@ public class Article {
     }
 
     public String getDate() {
-        return date;
+        return dateString;
     }
 
     public void setDate(String date) {
-        this.date = date;
+        this.dateString = date;
+        this.date = convertStringToDate(dateString);
+    }
+
+    public Date convertStringToDate(String dateString)
+    {
+        Date formatteddate = null;
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+
+        try{
+            formatteddate = df.parse(dateString);
+//            formatteddate = df.format(dateA);
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
+        }
+        return formatteddate;
+    }
+    @Override
+    public int compareTo(Article o) {
+        return getDate().compareTo(o.getDate());
     }
 
     // public String getKey(){
