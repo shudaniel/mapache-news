@@ -57,7 +57,7 @@ public class Timeline {
     }
 
     public int getLength(){
-        articles.size();
+        return articles.size();
     }
 
 
