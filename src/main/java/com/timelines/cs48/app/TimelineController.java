@@ -10,8 +10,9 @@ public class TimelineController {
 
     @RequestMapping("/create")
     public Timeline create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
-      // FirebaseSave saver = new FirebaseSave();
-      // saver.saveTimeline(new Timeline(name, description));
-      return new Timeline(name, description);
+      FirebaseSave saver = new FirebaseSave();
+      Timeline newEntry = new Timeline(name, description);
+      saver.saveTimeline(newEntry);
+      return newEntry;
     }
 }
