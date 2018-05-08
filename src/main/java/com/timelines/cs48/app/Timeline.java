@@ -1,5 +1,7 @@
 package com.timelines.cs48.app;
 import java.util.ArrayList;
+import java.text.*;
+import java.util.*;
 
 /**
  * Created by afunk on 4/18/18.
@@ -54,6 +56,9 @@ public class Timeline {
     // Adds article at user-defined date
     public void addArticle(Article a, String date){
         //STUB : uses date-based sorting to insert the article at correct date
+        a.setDate(date);
+        articles.add(a);
+        Collections.sort(articles);
     }
 
     public int getLength(){
@@ -74,5 +79,22 @@ public class Timeline {
         }
         //Returns list of articles
     }
+
+    public Date convertStringToDate(String dateString)
+    {
+        Date formatteddate = null;
+        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+
+        try{
+            formatteddate = df.parse(dateString);
+//            formatteddate = df.format(dateA);
+        }
+        catch ( Exception ex ){
+            System.out.println(ex);
+        }
+        return formatteddate;
+    }
+
+
 
 }
