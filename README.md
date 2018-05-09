@@ -7,3 +7,4 @@
  - If you do not, then the code will not update
  - You must relaunch the server everytime you make a change (sorry I don't know how to change this)
  - To run code, do: ./mvnw spring-boot:run
+ - http://therealdanvega.com/blog/2017/07/05/read-json-data-spring-boot-write-database
