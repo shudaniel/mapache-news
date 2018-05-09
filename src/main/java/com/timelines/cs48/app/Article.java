@@ -30,15 +30,15 @@ public class Article implements Comparable<Article> {
         this.date = convertStringToDate(this.dateString);
 
     }
-
-    Article(String name, String link, String description, String date, Keys key){
+//Fix implementation of Keys
+   /* Article(String name, String link, String description, String date, Keys key){
         this.name = name;
         this.link = link;
         this.description = description;
         this.dateString = date;
         // this.key = key;
     }
-
+*/
     public String getName() {
         return name;
     }
@@ -62,9 +62,12 @@ public class Article implements Comparable<Article> {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public String getDate() {
+    public String getDateString(){
         return dateString;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public void setDate(String date) {

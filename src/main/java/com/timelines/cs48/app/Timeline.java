@@ -10,7 +10,6 @@ public class Timeline {
     String name;
     String description;
     int id;
-    // Keys keys;
     ArrayList<Article> articles = new ArrayList<Article>();
 
     static int timeline_count;
@@ -51,11 +50,11 @@ public class Timeline {
     // Adds article at end of timeline
     public void addArticle(Article a){
         articles.add(a);
+        Collections.sort(articles);
     }
 
     // Adds article at user-defined date
     public void addArticle(Article a, String date){
-        //STUB : uses date-based sorting to insert the article at correct date
         a.setDate(date);
         articles.add(a);
         Collections.sort(articles);
@@ -68,14 +67,15 @@ public class Timeline {
 
 
     public void listArticles(){
-        //STUB
-
+        System.out.println(getName());
+        System.out.println(getDescription());
         for(Article article : articles){
             String art_name = article.getName();
-            String art_date = article.getDate();
-            String art_desc = article.getDescription(); //Maybe necessary -- might be too long for a list
-            // String art_key = article.getKey();
+            String art_date = article.getDateString();
+            String art_desc = article.getDescription();
 
+            System.out.print(art_name + " " + art_date + " " + art_desc);
+            System.out.println();
         }
         //Returns list of articles
     }
