@@ -1,5 +1,4 @@
 1. React and spring-boot tutorial: https://spring.io/guides/tutorials/react-and-spring-data-rest/
-2. Other tutorial: https://www.callicoder.com/hibernate-spring-boot-jpa-one-to-many-mapping-example/
 
 ## To Run
 
@@ -7,4 +6,3 @@
  - If you do not, then the code will not update
  - You must relaunch the server everytime you make a change (sorry I don't know how to change this)
  - To run code, do: ./mvnw spring-boot:run
- - http://therealdanvega.com/blog/2017/07/05/read-json-data-spring-boot-write-database
