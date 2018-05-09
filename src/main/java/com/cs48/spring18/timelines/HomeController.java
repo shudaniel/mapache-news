@@ -4,6 +4,7 @@ package com.cs48.spring18.timelines;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,14 +37,14 @@ public class HomeController {
 
   @RequestMapping(value = "/")
   public String index() {
+    saver.loadAllTimelines();
     return "index";
   }
 
   @RequestMapping(value = "/create")
-  public Timeline create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
+  public void create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
     Timeline newEntry = new Timeline(name, description);
     saver.saveTimeline(newEntry);
-    return newEntry;
   }
   
 

@@ -113,7 +113,7 @@ public class Timeline {
     @Override
     public String toString() {
         return "Timeline{" +
-                "id=" + id +
+                "id=" + timeline_id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
