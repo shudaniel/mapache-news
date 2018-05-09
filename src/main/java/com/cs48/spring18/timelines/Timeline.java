@@ -18,21 +18,29 @@ public class Timeline {
     private String name;
     private String description;
 
+    //The id above is needed to prevent compiler error
+    //Need this second id variable because the one above isn't saved to firebase
+    private int timeline_id;
+    private static int timeline_count = 0;
+
     ArrayList<Article> articles = new ArrayList<Article>();
 
     Timeline(){
         this.name = "";
         this.description = "";
+        timeline_id = ++timeline_count;
     }
 
     Timeline(String name){
         this.name = name;
         this.description = "";
+        timeline_id = ++timeline_count;
     }
 
     Timeline(String name, String description){
       this.name = name;
       this.description = description;
+      timeline_id = ++timeline_count;
     }
 
     public String getName() {
@@ -51,8 +59,8 @@ public class Timeline {
         this.description = description;
     }
 
-    public Long getId(){
-        return id;
+    public int getId(){
+        return timeline_id;
     }
     // Adds article at end of timeline
     public void addArticle(Article a){
