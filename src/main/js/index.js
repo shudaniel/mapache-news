@@ -1,20 +1,14 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client');
+import { Router, Route, IndexRoute, hashHistory } from 'react-router';
 import App from './App'
+import View from './View'
 
-class Timeline extends React.Component{
-  render() {
-    return (
-      <tr>
-        <td>{this.props.timeline.name}</td>
-        <td>{this.props.timeline.description}</td>
-      </tr>
-    )
-  }
-}
 
 ReactDOM.render(
-  <App />,
+  <Router history={hashHistory}>
+    <Route path="/" component={App} />
+    <Route path="/view/:id" component={View} />
+  </Router>,
   document.getElementById('react')
 )

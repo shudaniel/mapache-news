@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Article.css';
+// import './Article.css';
 
 class Article extends Component {
 
