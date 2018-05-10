@@ -9976,8 +9976,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// import './TimelineForm.css';
-	
 	var TimelineForm = function (_Component) {
 	  _inherits(TimelineForm, _Component);
 	
@@ -10561,8 +10559,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	// import './Article.css';
-	
 	var Article = function (_Component) {
 	  _inherits(Article, _Component);
 	
@@ -10689,8 +10685,7 @@
 	      event.preventDefault();
 	      if (this.state.formName.length < 1) {
 	        window.alert("Please enter Article Name");
-	      }
-	      if (this.state.formLink.length < 1) {
+	      } else if (this.state.formLink.length < 1) {
 	        window.alert("Please enter the Article URL");
 	      } else {
 	

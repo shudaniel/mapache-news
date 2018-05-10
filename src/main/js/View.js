@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import ArticleList from './components/ArticleList/ArticleList'
-import ArticleForm from './components/ArticleForm/ArticleForm'
+import ArticleList from './components/ArticleList'
+import ArticleForm from './components/ArticleForm'
 
 
 class View extends Component {

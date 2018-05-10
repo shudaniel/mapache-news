@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Article from '../Article/Article'
+import Article from './Article'
 const API_KEY = "AMHHd6U7KSJqFMjSzKlnoz"; 
 //This key came free from making a filestack account
 

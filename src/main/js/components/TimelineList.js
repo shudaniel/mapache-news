@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Timeline from '../Timeline/Timeline'
+import Timeline from './Timeline'
 
 
 class TimelineList extends React.Component{

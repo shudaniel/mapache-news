@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import TimelineForm from './components/TimelineForm/TimelineForm'
-import TimelineList from './components/TimelineList/TimelineList'
+import TimelineForm from './components/TimelineForm'
+import TimelineList from './components/TimelineList'
 
 class App extends React.Component {
   render() {

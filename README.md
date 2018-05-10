@@ -6,3 +6,4 @@
  - You must relaunch the server everytime you make a change (sorry I don't know how to change this)
  - To launch server, do: ./mvnw spring-boot:run
  - Don't forget to manually add this: timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json into the root directory.
+ - All CSS is located here: 

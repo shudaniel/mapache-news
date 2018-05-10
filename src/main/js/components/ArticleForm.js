@@ -1,22 +1,25 @@
 import React, { Component } from 'react';
-// import './TimelineForm.css';
 
-class TimelineForm extends Component {
+class ArticleForm extends Component {
 
   constructor(props) {
     super(props);
 
     this.state = {
       not_visible: true,
-      button_name: "Create Timeline",
-	    formName: "",
-	    formDescription: ""
+      button_name: "Add Article",
+      formName: "",
+      formDescription: "",
+      formLink: "",
+      formDate: ""
     }
-	
+  
     this.changeVisibility = this.changeVisibility.bind(this);
-	  this.handleSubmit = this.handleSubmit.bind(this);
-	  this.handleNameChange = this.handleNameChange.bind(this);
-	  this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleLinkChange = this.handleLinkChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   changeVisibility() {
@@ -30,7 +33,7 @@ class TimelineForm extends Component {
     }
     else{
       this.setState({
-        button_name: "Create Timeline"
+        button_name: "Add Article"
       })
     }
   }
@@ -38,15 +41,21 @@ class TimelineForm extends Component {
   handleSubmit(event){
     event.preventDefault();
     if(this.state.formName.length < 1){
-        window.alert("Please enter a name for this Timeline");
+        window.alert("Please enter Article Name");
+    }
+    else if(this.state.formLink.length < 1){
+        window.alert("Please enter the Article URL");
     }
     else{
 
-  	  var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+      var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
 
-  	  console.log(this.state.formName);
-  	  console.log(this.state.formDescription);
-      var url = url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+      var url = url + "add_article?"
+        + "timeline_id=" + this.props.timeline_id
+        + "&name=" + this.state.formName 
+        + "&link=" + this.state.formLink
+        + "&date=" + this.state.formDate
+        + "&description=" + this.state.formDescription;
       console.log(url);
       fetch(url, {
         method: 'POST',
@@ -57,6 +66,8 @@ class TimelineForm extends Component {
         body: JSON.stringify({
           name: this.state.formName,
           description: this.state.formDescription,
+          link: this.state.formLink,
+          date: this.state.formDate
         })
       })
       location.reload();
@@ -64,11 +75,19 @@ class TimelineForm extends Component {
   }
   
   handleNameChange(event){
-	  this.setState({formName: event.target.value});
+    this.setState({formName: event.target.value});
+  }
+
+  handleLinkChange(event){
+    this.setState({formLink: event.target.value});
   }
   
   handleDescriptionChange(event){
-	  this.setState({formDescription: event.target.value});
+    this.setState({formDescription: event.target.value});
+  }
+
+  handleDateChange(event){
+    this.setState({formDate: event.target.value});
   }
   
 
@@ -86,6 +105,16 @@ class TimelineForm extends Component {
             </label>
             <br/>
             <label>
+              URL:
+              <input type="text" value={this.state.formLink} onChange={this.handleLinkChange} />
+            </label>
+            <br/>
+            <label>
+              Date:
+              <textarea type="text" value={this.state.formDate} onChange={this.handleDateChange}/>
+            </label>
+            <br/>
+            <label>
               Description:
               <textarea type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange}/>
             </label>
@@ -99,4 +128,4 @@ class TimelineForm extends Component {
 }
 
 
-export default TimelineForm;
+export default ArticleForm;
