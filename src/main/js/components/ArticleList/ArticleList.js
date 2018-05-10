@@ -12,13 +12,11 @@ class View extends Component {
     super(props);
     this.state = {
       timelines: {},
-      isLoading: true,
       not_visible: true,
       button_name: "View Articles"
     }
 
     this.getArticles = this.getArticles.bind(this);
-    this.onClick = this.onClick.bind(this);
     this.changeVisibility = this.changeVisibility.bind(this);
   }
 
@@ -30,7 +28,7 @@ class View extends Component {
       .then((response) => response.json())
       .then((findresponse)=>{
         this.setState({
-            timelines: findresponse.timelines,
+            timelines: (findresponse.timelines)[this.props.timeline_id],
         });
     })
   }
@@ -53,24 +51,20 @@ class View extends Component {
 
 
   getArticles(){
-    console.log(this.state.timelines)
-    console.log(this.props.timeline_id)
-    var timeline = this.state.timelines[this.props.timeline_id];
-    console.log(timeline);
-    console.log(timeline["name"]);
     var urls = [];
-    if(timeline["articles"] != null){
-      var articles = Object.values(timeline["articles"]);
-      var keys = Object.keys(timeline["articles"]);
-      console.log(keys);
+    if(this.state.timelines["articles"] != null){
+      console.log(this.state.timelines["articles"])
+      var articles = Object.values(this.state.timelines["articles"]);
+      console.log(articles);
       for(var i = 0; i < articles.length; i++){
-      // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];
-      
-        urls.push(
-          <Article title={articles[key[i]].name} url={articles[key[i]].link} description={articles[key[i]].description}/>
-        );
-        urls.push(<div class="horizontalgap"></div>);
-      
+        if(articles[i] != null){
+          // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];
+          console.log(articles[i])
+          urls.push(
+            <Article title={articles[i]["name"]} url={articles[i]["link"]} description={articles[i]["description"]}/>
+          );
+          urls.push(<div class="horizontalgap"></div>);
+        }
       
       }
     }
@@ -85,24 +79,15 @@ class View extends Component {
       );
   }
 
-  onClick(event){
-    this.setState({isLoading:false});
-  }
 
   render() {
-    //For some reason, if I do not add this, then this.state.timelines is undefined
-    if(this.state.isLoading){
-      console.log(this.state.timelines);
-      return (
-        <div>
-          <h2>Loading</h2>
-          <form><input className = "main-button" type="button" value="Finished Loading. Click to View" onClick={this.onClick} /></form>
-        </div>
-      );      
-    }
 
     return (
       <div>
+        <h3>{this.state.timelines["name"]}</h3>
+        <p className="App-intro">
+          {this.state.timelines["description"]}
+        </p>
         <form>
           <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
         </form>

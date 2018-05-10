@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import ArticleList from './components/ArticleList/ArticleList'
-const API_KEY = "AMHHd6U7KSJqFMjSzKlnoz"; 
-//This key came free from making a filestack account
+import ArticleForm from './components/ArticleForm/ArticleForm'
 
-
-//Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
-//Filestack is used to grab screenshots of webpages through the url
 
 class View extends Component {
   
@@ -20,6 +16,7 @@ class View extends Component {
         </header>
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
+        <ArticleForm timeline_id={this.props.params.timeline_id} />
         <ArticleList timeline_id={this.props.params.timeline_id} />
       </div>
     );
