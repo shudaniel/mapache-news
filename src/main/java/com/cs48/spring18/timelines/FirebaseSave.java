@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 
 public class FirebaseSave{
 
+  private String json;
+
   public FirebaseSave(){
     try {
       FileInputStream serviceAccount = new FileInputStream("timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json");
@@ -30,6 +32,16 @@ public class FirebaseSave{
     } catch  (IOException e){
       System.out.println("Invalid firebase connection");
     }
+
+    json = "";
+  }
+
+  public String getJson(){
+    return json;
+  }
+
+  public void setJson(String json){
+    this.json = json;
   }
 
   public void saveTimeline(Timeline item){
@@ -94,7 +106,7 @@ public class FirebaseSave{
     }
   }
 
-  public String loadAllTimelines(){
+  public void loadAllTimelines(){
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
@@ -105,7 +117,11 @@ public class FirebaseSave{
       public void onDataChange(DataSnapshot dataSnapshot) {
         //Print out all timelines to console
         Map<String, Object> post = (Map<String, Object>) dataSnapshot.getValue();
-        System.out.println(post.toString());
+        String data = post.toString();
+
+        setJson(data);
+        System.out.println(json);
+
       }
 
       @Override
@@ -115,7 +131,7 @@ public class FirebaseSave{
       }
     });
 
-    return ref.toString();
   }
+
 
 }

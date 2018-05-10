@@ -51,8 +51,9 @@ public class HomeController {
   @ResponseBody
   public String allTimelines() {
     //This needs to return the json of the Firebase Database
-    System.out.println(saver.loadAllTimelines());
-    return saver.loadAllTimelines();
+    saver.loadAllTimelines();
+
+    return saver.getJson();
   }
 
   @RequestMapping(value = "/add-article", method = RequestMethod.POST)
