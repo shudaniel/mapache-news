@@ -55,10 +55,15 @@ public class HomeController {
   }
 
   @RequestMapping(value = "/add_article", method = RequestMethod.POST)
-  public void addArticle(){
-    //STUB
+  public void addArticle(
+      @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
+      @RequestParam(value="name", defaultValue="") String name,
+      @RequestParam(value="link", defaultValue="") String link,
+      @RequestParam(value="description", defaultValue="") String description,
+      @RequestParam(value="date", defaultValue="") String date
+    ){
     //FORMAT: saver.saveArticle(timeline id, article)
-    saver.saveArticle("4", new Article());
+    saver.saveArticle(timeline_id, new Article(name, link, description, date));
   }
   
 

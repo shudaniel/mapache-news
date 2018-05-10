@@ -8,7 +8,7 @@ import View from './View'
 ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={App} />
-    <Route path="/view/:id" component={View} />
+    <Route path="/view/:timeline_id" component={View} />
   </Router>,
   document.getElementById('react')
 )

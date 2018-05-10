@@ -16,13 +16,13 @@ class Article extends Component {
   render() {
 	  
     return (
-        <div className = "article">
-			<a href={this.props.url} target="_blank"><img src={this.get_logo(this.props.url)} sizes="32x32"/></a>
-			<h3>{this.props.title}</h3>
-			<p>{this.props.description}</p>
-			<br/>
-        </div>
-      );
+      <div className = "article">
+			  <a href={this.props.url} target="_blank"><img src={this.get_logo(this.props.url)} sizes="32x32"/></a>
+			  <h3>{this.props.title}</h3>
+			  <p>{this.props.description}</p>
+			  <br/>
+      </div>
+    );
   }
 
 }

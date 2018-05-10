@@ -19,17 +19,7 @@ class TimelineList extends React.Component{
   componentDidMount() {
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
-    console.log(url);
-    // fetch(url)
-    // .then(function(response) {
-    //   if (response.status >= 400) {
-    //     throw new Error("Bad response from server");
-    //   }
-    //   return response.json();
-    // })
-    // .then(function(data) {
-    //   this.setState({ timelines: data.timelines });
-    // });
+    // console.log(url);
 
     fetch(url)
       .then((response) => response.json())
@@ -39,7 +29,7 @@ class TimelineList extends React.Component{
   }
 
   changeVisibility() {
-    console.log(JSON.stringify(this.state.timelines));
+    // console.log(JSON.stringify(this.state.timelines));
 
     this.setState(prevState => ({
       not_visible: !prevState.not_visible
@@ -59,10 +49,13 @@ class TimelineList extends React.Component{
   generateTimelineList() {
     var list = [];
     var keys = Object.keys(this.state.timelines);
-    console.log(keys);
+    if(keys.length == 0){
+      list.push(<h1> No Timelines </h1>);
+    }
+
     for(var i = 0; i < Object.keys(this.state.timelines).length; i++){
       var arr = this.state.timelines[keys[i]];
-      console.log(arr)
+      // console.log(arr)
       list.push(
         <Timeline article_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
       );
@@ -75,7 +68,7 @@ class TimelineList extends React.Component{
 
 
   render(){
-
+    console.log(this.state.timelines);
     return(
       <div>
         <form>

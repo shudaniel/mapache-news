@@ -39,7 +39,7 @@ html *
 }
 
 .main-button {
-  width: 300px; 
+  min-width: 300px; 
   padding: 20px; 
   cursor: pointer; 
   /* box-shadow: 6px 6px 5px; */
