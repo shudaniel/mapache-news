@@ -94,7 +94,7 @@ public class FirebaseSave{
     }
   }
 
-  public void loadAllTimelines(){
+  public String loadAllTimelines(){
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
@@ -105,12 +105,6 @@ public class FirebaseSave{
       public void onDataChange(DataSnapshot dataSnapshot) {
         //Print out all timelines to console
         Map<String, Object> post = (Map<String, Object>) dataSnapshot.getValue();
-        //For easier visibility 
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAA");
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAASAA");
-      
         System.out.println(post.toString());
       }
 
@@ -120,6 +114,8 @@ public class FirebaseSave{
 
       }
     });
+
+    return ref.toString();
   }
 
 }

@@ -18,8 +18,9 @@ class TimelineList extends React.Component{
   }
 
   componentDidMount() {
-    client({method: 'GET', path: '/api/timelines'}).done(response => {
-      this.setState({timelines: response.entity._embedded.timelines});
+
+    client({method: 'GET', path: '/all'}).done(response => {
+      this.setState({timelines: response.timelines});
     });
   }
 

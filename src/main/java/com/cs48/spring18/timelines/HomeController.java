@@ -5,6 +5,7 @@ package com.cs48.spring18.timelines;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -46,14 +47,18 @@ public class HomeController {
     saver.saveTimeline(newEntry);
   }
 
-  @RequestMapping(value = "/all-timelines")
-  public void allTimelines(){
-
+  @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public String allTimelines() {
+    //This needs to return the json of the Firebase Database
+    System.out.println(saver.loadAllTimelines());
+    return saver.loadAllTimelines();
   }
 
-  @RequestMapping(value = "/add-article")
+  @RequestMapping(value = "/add-article", method = RequestMethod.POST)
   public void addArticle(){
     //STUB
+    //FORMAT: saver.saveArticle(timeline id, article)
     saver.saveArticle("2", new Article());
   }
   

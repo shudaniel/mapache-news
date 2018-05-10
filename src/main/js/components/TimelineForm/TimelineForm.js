@@ -37,38 +37,30 @@ class TimelineForm extends Component {
 
   handleSubmit(event){
     event.preventDefault();
+    if(this.state.formName.length < 1){
+        window.alert("Please enter a name for this Timeline");
+    }
+    else{
 
-	  /*
-	  fetch('https://mywebsite.com/endpoint/', {
-		  method: 'POST',
-		  headers: {
-			'Accept': 'application/json',
-			'Content-Type': 'application/json',
-		  },
-		  body: JSON.stringify({
-			firstParam: 'yourValue',
-			secondParam: 'yourOtherValue',
-		  })
-		})
-	  */
-	  var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+  	  var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
 
-	  console.log(this.state.formName);
-	  console.log(this.state.formDescription);
-    var url = url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
-    console.log(url);
-    fetch(url, {
-      method: 'POST',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: this.state.name,
-        description: this.state.description,
+  	  console.log(this.state.formName);
+  	  console.log(this.state.formDescription);
+      var url = url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+      console.log(url);
+      fetch(url, {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: this.state.name,
+          description: this.state.description,
+        })
       })
-    })
-    location.reload();
+      location.reload();
+    }
   }
   
   handleNameChange(event){
