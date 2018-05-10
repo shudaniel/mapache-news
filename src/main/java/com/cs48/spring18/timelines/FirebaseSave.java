@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.codehaus.jackson.map.ObjectMapper;
+
 
 
 
@@ -110,18 +112,25 @@ public class FirebaseSave{
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
+    DatabaseReference timelinesRef = ref.child("timelines");
 
     // Attach a listener to read the data at our posts reference
     ref.addValueEventListener(new ValueEventListener() {
       @Override
       public void onDataChange(DataSnapshot dataSnapshot) {
         //Print out all timelines to console
+        ObjectMapper mapperObj = new ObjectMapper();
         Map<String, Object> post = (Map<String, Object>) dataSnapshot.getValue();
-        String data = post.toString();
+        
+        //Convert this map into a json format to be read by the frontend
+        try {
+          String jsonResp = mapperObj.writeValueAsString(post);
+          System.out.println(jsonResp);
+          setJson(jsonResp);
 
-        setJson(data);
-        System.out.println(json);
-
+        } catch (IOException e) {
+          e.printStackTrace();
+        }
       }
 
       @Override
@@ -131,6 +140,12 @@ public class FirebaseSave{
       }
     });
 
+  }
+
+  //The data returned by DataSnapshot is not in json format
+  //This will correct the format 
+  public String convertToJson(String data){
+    return data;
   }
 
 

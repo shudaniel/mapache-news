@@ -34,6 +34,7 @@ public class HomeController {
 
   public HomeController(){
     saver = new FirebaseSave();
+    saver.loadAllTimelines();
   }
 
   @RequestMapping(value = "/")
@@ -50,17 +51,14 @@ public class HomeController {
   @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
   @ResponseBody
   public String allTimelines() {
-    //This needs to return the json of the Firebase Database
-    saver.loadAllTimelines();
-
     return saver.getJson();
   }
 
-  @RequestMapping(value = "/add-article", method = RequestMethod.POST)
+  @RequestMapping(value = "/add_article", method = RequestMethod.POST)
   public void addArticle(){
     //STUB
     //FORMAT: saver.saveArticle(timeline id, article)
-    saver.saveArticle("2", new Article());
+    saver.saveArticle("4", new Article());
   }
   
 

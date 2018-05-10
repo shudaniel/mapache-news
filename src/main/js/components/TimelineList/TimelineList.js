@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Timeline from '../Timeline/Timeline'
-const client = require('../../client');
 
 
 class TimelineList extends React.Component{
@@ -8,7 +7,7 @@ class TimelineList extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      timelines: [],
+      timelines: {},
       not_visible: true,
       button_name: "View Timelines"
 
@@ -18,13 +17,30 @@ class TimelineList extends React.Component{
   }
 
   componentDidMount() {
+    var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+    url = url + "all";
+    console.log(url);
+    // fetch(url)
+    // .then(function(response) {
+    //   if (response.status >= 400) {
+    //     throw new Error("Bad response from server");
+    //   }
+    //   return response.json();
+    // })
+    // .then(function(data) {
+    //   this.setState({ timelines: data.timelines });
+    // });
 
-    client({method: 'GET', path: '/all'}).done(response => {
-      this.setState({timelines: response.timelines});
-    });
+    fetch(url)
+      .then((response) => response.json())
+      .then((findresponse)=>{
+        this.state.timelines = findresponse.timelines;
+      })
   }
 
   changeVisibility() {
+    console.log(JSON.stringify(this.state.timelines));
+
     this.setState(prevState => ({
       not_visible: !prevState.not_visible
     }));
@@ -40,11 +56,25 @@ class TimelineList extends React.Component{
     }
   }
 
+  generateTimelineList() {
+    var list = [];
+    var keys = Object.keys(this.state.timelines);
+    console.log(keys);
+    for(var i = 0; i < Object.keys(this.state.timelines).length; i++){
+      var arr = this.state.timelines[keys[i]];
+      console.log(arr)
+      list.push(
+        <Timeline article_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
+      );
+    list.push(<br/>);
+    
+    }
+    return list;
+  }
+
+
 
   render(){
-    var list = this.state.timelines.map(timeline =>
-      <Timeline key={timeline._links.self.href} timeline={timeline}/>
-    );
 
     return(
       <div>
@@ -52,7 +82,7 @@ class TimelineList extends React.Component{
           <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
         </form>
         <div hidden={this.state.not_visible}>
-          {list}
+          {this.generateTimelineList()}
         </div>
       </div>
     );
