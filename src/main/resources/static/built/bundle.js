@@ -10541,7 +10541,7 @@
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -10569,39 +10569,43 @@
 	  function Article(props) {
 	    _classCallCheck(this, Article);
 	
-	    return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, props));
+	
+	    _this.handleClick = _this.handleClick.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(Article, [{
-	    key: "get_logo",
+	    key: 'get_logo',
 	    value: function get_logo(url) {
 	      var pattern = /.*\.\w*\//;
 	      var result = pattern.exec(url);
 	      return result + "favicon.ico";
 	    }
 	  }, {
-	    key: "render",
+	    key: 'handleClick',
+	    value: function handleClick(event) {
+	      window.open(this.props.url, '_blank');
+	    }
+	  }, {
+	    key: 'render',
 	    value: function render() {
 	
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "article" },
+	        'div',
+	        { className: 'article hover', onClick: this.handleClick },
+	        _react2.default.createElement('img', { src: this.get_logo(this.props.url), sizes: '32x32' }),
 	        _react2.default.createElement(
-	          "a",
-	          { href: this.props.url, target: "_blank" },
-	          _react2.default.createElement("img", { src: this.get_logo(this.props.url), sizes: "32x32" })
-	        ),
-	        _react2.default.createElement(
-	          "h3",
+	          'h3',
 	          null,
 	          this.props.title
 	        ),
 	        _react2.default.createElement(
-	          "p",
+	          'p',
 	          null,
 	          this.props.description
 	        ),
-	        _react2.default.createElement("br", null)
+	        _react2.default.createElement('br', null)
 	      );
 	    }
 	  }]);
