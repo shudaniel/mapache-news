@@ -16,6 +16,10 @@ public class Article implements Comparable<Article> {
     @Id
     @GeneratedValue
     private Long id;
+
+    private static int article_count = 0;
+    int article_id;
+
     String name;
     String link;
     String description;
@@ -27,6 +31,7 @@ public class Article implements Comparable<Article> {
         link = "";
         description = "";
         dateString = "";
+        article_id = ++article_count;
     }
 
     Article(String name, String link, String description, String date){
@@ -35,7 +40,7 @@ public class Article implements Comparable<Article> {
         this.description = description;
         this.dateString = date;
         this.date = convertStringToDate(this.dateString);
-
+        article_id = ++article_count;
     }
 //Fix implementation of Keys
    /* Article(String name, String link, String description, String date, Keys key){
@@ -46,6 +51,11 @@ public class Article implements Comparable<Article> {
         // this.key = key;
     }
 */
+
+    public int getId(){
+        return article_id;
+    }
+
     public String getName() {
         return name;
     }

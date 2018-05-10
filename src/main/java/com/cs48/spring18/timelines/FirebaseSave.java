@@ -63,6 +63,37 @@ public class FirebaseSave{
     }
   }
 
+  public void saveArticle(String timeline_id, Article item){
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/timelines/");
+
+    DatabaseReference timelinesRef = (ref.child(timeline_id)).child("articles");
+
+    Map<String, Object> article = new HashMap<>();
+    article.put("" + item.getId(), item);
+
+
+    timelinesRef.updateChildren(article, new DatabaseReference.CompletionListener() {
+
+        @Override
+        public void onComplete(DatabaseError de, DatabaseReference dr) {
+          if (de != null) {
+              System.out.println("Data could not be saved " + de.getMessage());
+          } else {
+              System.out.println("Data saved successfully.");
+          }
+        }
+    });
+
+    try{
+      Thread.sleep(10000);
+    }
+    catch(InterruptedException e){
+      System.out.println("Thread interrupted");
+    }
+  }
+
   public void loadAllTimelines(){
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -86,6 +117,7 @@ public class FirebaseSave{
       @Override
       public void onCancelled(DatabaseError databaseError) {
         System.out.println("The read failed: " + databaseError.getCode());
+
       }
     });
   }

@@ -37,7 +37,6 @@ public class HomeController {
 
   @RequestMapping(value = "/")
   public String index() {
-    saver.loadAllTimelines();
     return "index";
   }
 
@@ -45,6 +44,17 @@ public class HomeController {
   public void create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
     Timeline newEntry = new Timeline(name, description);
     saver.saveTimeline(newEntry);
+  }
+
+  @RequestMapping(value = "/all-timelines")
+  public void allTimelines(){
+
+  }
+
+  @RequestMapping(value = "/add-article")
+  public void addArticle(){
+    //STUB
+    saver.saveArticle("2", new Article());
   }
   
 
