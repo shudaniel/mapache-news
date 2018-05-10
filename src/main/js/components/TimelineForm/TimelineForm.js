@@ -14,7 +14,7 @@ class TimelineForm extends Component {
     }
 	
     this.changeVisibility = this.changeVisibility.bind(this);
-	  this.uploadTimeline = this.uploadTimeline.bind(this);
+	  this.handleSubmit = this.handleSubmit.bind(this);
 	  this.handleNameChange = this.handleNameChange.bind(this);
 	  this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
   }
@@ -35,7 +35,9 @@ class TimelineForm extends Component {
     }
   }
 
-  uploadTimeline(){
+  handleSubmit(event){
+    event.preventDefault();
+
 	  /*
 	  fetch('https://mywebsite.com/endpoint/', {
 		  method: 'POST',
@@ -49,10 +51,24 @@ class TimelineForm extends Component {
 		  })
 		})
 	  */
-	  
+	  var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+
 	  console.log(this.state.formName);
-	  console.log(this.state.formURL);
 	  console.log(this.state.formDescription);
+    var url = url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+    console.log(url);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: this.state.name,
+        description: this.state.description,
+      })
+    })
+    location.reload();
   }
   
   handleNameChange(event){
@@ -71,7 +87,7 @@ class TimelineForm extends Component {
           <form>
             <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
           </form>
-          <form className="form" hidden={this.state.not_visible} onSubmit={this.uploadTimeline}>
+          <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
             <label>
               Name:
               <input type="text" value={this.state.formName} onChange={this.handleNameChange} />

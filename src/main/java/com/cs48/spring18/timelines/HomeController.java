@@ -40,7 +40,7 @@ public class HomeController {
     return "index";
   }
 
-  @RequestMapping(value = "/create")
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
   public void create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
     Timeline newEntry = new Timeline(name, description);
     saver.saveTimeline(newEntry);

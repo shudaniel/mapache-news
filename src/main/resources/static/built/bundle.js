@@ -9994,7 +9994,7 @@
 	    };
 	
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
-	    _this.uploadTimeline = _this.uploadTimeline.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
 	    _this.handleNameChange = _this.handleNameChange.bind(_this);
 	    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
 	    return _this;
@@ -10019,8 +10019,10 @@
 	      }
 	    }
 	  }, {
-	    key: "uploadTimeline",
-	    value: function uploadTimeline() {
+	    key: "handleSubmit",
+	    value: function handleSubmit(event) {
+	      event.preventDefault();
+	
 	      /*
 	      fetch('https://mywebsite.com/endpoint/', {
 	       method: 'POST',
@@ -10034,10 +10036,24 @@
 	       })
 	      })
 	      */
+	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	
 	      console.log(this.state.formName);
-	      console.log(this.state.formURL);
 	      console.log(this.state.formDescription);
+	      var url = url + "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+	      console.log(url);
+	      fetch(url, {
+	        method: 'POST',
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	          name: this.state.name,
+	          description: this.state.description
+	        })
+	      });
+	      location.reload();
 	    }
 	  }, {
 	    key: "handleNameChange",
@@ -10062,7 +10078,7 @@
 	        ),
 	        _react2.default.createElement(
 	          "form",
-	          { className: "form", hidden: this.state.not_visible, onSubmit: this.uploadTimeline },
+	          { className: "form", hidden: this.state.not_visible, onSubmit: this.handleSubmit },
 	          _react2.default.createElement(
 	            "label",
 	            null,
