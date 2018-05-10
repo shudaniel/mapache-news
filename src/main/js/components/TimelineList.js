@@ -55,11 +55,13 @@ class TimelineList extends React.Component{
 
     for(var i = 0; i < Object.keys(this.state.timelines).length; i++){
       var arr = this.state.timelines[keys[i]];
-      // console.log(arr)
-      list.push(
-        <Timeline article_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
-      );
-    list.push(<br/>);
+      if(arr != null){
+        // console.log(arr)
+        list.push(
+          <Timeline article_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
+        );
+        list.push(<br/>);
+      }
     
     }
     return list;

@@ -10190,9 +10190,11 @@
 	
 	      for (var i = 0; i < Object.keys(this.state.timelines).length; i++) {
 	        var arr = this.state.timelines[keys[i]];
-	        // console.log(arr)
-	        list.push(_react2.default.createElement(_Timeline2.default, { article_id: arr["id"], name: arr["name"], description: arr["description"] }));
-	        list.push(_react2.default.createElement('br', null));
+	        if (arr != null) {
+	          // console.log(arr)
+	          list.push(_react2.default.createElement(_Timeline2.default, { article_id: arr["id"], name: arr["name"], description: arr["description"] }));
+	          list.push(_react2.default.createElement('br', null));
+	        }
 	      }
 	      return list;
 	    }
