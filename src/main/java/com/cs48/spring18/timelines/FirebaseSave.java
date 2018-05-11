@@ -52,9 +52,13 @@ public class FirebaseSave{
     DatabaseReference ref = database.getReference("/");
 
     DatabaseReference timelinesRef = ref.child("timelines");
-
+    DatabaseReference pushedRef = timelinesRef.push();
+    String postId = pushedRef.getKey(); //Generate a unique ID for item
+    item.setId(postId);
     Map<String, Object> timelines = new HashMap<>();
-    timelines.put("" + item.getId(), item);
+
+
+    timelines.put(item.getId(), item);
 
 
     timelinesRef.updateChildren(timelines, new DatabaseReference.CompletionListener() {
@@ -83,9 +87,11 @@ public class FirebaseSave{
     DatabaseReference ref = database.getReference("/timelines/");
 
     DatabaseReference timelinesRef = (ref.child(timeline_id)).child("articles");
-
+    DatabaseReference pushedRef = timelinesRef.push();
+    String postId = pushedRef.getKey(); //Generate a unique ID for item
+    item.setId(postId);
     Map<String, Object> article = new HashMap<>();
-    article.put("" + item.getId(), item);
+    article.put(item.getId(), item);
 
 
     timelinesRef.updateChildren(article, new DatabaseReference.CompletionListener() {
