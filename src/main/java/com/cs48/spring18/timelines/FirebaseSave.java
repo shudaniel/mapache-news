@@ -148,11 +148,4 @@ public class FirebaseSave{
 
   }
 
-  //The data returned by DataSnapshot is not in json format
-  //This will correct the format 
-  public String convertToJson(String data){
-    return data;
-  }
-
-
 }

@@ -17,12 +17,12 @@ public class Article implements Comparable<Article> {
     @GeneratedValue
     private Long id;
 
-    String article_id;
-    String name;
-    String link;
-    String description;
-    String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
-    Date date;
+    private String article_id;
+    private String name;
+    private String link;
+    private String description;
+    private String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
+    private Date date;
 
     Article(){
         name = "";
