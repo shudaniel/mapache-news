@@ -99,25 +99,17 @@ class ArticleForm extends Component {
             <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
           </form>
           <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
-            <label>
-              Name:
-              <input type="text" value={this.state.formName} onChange={this.handleNameChange} />
-            </label>
+            <label>Name:</label>
+            <input type="text" value={this.state.formName} onChange={this.handleNameChange} />
             <br/>
-            <label>
-              URL:
-              <input type="text" value={this.state.formLink} onChange={this.handleLinkChange} />
-            </label>
+            <label>URL:</label>
+            <input type="text" value={this.state.formLink} onChange={this.handleLinkChange} />
             <br/>
-            <label>
-              Date:
-              <textarea type="text" value={this.state.formDate} onChange={this.handleDateChange}/>
-            </label>
+            <label>Date:</label>
+            <input id="date" type="date" onChange={this.handleDateChange} />
             <br/>
-            <label>
-              Description:
-              <textarea type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange}/>
-            </label>
+            <label>Description:</label>
+            <textarea type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange}/>
             <br/>
             <input type="submit" value="Submit"/>
           </form>

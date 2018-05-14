@@ -11,4 +11,7 @@
 
 
  ## Known Bugs
- - When you edit a Timeline and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.
+ - When you edit a Timeline from the homepage and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.
+ - When you edit a Timeline from the view page, you have to return to the homepage and click on the view button again to see the change.
+ - When you create an article, you need to put http:// or else it won't link correctly.
+ 

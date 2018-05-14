@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+const API_KEY = "AMHHd6U7KSJqFMjSzKlnoz"; 
+
+//Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
+//Filestack is used to grab screenshots of webpages through the url
+
 
 class Article extends Component {
 
@@ -14,6 +19,11 @@ class Article extends Component {
 	return (result + "favicon.ico")
   }
 
+  get_screenshot(url){
+    var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window/resize=width:300/" + url;
+    return src;
+  }
+
   handleClick(event){
     window.open(this.props.url,'_blank');
   }
@@ -22,7 +32,7 @@ class Article extends Component {
 	  
     return (
       <div className = "article hover" onClick={this.handleClick}>
-			  <img src={this.get_logo(this.props.url)} sizes="32x32"/>
+			  <img src={this.get_screenshot(this.props.url)} sizes="32x32"/>
 			  <h3>{this.props.title}</h3>
 			  <p>{this.props.description}</p>
 			  <br/>

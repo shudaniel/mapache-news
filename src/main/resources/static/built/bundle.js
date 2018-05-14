@@ -10202,7 +10202,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.state.timelines);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -10554,13 +10553,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var API_KEY = "AMHHd6U7KSJqFMjSzKlnoz";
-	//This key came free from making a filestack account
-	
-	
-	//Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
-	//Filestack is used to grab screenshots of webpages through the url
-	
 	var View = function (_Component) {
 	  _inherits(View, _Component);
 	
@@ -10624,7 +10616,6 @@
 	        // console.log(articles);
 	        for (var i = 0; i < articles.length; i++) {
 	          if (articles[i] != null) {
-	            // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];
 	            console.log(articles[i]);
 	            urls.push(_react2.default.createElement(_Article2.default, { title: articles[i]["name"], url: articles[i]["link"], description: articles[i]["description"] }));
 	            urls.push(_react2.default.createElement('div', { 'class': 'horizontalgap' }));
@@ -10674,7 +10665,7 @@
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -10694,6 +10685,12 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
+	var API_KEY = "AMHHd6U7KSJqFMjSzKlnoz";
+	
+	//Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
+	//Filestack is used to grab screenshots of webpages through the url
+	
+	
 	var Article = function (_Component) {
 	  _inherits(Article, _Component);
 	
@@ -10707,36 +10704,42 @@
 	  }
 	
 	  _createClass(Article, [{
-	    key: 'get_logo',
+	    key: "get_logo",
 	    value: function get_logo(url) {
 	      var pattern = /.*\.\w*\//;
 	      var result = pattern.exec(url);
 	      return result + "favicon.ico";
 	    }
 	  }, {
-	    key: 'handleClick',
+	    key: "get_screenshot",
+	    value: function get_screenshot(url) {
+	      var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window/resize=width:300/" + url;
+	      return src;
+	    }
+	  }, {
+	    key: "handleClick",
 	    value: function handleClick(event) {
 	      window.open(this.props.url, '_blank');
 	    }
 	  }, {
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
 	
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'article hover', onClick: this.handleClick },
-	        _react2.default.createElement('img', { src: this.get_logo(this.props.url), sizes: '32x32' }),
+	        "div",
+	        { className: "article hover", onClick: this.handleClick },
+	        _react2.default.createElement("img", { src: this.get_screenshot(this.props.url), sizes: "32x32" }),
 	        _react2.default.createElement(
-	          'h3',
+	          "h3",
 	          null,
 	          this.props.title
 	        ),
 	        _react2.default.createElement(
-	          'p',
+	          "p",
 	          null,
 	          this.props.description
 	        ),
-	        _react2.default.createElement('br', null)
+	        _react2.default.createElement("br", null)
 	      );
 	    }
 	  }]);
@@ -10881,30 +10884,30 @@
 	          _react2.default.createElement(
 	            "label",
 	            null,
-	            "Name:",
-	            _react2.default.createElement("input", { type: "text", value: this.state.formName, onChange: this.handleNameChange })
+	            "Name:"
 	          ),
+	          _react2.default.createElement("input", { type: "text", value: this.state.formName, onChange: this.handleNameChange }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
-	            "URL:",
-	            _react2.default.createElement("input", { type: "text", value: this.state.formLink, onChange: this.handleLinkChange })
+	            "URL:"
 	          ),
+	          _react2.default.createElement("input", { type: "text", value: this.state.formLink, onChange: this.handleLinkChange }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
-	            "Date:",
-	            _react2.default.createElement("textarea", { type: "text", value: this.state.formDate, onChange: this.handleDateChange })
+	            "Date:"
 	          ),
+	          _react2.default.createElement("input", { id: "date", type: "date", onChange: this.handleDateChange }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
-	            "Description:",
-	            _react2.default.createElement("textarea", { type: "text", value: this.state.formDescription, onChange: this.handleDescriptionChange })
+	            "Description:"
 	          ),
+	          _react2.default.createElement("textarea", { type: "text", value: this.state.formDescription, onChange: this.handleDescriptionChange }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement("input", { type: "submit", value: "Submit" })
 	        )

@@ -1,11 +1,6 @@
 import React, { Component } from 'react';
 import Article from './Article'
-const API_KEY = "AMHHd6U7KSJqFMjSzKlnoz"; 
-//This key came free from making a filestack account
 
-
-//Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
-//Filestack is used to grab screenshots of webpages through the url
 
 class View extends Component {
   constructor(props){
@@ -58,7 +53,6 @@ class View extends Component {
       // console.log(articles);
       for(var i = 0; i < articles.length; i++){
         if(articles[i] != null){
-          // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];
           console.log(articles[i])
           urls.push(
             <Article title={articles[i]["name"]} url={articles[i]["link"]} description={articles[i]["description"]}/>

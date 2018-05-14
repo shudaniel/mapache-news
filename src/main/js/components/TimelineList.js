@@ -70,7 +70,6 @@ class TimelineList extends React.Component{
 
 
   render(){
-    console.log(this.state.timelines);
     return(
       <div>
         <form>
