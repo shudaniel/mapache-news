@@ -4,18 +4,13 @@ import java.lang.String;
 import java.util.Date;
 import java.text.*;
 import java.text.ParseException;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
 
 /**
  * Created by afunk on 4/18/18.
  */
-@Entity
 public class Article implements Comparable<Article> {
-    @Id
-    @GeneratedValue
-    private Long id;
+
 
     private String article_id;
     private String name;
