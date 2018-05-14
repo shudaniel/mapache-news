@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
 
-
-
 public class FirebaseSave{
 
   private String json;
@@ -42,9 +40,9 @@ public class FirebaseSave{
         @Override
         public void onComplete(DatabaseError de, DatabaseReference dr) {
           if (de != null) {
-              System.out.println("Data could not be saved " + de.getMessage());
+              System.out.println("Data could not be updated " + de.getMessage());
           } else {
-              System.out.println("Data saved successfully.");
+              System.out.println("Data updated successfully.");
           }
         }
     };
@@ -94,6 +92,12 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(timelineUpdates, listener);
 
+  }
+
+  public void deleteTimeline(String id){
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/timelines/");
+    ref.child(id).removeValue(listener);
   }
 
   public void saveNewArticle(String timeline_id, Article item){

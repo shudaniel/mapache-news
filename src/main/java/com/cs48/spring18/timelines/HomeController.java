@@ -14,18 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.firebase.*;
-import com.google.firebase.database.*;
-import com.google.firebase.database.DatabaseReference.*;
-import com.google.auth.oauth2.GoogleCredentials;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 
 @Controller
 public class HomeController {
@@ -40,6 +28,12 @@ public class HomeController {
   @RequestMapping(value = "/")
   public String index() {
     return "index";
+  }
+
+  @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public String allTimelines() {
+    return saver.getJson();
   }
 
   @RequestMapping(value = "/create", method = RequestMethod.POST)
@@ -62,10 +56,9 @@ public class HomeController {
     saver.updateTimeline(item);
   }
 
-  @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
-  @ResponseBody
-  public String allTimelines() {
-    return saver.getJson();
+  @RequestMapping(value = "/delete_timeline", method = RequestMethod.POST)
+  public void deleteTimeline(@RequestParam(value="timeline_id", defaultValue="") String id){
+    saver.deleteTimeline(id);
   }
 
   @RequestMapping(value = "/add_article", method = RequestMethod.POST)
@@ -79,6 +72,7 @@ public class HomeController {
     //FORMAT: saver.saveArticle(timeline id, article)
     saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
   }
+
   
 
 }

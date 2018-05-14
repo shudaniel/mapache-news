@@ -11,7 +11,8 @@ class Timeline extends Component{
       formName: this.props.name,
       formDescription: this.props.description
     }
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.changeVisibility = this.changeVisibility.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -31,7 +32,7 @@ class Timeline extends Component{
     this.setState({formDescription: event.target.value});
   }
 
-  onSubmit(event){
+  handleEdit(event){
     if(this.state.formName.length < 1){
       window.alert("Timeline name cannot be blank");
     }
@@ -59,6 +60,24 @@ class Timeline extends Component{
     }
   }
 
+  handleDelete(event){
+    var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+    url = url + "delete_timeline?"
+      + "timeline_id=" + this.props.timeline_id
+    console.log(url);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timeline_id: this.props.timeline_id,
+      })
+    })
+    location.reload();
+  }
+
   render(){
     return(
       <div className="timeline-item" id={this.props.timeline_id}>
@@ -66,8 +85,8 @@ class Timeline extends Component{
         <p>{this.props.description}</p>
         <Link to={"/view/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>
         <button className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>
-        <button className="button delete-button" type="button">Delete</button>
-        <form className="form" hidden={this.state.hide_edit_form} onSubmit={this.onSubmit}>
+        <button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>
+        <form className="form" hidden={this.state.hide_edit_form} onSubmit={this.handleEdit}>
           <label>
             Name:
             <input type="text" defaultValue={this.props.name} onChange={this.handleNameChange} />

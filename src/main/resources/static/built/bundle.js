@@ -10263,7 +10263,8 @@
 	      formName: _this.props.name,
 	      formDescription: _this.props.description
 	    };
-	    _this.onSubmit = _this.onSubmit.bind(_this);
+	    _this.handleEdit = _this.handleEdit.bind(_this);
+	    _this.handleDelete = _this.handleDelete.bind(_this);
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
 	    _this.handleNameChange = _this.handleNameChange.bind(_this);
 	    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
@@ -10290,8 +10291,8 @@
 	      this.setState({ formDescription: event.target.value });
 	    }
 	  }, {
-	    key: 'onSubmit',
-	    value: function onSubmit(event) {
+	    key: 'handleEdit',
+	    value: function handleEdit(event) {
 	      if (this.state.formName.length < 1) {
 	        window.alert("Timeline name cannot be blank");
 	      } else {
@@ -10312,6 +10313,24 @@
 	        });
 	        location.reload();
 	      }
+	    }
+	  }, {
+	    key: 'handleDelete',
+	    value: function handleDelete(event) {
+	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	      url = url + "delete_timeline?" + "timeline_id=" + this.props.timeline_id;
+	      console.log(url);
+	      fetch(url, {
+	        method: 'POST',
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	          timeline_id: this.props.timeline_id
+	        })
+	      });
+	      location.reload();
 	    }
 	  }, {
 	    key: 'render',
@@ -10345,12 +10364,12 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'button delete-button', type: 'button' },
+	          { className: 'button delete-button', type: 'button', onClick: this.handleDelete },
 	          'Delete'
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form', hidden: this.state.hide_edit_form, onSubmit: this.onSubmit },
+	          { className: 'form', hidden: this.state.hide_edit_form, onSubmit: this.handleEdit },
 	          _react2.default.createElement(
 	            'label',
 	            null,
