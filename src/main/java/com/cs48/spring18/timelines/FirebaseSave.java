@@ -19,6 +19,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class FirebaseSave{
 
   private String json;
+  private DatabaseReference.CompletionListener listener;
 
   public FirebaseSave(){
     try {
@@ -36,6 +37,17 @@ public class FirebaseSave{
     }
 
     json = "";
+    listener = new DatabaseReference.CompletionListener() {
+
+        @Override
+        public void onComplete(DatabaseError de, DatabaseReference dr) {
+          if (de != null) {
+              System.out.println("Data could not be saved " + de.getMessage());
+          } else {
+              System.out.println("Data saved successfully.");
+          }
+        }
+    };
   }
 
   public String getJson(){
@@ -61,17 +73,7 @@ public class FirebaseSave{
     timelines.put(item.getId(), item);
 
 
-    timelinesRef.updateChildren(timelines, new DatabaseReference.CompletionListener() {
-
-        @Override
-        public void onComplete(DatabaseError de, DatabaseReference dr) {
-          if (de != null) {
-              System.out.println("Data could not be saved " + de.getMessage());
-          } else {
-              System.out.println("Data saved successfully.");
-          }
-        }
-    });
+    timelinesRef.updateChildren(timelines, listener);
 
     try{
       Thread.sleep(10000);
@@ -90,17 +92,7 @@ public class FirebaseSave{
     timelineUpdates.put("name", item.getName());
     timelineUpdates.put("description", item.getDescription());
 
-    timelinesRef.updateChildren(timelineUpdates, new DatabaseReference.CompletionListener() {
-
-        @Override
-        public void onComplete(DatabaseError de, DatabaseReference dr) {
-          if (de != null) {
-              System.out.println("Data could not be saved " + de.getMessage());
-          } else {
-              System.out.println("Data saved successfully.");
-          }
-        }
-    });
+    timelinesRef.updateChildren(timelineUpdates, listener);
 
   }
 
@@ -117,17 +109,7 @@ public class FirebaseSave{
     article.put(item.getId(), item);
 
 
-    timelinesRef.updateChildren(article, new DatabaseReference.CompletionListener() {
-
-        @Override
-        public void onComplete(DatabaseError de, DatabaseReference dr) {
-          if (de != null) {
-              System.out.println("Data could not be saved " + de.getMessage());
-          } else {
-              System.out.println("Data saved successfully.");
-          }
-        }
-    });
+    timelinesRef.updateChildren(article, listener);
 
     try{
       Thread.sleep(10000);
