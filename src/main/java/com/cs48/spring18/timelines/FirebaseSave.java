@@ -46,7 +46,7 @@ public class FirebaseSave{
     this.json = json;
   }
 
-  public void saveTimeline(Timeline item){
+  public void saveNewTimeline(Timeline item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
@@ -81,7 +81,30 @@ public class FirebaseSave{
     }
   }
 
-  public void saveArticle(String timeline_id, Article item){
+  public void updateTimeline(Timeline item){
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/timelines/");
+    DatabaseReference timelinesRef = ref.child(item.getId());
+    Map<String, Object> timelineUpdates = new HashMap<>();
+
+    timelineUpdates.put("name", item.getName());
+    timelineUpdates.put("description", item.getDescription());
+
+    timelinesRef.updateChildren(timelineUpdates, new DatabaseReference.CompletionListener() {
+
+        @Override
+        public void onComplete(DatabaseError de, DatabaseReference dr) {
+          if (de != null) {
+              System.out.println("Data could not be saved " + de.getMessage());
+          } else {
+              System.out.println("Data saved successfully.");
+          }
+        }
+    });
+
+  }
+
+  public void saveNewArticle(String timeline_id, Article item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");

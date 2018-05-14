@@ -43,9 +43,23 @@ public class HomeController {
   }
 
   @RequestMapping(value = "/create", method = RequestMethod.POST)
-  public void create(@RequestParam(value="name", defaultValue="") String name, @RequestParam(value="description", defaultValue="") String description) {
+  public void create(
+    @RequestParam(value="name", defaultValue="") String name, 
+    @RequestParam(value="description", defaultValue="") String description
+  ){
     Timeline newEntry = new Timeline(name, description);
-    saver.saveTimeline(newEntry);
+    saver.saveNewTimeline(newEntry);
+  }
+
+  @RequestMapping(value = "/update_timeline", method = RequestMethod.POST)
+  public void updateTimeline(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="name", defaultValue="") String newName, 
+    @RequestParam(value="description", defaultValue="") String newDescription
+  ){
+    Timeline item = new Timeline(newName, newDescription);
+    item.setId(id);
+    saver.updateTimeline(item);
   }
 
   @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
@@ -63,7 +77,7 @@ public class HomeController {
       @RequestParam(value="date", defaultValue="") String date
     ){
     //FORMAT: saver.saveArticle(timeline id, article)
-    saver.saveArticle(timeline_id, new Article(name, link, description, date));
+    saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
   }
   
 

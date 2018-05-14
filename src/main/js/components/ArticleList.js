@@ -53,9 +53,9 @@ class View extends Component {
   getArticles(){
     var urls = [];
     if(this.state.timelines["articles"] != null){
-      console.log(this.state.timelines["articles"])
+      // console.log(this.state.timelines["articles"])
       var articles = Object.values(this.state.timelines["articles"]);
-      console.log(articles);
+      // console.log(articles);
       for(var i = 0; i < articles.length; i++){
         if(articles[i] != null){
           // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];

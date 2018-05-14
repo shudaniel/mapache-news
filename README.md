@@ -8,3 +8,7 @@
  - Don't forget to manually add this: timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json into the root directory.
  - All CSS is located here: //timelines/src/main/resources/static
  - For some reason, React components cannot import CSS the normal way. So I put it all in this one file.
+
+
+ ## Known Bugs
+ - When you edit a Timeline and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.

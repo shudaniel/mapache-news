@@ -10024,11 +10024,11 @@
 	        window.alert("Please enter a name for this Timeline");
 	      } else {
 	
-	        var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        var home_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	
-	        console.log(this.state.formName);
-	        console.log(this.state.formDescription);
-	        var url = url + "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+	        // console.log(this.state.formName);
+	        // console.log(this.state.formDescription);
+	        var url = home_url + "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
 	        console.log(url);
 	        fetch(url, {
 	          method: 'POST',
@@ -10192,7 +10192,7 @@
 	        var arr = this.state.timelines[keys[i]];
 	        if (arr != null) {
 	          // console.log(arr)
-	          list.push(_react2.default.createElement(_Timeline2.default, { article_id: arr["id"], name: arr["name"], description: arr["description"] }));
+	          list.push(_react2.default.createElement(_Timeline2.default, { timeline_id: arr["id"], name: arr["name"], description: arr["description"] }));
 	          list.push(_react2.default.createElement('br', null));
 	        }
 	      }
@@ -10250,21 +10250,75 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var Timeline = function (_React$Component) {
-	  _inherits(Timeline, _React$Component);
+	var Timeline = function (_Component) {
+	  _inherits(Timeline, _Component);
 	
-	  function Timeline() {
+	  function Timeline(props) {
 	    _classCallCheck(this, Timeline);
 	
-	    return _possibleConstructorReturn(this, (Timeline.__proto__ || Object.getPrototypeOf(Timeline)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Timeline.__proto__ || Object.getPrototypeOf(Timeline)).call(this, props));
+	
+	    _this.state = {
+	      hide_edit_form: true,
+	      formName: _this.props.name,
+	      formDescription: _this.props.description
+	    };
+	    _this.onSubmit = _this.onSubmit.bind(_this);
+	    _this.changeVisibility = _this.changeVisibility.bind(_this);
+	    _this.handleNameChange = _this.handleNameChange.bind(_this);
+	    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(Timeline, [{
+	    key: 'changeVisibility',
+	    value: function changeVisibility(event) {
+	      this.setState(function (prevState) {
+	        return {
+	          hide_edit_form: !prevState.hide_edit_form
+	        };
+	      });
+	    }
+	  }, {
+	    key: 'handleNameChange',
+	    value: function handleNameChange(event) {
+	      this.setState({ formName: event.target.value });
+	    }
+	  }, {
+	    key: 'handleDescriptionChange',
+	    value: function handleDescriptionChange(event) {
+	      this.setState({ formDescription: event.target.value });
+	    }
+	  }, {
+	    key: 'onSubmit',
+	    value: function onSubmit(event) {
+	      if (this.state.formName.length < 1) {
+	        window.alert("Timeline name cannot be blank");
+	      } else {
+	        var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        url = url + "update_timeline?" + "timeline_id=" + this.props.timeline_id + "&name=" + this.state.formName + "&description=" + this.state.formDescription;
+	        console.log(url);
+	        fetch(url, {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            timeline_id: this.props.timeline_id,
+	            name: this.state.formName,
+	            description: this.state.formDescription
+	          })
+	        });
+	        location.reload();
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'timeline-item', id: this.props.article_id },
+	        { className: 'timeline-item', id: this.props.timeline_id },
 	        _react2.default.createElement(
 	          'h3',
 	          null,
@@ -10277,7 +10331,7 @@
 	        ),
 	        _react2.default.createElement(
 	          _reactRouter.Link,
-	          { to: "/view/" + this.props.article_id },
+	          { to: "/view/" + this.props.timeline_id },
 	          _react2.default.createElement(
 	            'button',
 	            { className: 'button view-button', type: 'button' },
@@ -10286,20 +10340,44 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'button edit-button', type: 'button' },
+	          { className: 'button edit-button', type: 'button', onClick: this.changeVisibility },
 	          'Edit'
 	        ),
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'button delete-button', type: 'button' },
 	          'Delete'
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form', hidden: this.state.hide_edit_form, onSubmit: this.onSubmit },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Name:',
+	            _react2.default.createElement('input', { type: 'text', defaultValue: this.props.name, onChange: this.handleNameChange })
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Description:',
+	            _react2.default.createElement('textarea', { type: 'text', defaultValue: this.props.description, onChange: this.handleDescriptionChange })
+	          ),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'button delete-button', type: 'button', hidden: this.state.hide_edit_form, onClick: this.changeVisibility },
+	          'Cancel'
 	        )
 	      );
 	    }
 	  }]);
 	
 	  return Timeline;
-	}(_react2.default.Component);
+	}(_react.Component);
 	
 	exports.default = Timeline;
 
@@ -10476,9 +10554,9 @@
 	    value: function getArticles() {
 	      var urls = [];
 	      if (this.state.timelines["articles"] != null) {
-	        console.log(this.state.timelines["articles"]);
+	        // console.log(this.state.timelines["articles"])
 	        var articles = Object.values(this.state.timelines["articles"]);
-	        console.log(articles);
+	        // console.log(articles);
 	        for (var i = 0; i < articles.length; i++) {
 	          if (articles[i] != null) {
 	            // var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window,width:500,height:500/" + articles[i];

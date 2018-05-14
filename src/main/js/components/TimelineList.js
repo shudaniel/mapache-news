@@ -58,7 +58,7 @@ class TimelineList extends React.Component{
       if(arr != null){
         // console.log(arr)
         list.push(
-          <Timeline article_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
+          <Timeline timeline_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
         );
         list.push(<br/>);
       }

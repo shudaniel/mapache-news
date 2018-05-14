@@ -41,11 +41,11 @@ class TimelineForm extends Component {
     }
     else{
 
-  	  var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+  	  var home_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
 
-  	  console.log(this.state.formName);
-  	  console.log(this.state.formDescription);
-      var url = url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+  	  // console.log(this.state.formName);
+  	  // console.log(this.state.formDescription);
+      var url = home_url +  "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
       console.log(url);
       fetch(url, {
         method: 'POST',
