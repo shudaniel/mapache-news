@@ -37,8 +37,8 @@ class Timeline extends Component{
       window.alert("Timeline name cannot be blank");
     }
     else{
-      var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-      url = url + "update_timeline?"
+      var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+      var url = root_url + "update_timeline?"
         + "timeline_id=" + this.props.timeline_id
         + "&name=" + this.state.formName
         + "&description=" + this.state.formDescription;
@@ -61,8 +61,8 @@ class Timeline extends Component{
   }
 
   handleDelete(event){
-    var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-    url = url + "delete_timeline?"
+    var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+    var url = root_url + "delete_timeline?"
       + "timeline_id=" + this.props.timeline_id
     console.log(url);
     fetch(url, {
@@ -75,17 +75,37 @@ class Timeline extends Component{
         timeline_id: this.props.timeline_id,
       })
     })
-    location.reload();
+    window.location = root_url;
   }
 
   render(){
+    var timeline_info = [];
+    if(this.props.displayName){
+      timeline_info.push(<h3>{this.props.name}</h3>);
+    }
+    if(this.props.displayDescription){
+      timeline_info.push(<p>{this.props.description}</p>)
+    }
+
+    var buttons = [];
+    if(this.props.displayView){
+      if(this.props.description.length > 0){
+        buttons.push(<Link to={"/view/" + this.props.name + "/" + this.props.description + "/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
+      }
+      else{
+        buttons.push(<Link to={"/view/" + this.props.name + "/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
+      }
+    }
+    if(this.props.displayEdit){
+      buttons.push(<button className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>);
+    }
+    if(this.props.displayDelete){
+      buttons.push(<button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>);
+    }
     return(
       <div className="timeline-item" id={this.props.timeline_id}>
-        <h3>{this.props.name}</h3>
-        <p>{this.props.description}</p>
-        <Link to={"/view/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>
-        <button className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>
-        <button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>
+        {timeline_info}
+        {buttons}
         <form className="form" hidden={this.state.hide_edit_form} onSubmit={this.handleEdit}>
           <label>
             Name:
@@ -104,5 +124,13 @@ class Timeline extends Component{
     );
   }
 }
+
+Timeline.defaultProps = {
+    displayName: true,
+    displayDescription: true,
+    displayView: true,
+    displayEdit: true,
+    displayDelete: true
+  }
 
 export default Timeline;

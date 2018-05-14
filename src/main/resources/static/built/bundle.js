@@ -66,7 +66,8 @@
 	  _reactRouter.Router,
 	  { history: _reactRouter.hashHistory },
 	  React.createElement(_reactRouter.Route, { path: '/', component: _App2.default }),
-	  React.createElement(_reactRouter.Route, { path: '/view/:timeline_id', component: _View2.default })
+	  React.createElement(_reactRouter.Route, { path: '/view/:name/:description/:timeline_id', component: _View2.default }),
+	  React.createElement(_reactRouter.Route, { path: '/view/:name/:timeline_id', component: _View2.default })
 	), document.getElementById('react'));
 
 /***/ }),
@@ -10296,8 +10297,8 @@
 	      if (this.state.formName.length < 1) {
 	        window.alert("Timeline name cannot be blank");
 	      } else {
-	        var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	        url = url + "update_timeline?" + "timeline_id=" + this.props.timeline_id + "&name=" + this.state.formName + "&description=" + this.state.formDescription;
+	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        var url = root_url + "update_timeline?" + "timeline_id=" + this.props.timeline_id + "&name=" + this.state.formName + "&description=" + this.state.formDescription;
 	        console.log(url);
 	        fetch(url, {
 	          method: 'POST',
@@ -10317,8 +10318,8 @@
 	  }, {
 	    key: 'handleDelete',
 	    value: function handleDelete(event) {
-	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	      url = url + "delete_timeline?" + "timeline_id=" + this.props.timeline_id;
+	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	      var url = root_url + "delete_timeline?" + "timeline_id=" + this.props.timeline_id;
 	      console.log(url);
 	      fetch(url, {
 	        method: 'POST',
@@ -10330,43 +10331,70 @@
 	          timeline_id: this.props.timeline_id
 	        })
 	      });
-	      location.reload();
+	      window.location = root_url;
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'timeline-item', id: this.props.timeline_id },
-	        _react2.default.createElement(
+	      var timeline_info = [];
+	      if (this.props.displayName) {
+	        timeline_info.push(_react2.default.createElement(
 	          'h3',
 	          null,
 	          this.props.name
-	        ),
-	        _react2.default.createElement(
+	        ));
+	      }
+	      if (this.props.displayDescription) {
+	        timeline_info.push(_react2.default.createElement(
 	          'p',
 	          null,
 	          this.props.description
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: "/view/" + this.props.timeline_id },
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'button view-button', type: 'button' },
-	            'View'
-	          )
-	        ),
-	        _react2.default.createElement(
+	        ));
+	      }
+	
+	      var buttons = [];
+	      if (this.props.displayView) {
+	        if (this.props.description.length > 0) {
+	          buttons.push(_react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: "/view/" + this.props.name + "/" + this.props.description + "/" + this.props.timeline_id },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'button view-button', type: 'button' },
+	              'View'
+	            )
+	          ));
+	        } else {
+	          buttons.push(_react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: "/view/" + this.props.name + "/" + this.props.timeline_id },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'button view-button', type: 'button' },
+	              'View'
+	            )
+	          ));
+	        }
+	      }
+	      if (this.props.displayEdit) {
+	        buttons.push(_react2.default.createElement(
 	          'button',
 	          { className: 'button edit-button', type: 'button', onClick: this.changeVisibility },
 	          'Edit'
-	        ),
-	        _react2.default.createElement(
+	        ));
+	      }
+	      if (this.props.displayDelete) {
+	        buttons.push(_react2.default.createElement(
 	          'button',
 	          { className: 'button delete-button', type: 'button', onClick: this.handleDelete },
 	          'Delete'
-	        ),
+	        ));
+	      }
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'timeline-item', id: this.props.timeline_id },
+	        timeline_info,
+	        buttons,
 	        _react2.default.createElement(
 	          'form',
 	          { className: 'form', hidden: this.state.hide_edit_form, onSubmit: this.handleEdit },
@@ -10398,6 +10426,14 @@
 	  return Timeline;
 	}(_react.Component);
 	
+	Timeline.defaultProps = {
+	  displayName: true,
+	  displayDescription: true,
+	  displayView: true,
+	  displayEdit: true,
+	  displayDelete: true
+	};
+	
 	exports.default = Timeline;
 
 /***/ }),
@@ -10425,6 +10461,10 @@
 	var _ArticleForm = __webpack_require__(102);
 	
 	var _ArticleForm2 = _interopRequireDefault(_ArticleForm);
+	
+	var _Timeline = __webpack_require__(98);
+	
+	var _Timeline2 = _interopRequireDefault(_Timeline);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -10457,7 +10497,7 @@
 	          _react2.default.createElement(
 	            'h1',
 	            { className: 'App-title' },
-	            'View Timeline'
+	            this.props.params.name
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -10469,6 +10509,12 @@
 	            'Home'
 	          )
 	        ),
+	        _react2.default.createElement(
+	          'p',
+	          { className: 'App-intro' },
+	          this.props.params.description
+	        ),
+	        _react2.default.createElement(_Timeline2.default, { timeline_id: this.props.params.timeline_id, displayView: false, displayName: false, displayDescription: false, name: this.props.params.name, description: this.props.params.description }),
 	        _react2.default.createElement(_ArticleForm2.default, { timeline_id: this.props.params.timeline_id }),
 	        _react2.default.createElement(_ArticleList2.default, { timeline_id: this.props.params.timeline_id })
 	      );
@@ -10605,16 +10651,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          this.state.timelines["name"]
-	        ),
-	        _react2.default.createElement(
-	          'p',
-	          { className: 'App-intro' },
-	          this.state.timelines["description"]
-	        ),
 	        _react2.default.createElement(
 	          'form',
 	          null,

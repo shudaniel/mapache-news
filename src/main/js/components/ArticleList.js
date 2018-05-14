@@ -84,10 +84,6 @@ class View extends Component {
 
     return (
       <div>
-        <h3>{this.state.timelines["name"]}</h3>
-        <p className="App-intro">
-          {this.state.timelines["description"]}
-        </p>
         <form>
           <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
         </form>
