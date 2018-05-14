@@ -41,10 +41,13 @@ class ArticleForm extends Component {
   handleSubmit(event){
     event.preventDefault();
     if(this.state.formName.length < 1){
-        window.alert("Please enter Article Name");
+      window.alert("Please enter Article Name");
     }
     else if(this.state.formLink.length < 1){
-        window.alert("Please enter the Article URL");
+      window.alert("Please enter the Article URL");
+    }
+    else if (this.state.formDate.length < 1){
+      window.alert("Please enter the Article Date");
     }
     else{
 
