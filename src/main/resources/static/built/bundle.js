@@ -66,8 +66,7 @@
 	  _reactRouter.Router,
 	  { history: _reactRouter.hashHistory },
 	  React.createElement(_reactRouter.Route, { path: '/', component: _App2.default }),
-	  React.createElement(_reactRouter.Route, { path: '/view/:name/:description/:timeline_id', component: _View2.default }),
-	  React.createElement(_reactRouter.Route, { path: '/view/:name/:timeline_id', component: _View2.default })
+	  React.createElement(_reactRouter.Route, { path: '/view/:timeline_id', component: _View2.default })
 	), document.getElementById('react'));
 
 /***/ }),
@@ -10298,7 +10297,7 @@
 	      } else {
 	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	        var url = root_url + "update_timeline?" + "timeline_id=" + this.props.timeline_id + "&name=" + this.state.formName + "&description=" + this.state.formDescription;
-	        console.log(url);
+	        // console.log(url);
 	        fetch(url, {
 	          method: 'POST',
 	          headers: {
@@ -10319,7 +10318,7 @@
 	    value: function handleDelete(event) {
 	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	      var url = root_url + "delete_timeline?" + "timeline_id=" + this.props.timeline_id;
-	      console.log(url);
+	      // console.log(url);
 	      fetch(url, {
 	        method: 'POST',
 	        headers: {
@@ -10353,27 +10352,15 @@
 	
 	      var buttons = [];
 	      if (this.props.displayView) {
-	        if (this.props.description.length > 0) {
-	          buttons.push(_react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: "/view/" + this.props.name + "/" + this.props.description + "/" + this.props.timeline_id },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'button view-button', type: 'button' },
-	              'View'
-	            )
-	          ));
-	        } else {
-	          buttons.push(_react2.default.createElement(
-	            _reactRouter.Link,
-	            { to: "/view/" + this.props.name + "/" + this.props.timeline_id },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'button view-button', type: 'button' },
-	              'View'
-	            )
-	          ));
-	        }
+	        buttons.push(_react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: "/view/" + this.props.timeline_id },
+	          _react2.default.createElement(
+	            'button',
+	            { className: 'button view-button', type: 'button' },
+	            'View'
+	          )
+	        ));
 	      }
 	      if (this.props.displayEdit) {
 	        buttons.push(_react2.default.createElement(
@@ -10476,16 +10463,61 @@
 	var View = function (_Component) {
 	  _inherits(View, _Component);
 	
-	  function View() {
+	  function View(props) {
 	    _classCallCheck(this, View);
 	
-	    return _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, props));
+	
+	    _this.state = {
+	      name: "",
+	      description: ""
+	    };
+	
+	    return _this;
 	  }
 	
 	  _createClass(View, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var _this2 = this;
+	
+	      console.log("Component will mount");
+	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	      url = url + "all";
+	      // console.log(url);
+	
+	      fetch(url).then(function (response) {
+	        return response.json();
+	      }).then(function (findresponse) {
+	        _this2.setState({
+	          name: findresponse.timelines[_this2.props.params.timeline_id]["name"],
+	          description: findresponse.timelines[_this2.props.params.timeline_id]["description"]
+	        });
+	      });
+	    }
+	    // componentDidMount(){
+	    //   console.log("did mount");
+	    //   console.log(this.state.timelines);
+	    //   console.log(this.state.timelines.length);
+	    //   this.setTimelineInfo();
+	    // }
+	
+	  }, {
+	    key: 'setTimelineInfo',
+	    value: function setTimelineInfo() {
+	      console.log(this.state.timelines);
+	      var timeline = this.state.timelines[this.props.params.timeline_id];
+	      console.log(timeline);
+	      if (timeline != null) {
+	        this.setState({
+	          name: timeline["name"],
+	          description: timeline["description"]
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'App' },
@@ -10496,7 +10528,7 @@
 	          _react2.default.createElement(
 	            'h1',
 	            { className: 'App-title' },
-	            this.props.params.name
+	            this.state.name
 	          )
 	        ),
 	        _react2.default.createElement(
@@ -10511,9 +10543,9 @@
 	        _react2.default.createElement(
 	          'p',
 	          { className: 'App-intro' },
-	          this.props.params.description
+	          this.state.description
 	        ),
-	        _react2.default.createElement(_Timeline2.default, { timeline_id: this.props.params.timeline_id, displayView: false, displayName: false, displayDescription: false, name: this.props.params.name, description: this.props.params.description }),
+	        _react2.default.createElement(_Timeline2.default, { timeline_id: this.props.params.timeline_id, displayView: false, displayName: false, displayDescription: false, name: this.state.name, description: this.state.description }),
 	        _react2.default.createElement(_ArticleForm2.default, { timeline_id: this.props.params.timeline_id }),
 	        _react2.default.createElement(_ArticleList2.default, { timeline_id: this.props.params.timeline_id })
 	      );

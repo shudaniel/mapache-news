@@ -42,7 +42,7 @@ class Timeline extends Component{
         + "timeline_id=" + this.props.timeline_id
         + "&name=" + this.state.formName
         + "&description=" + this.state.formDescription;
-      console.log(url);
+      // console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {
@@ -64,7 +64,7 @@ class Timeline extends Component{
     var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     var url = root_url + "delete_timeline?"
       + "timeline_id=" + this.props.timeline_id
-    console.log(url);
+    // console.log(url);
     fetch(url, {
       method: 'POST',
       headers: {
@@ -89,12 +89,7 @@ class Timeline extends Component{
 
     var buttons = [];
     if(this.props.displayView){
-      if(this.props.description.length > 0){
-        buttons.push(<Link to={"/view/" + this.props.name + "/" + this.props.description + "/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
-      }
-      else{
-        buttons.push(<Link to={"/view/" + this.props.name + "/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
-      }
+      buttons.push(<Link to={"/view/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
     }
     if(this.props.displayEdit){
       buttons.push(<button className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>);
