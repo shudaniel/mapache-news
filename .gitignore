@@ -27,6 +27,7 @@
 /node_modules
 target/
 *~
+package-lock.json
 
 # testing
 /coverage
