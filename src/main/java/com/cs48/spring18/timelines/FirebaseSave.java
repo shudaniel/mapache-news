@@ -73,12 +73,6 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(timelines, listener);
 
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
   }
 
   public void updateTimeline(Timeline item){
@@ -115,12 +109,6 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(article, listener);
 
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
   }
 
   public void deleteArticle(String timeline_id, String article_id){
@@ -146,7 +134,7 @@ public class FirebaseSave{
         //Convert this map into a json format to be read by the frontend
         try {
           String jsonResp = mapperObj.writeValueAsString(post);
-          System.out.println(jsonResp);
+          // System.out.println(jsonResp);
           setJson(jsonResp);
 
         } catch (IOException e) {

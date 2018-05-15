@@ -12,8 +12,14 @@ class View extends Component {
 
     this.state = {
       name: "",
-      description: ""
+      description: "",
+      query: "",
+      hideSearch: true
     }
+
+    this.handleAutoGenerateArticles = this.handleAutoGenerateArticles.bind(this);
+    this.showSearchForm = this.showSearchForm.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
 
   }
 
@@ -32,12 +38,6 @@ class View extends Component {
         });
       })
   }
-  // componentDidMount(){
-  //   console.log("did mount");
-  //   console.log(this.state.timelines);
-  //   console.log(this.state.timelines.length);
-  //   this.setTimelineInfo();
-  // }
 
   setTimelineInfo(){
     console.log(this.state.timelines);
@@ -51,6 +51,42 @@ class View extends Component {
     }
   }
 
+  handleAutoGenerateArticles(event){
+    if(this.state.query.length < 1){
+      window.alert("Please enter a query.");
+    }
+    else{
+      var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+      var url = root_url + "generate?"
+        + "timeline_id=" + this.props.params.timeline_id
+        + "&query=" + this.state.query;
+      console.log(url);
+      fetch(url, {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timeline_id: this.props.params.timeline_id,
+          query: this.state.query
+        })
+      })
+      location.reload();
+    }
+  }
+
+  handleQueryChange(event){
+    this.setState({query: event.target.value});
+  }
+
+  showSearchForm(){
+    this.setState(prevState => ({
+      hideSearch: !prevState.hideSearch
+    }));
+  }
+
+
   
   render() {
     return (
@@ -61,6 +97,14 @@ class View extends Component {
         </header>
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
+        <button className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
+        <form className="form" hidden={this.state.hideSearch} onSubmit={this.handleAutoGenerateArticles}>
+          <label>Query:</label>
+          <input type="text" onChange={this.handleQueryChange} />
+          <p>*Note: Automatically generated articles are based on this term</p>
+          <input className="button green-button" type="submit" value="Submit"/>
+        </form>
+        
         <p className="App-intro">
           {this.state.description}
         </p>
