@@ -27,7 +27,6 @@
 /node_modules
 target/
 *~
-timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json
 
 # testing
 /coverage
