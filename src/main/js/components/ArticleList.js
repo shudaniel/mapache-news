@@ -48,7 +48,7 @@ class View extends Component {
 
 
   getArticles(){
-	  /*
+	 /* 
     var urls = [];
     if(this.state.timelines["articles"] != null){
       // console.log(this.state.timelines["articles"])
@@ -73,8 +73,8 @@ class View extends Component {
       <div>
         {urls}
       </div>
-      );*/
-	  
+      );
+	  */
 	const styles = {
 	  root: {
 		display: 'flex',
@@ -109,6 +109,7 @@ class View extends Component {
 		  </MuiThemeProvider>
 	 }
 	
+	console.log("is this working?")
 	  
 	return <div style={styles['root']}>
 			  {html}
