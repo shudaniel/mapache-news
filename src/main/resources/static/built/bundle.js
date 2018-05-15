@@ -10649,7 +10649,7 @@
 	        for (var i = 0; i < articles.length; i++) {
 	          if (articles[i] != null) {
 	            console.log(articles[i]);
-	            urls.push(_react2.default.createElement(_Article2.default, { title: articles[i]["name"], url: articles[i]["link"], description: articles[i]["description"] }));
+	            urls.push(_react2.default.createElement(_Article2.default, { timeline_id: this.props.timeline_id, article_id: articles[i]["id"], title: articles[i]["name"], url: articles[i]["link"], description: articles[i]["description"] }));
 	            urls.push(_react2.default.createElement('div', { 'class': 'horizontalgap' }));
 	          }
 	        }
@@ -10732,6 +10732,7 @@
 	    var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, props));
 	
 	    _this.handleClick = _this.handleClick.bind(_this);
+	    _this.handleDelete = _this.handleDelete.bind(_this);
 	    return _this;
 	  }
 	
@@ -10754,13 +10755,31 @@
 	      window.open(this.props.url, '_blank');
 	    }
 	  }, {
+	    key: "handleDelete",
+	    value: function handleDelete(event) {
+	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	      var url = root_url + "delete_article?" + "timeline_id=" + this.props.timeline_id + "&article_id=" + this.props.article_id;
+	      // console.log(url);
+	      fetch(url, {
+	        method: 'POST',
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	          timeline_id: this.props.timeline_id,
+	          article_id: this.props.article_id
+	        })
+	      });
+	      window.location.reload();
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	
 	      return _react2.default.createElement(
 	        "div",
-	        { className: "article hover", onClick: this.handleClick },
-	        _react2.default.createElement("img", { src: this.get_screenshot(this.props.url), sizes: "32x32" }),
+	        { className: "article" },
 	        _react2.default.createElement(
 	          "h3",
 	          null,
@@ -10771,7 +10790,12 @@
 	          null,
 	          this.props.description
 	        ),
-	        _react2.default.createElement("br", null)
+	        _react2.default.createElement("img", { className: "hover", src: this.get_screenshot(this.props.url), onClick: this.handleClick, sizes: "32x32" }),
+	        _react2.default.createElement(
+	          "button",
+	          { className: "button delete-button", type: "button", onClick: this.handleDelete },
+	          "Delete"
+	        )
 	      );
 	    }
 	  }]);

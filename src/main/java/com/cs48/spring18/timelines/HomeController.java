@@ -73,6 +73,15 @@ public class HomeController {
     saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
   }
 
+  @RequestMapping(value = "/delete_article", method = RequestMethod.POST)
+  public void deleteTimeline(
+    @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
+    @RequestParam(value="article_id", defaultValue="") String article_id
+  ){
+    saver.deleteArticle(timeline_id, article_id);
+  }
+
+
   
 
 }
