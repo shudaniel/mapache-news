@@ -10514,7 +10514,7 @@
 	    key: 'handleAutoGenerateArticles',
 	    value: function handleAutoGenerateArticles(event) {
 	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	      var url = root_url + "auto_generate?" + "timeline_id=" + this.props.params.timeline_id + "&name=" + this.state.name;
+	      var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&name=" + this.state.name;
 	      console.log(url);
 	      fetch(url, {
 	        method: 'POST',

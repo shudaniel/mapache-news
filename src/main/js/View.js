@@ -49,7 +49,7 @@ class View extends Component {
 
   handleAutoGenerateArticles(event){
     var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-    var url = root_url + "auto_generate?"
+    var url = root_url + "generate?"
       + "timeline_id=" + this.props.params.timeline_id
       + "&name=" + this.state.name;
     console.log(url);

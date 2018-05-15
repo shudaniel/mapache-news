@@ -128,7 +128,7 @@ public class FirebaseSave{
         //Convert this map into a json format to be read by the frontend
         try {
           String jsonResp = mapperObj.writeValueAsString(post);
-          System.out.println(jsonResp);
+          // System.out.println(jsonResp);
           setJson(jsonResp);
 
         } catch (IOException e) {

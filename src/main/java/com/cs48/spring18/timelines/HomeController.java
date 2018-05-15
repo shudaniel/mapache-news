@@ -57,22 +57,24 @@ public class HomeController {
     saver.updateTimeline(item);
   }
 
-  @RequestMapping(value = "/auto_generate", produces = "application/json; charset=UTF-8")
+  @RequestMapping(value = "/generate", method = RequestMethod.POST)
   @ResponseBody
-  public String autoGenerate(
+  public void generate(
     @RequestParam(value="timeline_id", defaultValue="") String id,
     @RequestParam(value="name", defaultValue="") String name
   ){
     //Format:
     //https://www.reddit.com/r/news/search.json?q=INSERT_NAME_HERE&restrict_sr=on&sort=new
+
+    //Remove all white spaces
+    name = name.replaceAll(" ", "%20");
     String url = "https://www.reddit.com/r/news/search.json?q=" + name + "&restrict_sr=on&sort=new";
+    System.out.println(url);
     ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
     String output = "";
     for(Article a : articles){
-      output += a.toString();
-      output += "\n";
+      saver.saveNewArticle(id, a);
     }
-    return output;
   }
 
   @RequestMapping(value = "/delete_timeline", method = RequestMethod.POST)
