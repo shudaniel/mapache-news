@@ -111,6 +111,12 @@ public class FirebaseSave{
 
   }
 
+  public void deleteArticle(String timeline_id, String article_id){
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/timelines/" + timeline_id + "/articles/");
+    ref.child(article_id).removeValue(listener);
+  }
+
   public void loadAllTimelines(){
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();

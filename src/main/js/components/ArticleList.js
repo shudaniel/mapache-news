@@ -55,7 +55,7 @@ class View extends Component {
         if(articles[i] != null){
           console.log(articles[i])
           urls.push(
-            <Article title={articles[i]["name"]} url={articles[i]["link"]} description={articles[i]["description"]}/>
+            <Article timeline_id={this.props.timeline_id} article_id={articles[i]["id"]} title={articles[i]["name"]} url={articles[i]["link"]} description={articles[i]["description"]}/>
           );
           urls.push(<div class="horizontalgap"></div>);
         }
