@@ -93,6 +93,8 @@ class View extends Component {
 	
 	
 	var html =  <h3>No Articles</h3>
+
+//<Article title={article.title} url={article.url} description={article.description} />
 	
 	if(this.state.timelines["articles"] != null){
       // console.log(this.state.timelines["articles"])
@@ -102,7 +104,7 @@ class View extends Component {
 			<Grid container className={"articles"} justify="left" spacing={40} style={styles['gridList']}>
 				{articles.map((article) => (
 					<Grid key={article.title} item>
-						<Article title={article.title} url={article.url} description={article.description} />
+						<Article timeline_id={this.props.timeline_id} article_id={article.id} title={article.name} url={articles.link} description={articles.description}/>
 					</Grid>
 				))}
 			</Grid>
