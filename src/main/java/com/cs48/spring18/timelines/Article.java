@@ -1,30 +1,29 @@
 package com.cs48.spring18.timelines;
 
-import java.lang.String;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.text.*;
-import java.text.ParseException;
 
 
 /**
  * Created by afunk on 4/18/18.
  */
 public class Article implements Comparable<Article> {
-
-
-    private String article_id;
     private String name;
     private String link;
     private String description;
     private String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
     private Date date;
+    private Key key;
+    private String article_id;
+
 
     Article(){
         name = "";
         link = "";
         description = "";
         dateString = "";
-        article_id = ""; //This is set when article is saved into database
+        article_id = "";
     }
 
     Article(String name, String link, String description, String date){
@@ -33,17 +32,19 @@ public class Article implements Comparable<Article> {
         this.description = description;
         this.dateString = date;
         this.date = convertStringToDate(this.dateString);
-        article_id = ""; //This is set when article is saved into database
+        article_id = "";
+
     }
-//Fix implementation of Keys
-   /* Article(String name, String link, String description, String date, Keys key){
+
+    Article(String name, String link, String description, String date, Key key){
         this.name = name;
         this.link = link;
         this.description = description;
         this.dateString = date;
-        // this.key = key;
+        this.key = key;
+        this.article_id = "";
+
     }
-*/
 
     public String getId(){
         return article_id;
@@ -92,7 +93,7 @@ public class Article implements Comparable<Article> {
     public Date convertStringToDate(String dateString)
     {
         Date formatteddate = null;
-        DateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 
         try{
             formatteddate = df.parse(dateString);
@@ -108,11 +109,12 @@ public class Article implements Comparable<Article> {
         return getDate().compareTo(o.getDate());
     }
 
-    // public String getKey(){
-    //     return key.getColor() + " " + key.getName();
-    // }
-    
-    // public void setKey(Key k){
-    //     this.key = k;
-    // }
+    /*public String getKey(){
+        return key.getColor() + " " + key.getName();
+    }
+
+    public void setKey(Key k){
+        this.key = k;
+    }
+    */
 }
