@@ -73,12 +73,6 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(timelines, listener);
 
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
   }
 
   public void updateTimeline(Timeline item){
@@ -115,12 +109,6 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(article, listener);
 
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
   }
 
   public void loadAllTimelines(){

@@ -15,6 +15,8 @@ class View extends Component {
       description: ""
     }
 
+    this.handleAutoGenerateArticles = this.handleAutoGenerateArticles.bind(this);
+
   }
 
   componentWillMount() {
@@ -32,12 +34,6 @@ class View extends Component {
         });
       })
   }
-  // componentDidMount(){
-  //   console.log("did mount");
-  //   console.log(this.state.timelines);
-  //   console.log(this.state.timelines.length);
-  //   this.setTimelineInfo();
-  // }
 
   setTimelineInfo(){
     console.log(this.state.timelines);
@@ -51,6 +47,26 @@ class View extends Component {
     }
   }
 
+  handleAutoGenerateArticles(event){
+    var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+    var url = root_url + "auto_generate?"
+      + "timeline_id=" + this.props.params.timeline_id
+      + "&name=" + this.state.name;
+    console.log(url);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        timeline_id: this.props.params.timeline_id,
+        name: this.state.name
+      })
+    })
+    location.reload();
+  }
+
   
   render() {
     return (
@@ -61,6 +77,8 @@ class View extends Component {
         </header>
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
+        <button className="button green-button" type="button" onClick={this.handleAutoGenerateArticles}>Auto-Generate Articles</button>
+        <p>*Note: Automatically generated articles are based on the Name of this Timeline</p>
         <p className="App-intro">
           {this.state.description}
         </p>

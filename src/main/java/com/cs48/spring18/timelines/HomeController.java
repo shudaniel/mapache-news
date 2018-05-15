@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,24 @@ public class HomeController {
     saver.updateTimeline(item);
   }
 
+  @RequestMapping(value = "/auto_generate", produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public String autoGenerate(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="name", defaultValue="") String name
+  ){
+    //Format:
+    //https://www.reddit.com/r/news/search.json?q=INSERT_NAME_HERE&restrict_sr=on&sort=new
+    String url = "https://www.reddit.com/r/news/search.json?q=" + name + "&restrict_sr=on&sort=new";
+    ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
+    String output = "";
+    for(Article a : articles){
+      output += a.toString();
+      output += "\n";
+    }
+    return output;
+  }
+
   @RequestMapping(value = "/delete_timeline", method = RequestMethod.POST)
   public void deleteTimeline(@RequestParam(value="timeline_id", defaultValue="") String id){
     saver.deleteTimeline(id);
@@ -73,6 +92,8 @@ public class HomeController {
     saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
   }
 
+
+  
   
 
 }

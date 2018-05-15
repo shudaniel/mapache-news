@@ -10473,6 +10473,8 @@
 	      description: ""
 	    };
 	
+	    _this.handleAutoGenerateArticles = _this.handleAutoGenerateArticles.bind(_this);
+	
 	    return _this;
 	  }
 	
@@ -10495,13 +10497,6 @@
 	        });
 	      });
 	    }
-	    // componentDidMount(){
-	    //   console.log("did mount");
-	    //   console.log(this.state.timelines);
-	    //   console.log(this.state.timelines.length);
-	    //   this.setTimelineInfo();
-	    // }
-	
 	  }, {
 	    key: 'setTimelineInfo',
 	    value: function setTimelineInfo() {
@@ -10514,6 +10509,25 @@
 	          description: timeline["description"]
 	        });
 	      }
+	    }
+	  }, {
+	    key: 'handleAutoGenerateArticles',
+	    value: function handleAutoGenerateArticles(event) {
+	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	      var url = root_url + "auto_generate?" + "timeline_id=" + this.props.params.timeline_id + "&name=" + this.state.name;
+	      console.log(url);
+	      fetch(url, {
+	        method: 'POST',
+	        headers: {
+	          'Accept': 'application/json',
+	          'Content-Type': 'application/json'
+	        },
+	        body: JSON.stringify({
+	          timeline_id: this.props.params.timeline_id,
+	          name: this.state.name
+	        })
+	      });
+	      location.reload();
 	    }
 	  }, {
 	    key: 'render',
@@ -10539,6 +10553,16 @@
 	            { className: 'button view-button', type: 'button' },
 	            'Home'
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'button green-button', type: 'button', onClick: this.handleAutoGenerateArticles },
+	          'Auto-Generate Articles'
+	        ),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          '*Note: Automatically generated articles are based on the Name of this Timeline'
 	        ),
 	        _react2.default.createElement(
 	          'p',
