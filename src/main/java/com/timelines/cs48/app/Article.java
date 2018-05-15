@@ -4,6 +4,8 @@ import java.lang.String;
 import java.util.Date;
 import java.text.*;
 import java.text.ParseException;
+import java.awt.Color;
+
 
 /**
  * Created by afunk on 4/18/18.
@@ -14,6 +16,7 @@ public class Article implements Comparable<Article> {
     String description;
     String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
     Date date;
+    Key key;
 
     Article(){
         name = "";
@@ -30,15 +33,15 @@ public class Article implements Comparable<Article> {
         this.date = convertStringToDate(this.dateString);
 
     }
-//Fix implementation of Keys
-   /* Article(String name, String link, String description, String date, Keys key){
+
+    Article(String name, String link, String description, String date, Key key){
         this.name = name;
         this.link = link;
         this.description = description;
         this.dateString = date;
-        // this.key = key;
+        this.key = key;
     }
-*/
+
     public String getName() {
         return name;
     }
@@ -94,11 +97,11 @@ public class Article implements Comparable<Article> {
         return getDate().compareTo(o.getDate());
     }
 
-    // public String getKey(){
-    //     return key.getColor() + " " + key.getName();
-    // }
+    public String getKey(){
+        return key.getColor() + " " + key.getName();
+    }
     
-    // public void setKey(Key k){
-    //     this.key = k;
-    // }
+    public void setKey(Key k){
+        this.key = k;
+    }
 }

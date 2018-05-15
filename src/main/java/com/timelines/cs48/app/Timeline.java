@@ -74,7 +74,8 @@ public class Timeline {
             String art_date = article.getDateString();
             String art_desc = article.getDescription();
 
-            System.out.print(art_name + " " + art_date + " " + art_desc);
+            System.out.println();
+            System.out.print(art_name + "\n" + art_date + "\n" + art_desc);
             System.out.println();
         }
         //Returns list of articles
@@ -87,7 +88,6 @@ public class Timeline {
 
         try{
             formatteddate = df.parse(dateString);
-//            formatteddate = df.format(dateA);
         }
         catch ( Exception ex ){
             System.out.println(ex);
