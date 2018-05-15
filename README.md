@@ -16,4 +16,5 @@
  - When you edit a Timeline and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.
  - When you edit a Timeline from the view page, the current name and description aren't filled in as default values in the edit form.
  - When you create an article, you need to put http:// or else it won't link correctly.
+ - The Auto Generate only work sometimes. If you keep trying, it will eventually work. But it won't work every time.
  

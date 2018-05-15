@@ -10470,10 +10470,14 @@
 	
 	    _this.state = {
 	      name: "",
-	      description: ""
+	      description: "",
+	      query: "",
+	      hideSearch: true
 	    };
 	
 	    _this.handleAutoGenerateArticles = _this.handleAutoGenerateArticles.bind(_this);
+	    _this.showSearchForm = _this.showSearchForm.bind(_this);
+	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
 	
 	    return _this;
 	  }
@@ -10513,21 +10517,39 @@
 	  }, {
 	    key: 'handleAutoGenerateArticles',
 	    value: function handleAutoGenerateArticles(event) {
-	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	      var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&name=" + this.state.name;
-	      console.log(url);
-	      fetch(url, {
-	        method: 'POST',
-	        headers: {
-	          'Accept': 'application/json',
-	          'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({
-	          timeline_id: this.props.params.timeline_id,
-	          name: this.state.name
-	        })
+	      if (this.state.query.length < 1) {
+	        window.alert("Please enter a query.");
+	      } else {
+	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + this.state.query;
+	        console.log(url);
+	        fetch(url, {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            timeline_id: this.props.params.timeline_id,
+	            query: this.state.query
+	          })
+	        });
+	        location.reload();
+	      }
+	    }
+	  }, {
+	    key: 'handleQueryChange',
+	    value: function handleQueryChange(event) {
+	      this.setState({ query: event.target.value });
+	    }
+	  }, {
+	    key: 'showSearchForm',
+	    value: function showSearchForm() {
+	      this.setState(function (prevState) {
+	        return {
+	          hideSearch: !prevState.hideSearch
+	        };
 	      });
-	      location.reload();
 	    }
 	  }, {
 	    key: 'render',
@@ -10556,13 +10578,24 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'button green-button', type: 'button', onClick: this.handleAutoGenerateArticles },
+	          { className: 'button green-button', type: 'button', onClick: this.showSearchForm },
 	          'Auto-Generate Articles'
 	        ),
 	        _react2.default.createElement(
-	          'p',
-	          null,
-	          '*Note: Automatically generated articles are based on the Name of this Timeline'
+	          'form',
+	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.handleAutoGenerateArticles },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Query:'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', onChange: this.handleQueryChange }),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            '*Note: Automatically generated articles are based on this term'
+	          ),
+	          _react2.default.createElement('input', { className: 'button green-button', type: 'submit', value: 'Submit' })
 	        ),
 	        _react2.default.createElement(
 	          'p',

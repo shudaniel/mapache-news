@@ -61,14 +61,14 @@ public class HomeController {
   @ResponseBody
   public void generate(
     @RequestParam(value="timeline_id", defaultValue="") String id,
-    @RequestParam(value="name", defaultValue="") String name
+    @RequestParam(value="query", defaultValue="") String query
   ){
     //Format:
-    //https://www.reddit.com/r/news/search.json?q=INSERT_NAME_HERE&restrict_sr=on&sort=new
+    //https://www.reddit.com/r/news/search.json?q=INSERT_QUERY_HERE&restrict_sr=on&sort=new
 
     //Remove all white spaces
-    name = name.replaceAll(" ", "%20");
-    String url = "https://www.reddit.com/r/news/search.json?q=" + name + "&restrict_sr=on&sort=new";
+    query = query.replaceAll(" ", "%20");
+    String url = "https://www.reddit.com/r/news/search.json?q=" + query + "&restrict_sr=on&sort=new";
     System.out.println(url);
     ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
     String output = "";

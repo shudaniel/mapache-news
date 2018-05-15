@@ -49,7 +49,7 @@ public class ArticleGenerator{
           Long epoch = post.get("created").getAsLong();
           // System.out.println("Name:" + name);
           // System.out.println("link:" + link);
-          // System.out.println("Epoch Datestring:" + epoch);
+          // System.out.println("Epoch:" + epoch);
           Date date = new Date (epoch); 
           SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
           String formatted_date  = sdf.format(date);
