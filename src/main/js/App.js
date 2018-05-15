@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import TimelineForm from './components/TimelineForm'
 import TimelineList from './components/TimelineList'
+import './App.css';
+import { Link } from 'react-router';
 
 class App extends React.Component {
   render() {

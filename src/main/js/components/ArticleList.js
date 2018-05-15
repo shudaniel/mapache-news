@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Article from './Article'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Grid from 'material-ui/Grid';
 
 
 class View extends Component {
@@ -46,6 +48,7 @@ class View extends Component {
 
 
   getArticles(){
+	  /*
     var urls = [];
     if(this.state.timelines["articles"] != null){
       // console.log(this.state.timelines["articles"])
@@ -70,7 +73,47 @@ class View extends Component {
       <div>
         {urls}
       </div>
-      );
+      );*/
+	  
+	const styles = {
+	  root: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-around',
+	  },
+	  gridList: {
+		display: 'flex',
+		flexWrap: 'nowrap',
+		overflowX: 'auto',
+	  },
+	  titleStyle: {
+		color: 'rgb(0, 188, 212)',
+	  },
+	};
+	
+	
+	var html =  <h3>No Articles</h3>
+	
+	if(this.state.timelines["articles"] != null){
+      // console.log(this.state.timelines["articles"])
+      var articles = Object.values(this.state.timelines["articles"]);
+
+		 html = <MuiThemeProvider>
+			<Grid container className={"articles"} justify="left" spacing={40} style={styles['gridList']}>
+				{articles.map((article) => (
+					<Grid key={article.title} item>
+						<Article title={article.title} url={article.url} description={article.description} />
+					</Grid>
+				))}
+			</Grid>
+		  </MuiThemeProvider>
+	 }
+	
+	  
+	return <div style={styles['root']}>
+			  {html}
+		   </div>
+	  
   }
 
 
