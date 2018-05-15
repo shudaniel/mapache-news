@@ -108,17 +108,6 @@ public class Article implements Comparable<Article> {
         return getDate().compareTo(o.getDate());
     }
 
-    @Override
-    public String toString() {
-        return "Article{" +
-                "id=" + article_id +
-                ", name='" + name + '\'' +
-                ", link='" + link + '\'' +
-                ", dateString='" + dateString + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
-
     // public String getKey(){
     //     return key.getColor() + " " + key.getName();
     // }
