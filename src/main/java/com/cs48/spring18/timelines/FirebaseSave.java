@@ -13,12 +13,18 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 
+//This class is how the backend interacts with our database
+
 
 public class FirebaseSave{
 
+
+   //This  string is json format of all timelines in our database. 
+  //This will be passed to the front end ti read from
   private String json;
   private DatabaseReference.CompletionListener listener;
 
+  //The constructor sets up the connection to our Firebase database based on the sdk file in the root
   public FirebaseSave(){
     try {
       FileInputStream serviceAccount = new FileInputStream("timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json");
@@ -48,14 +54,18 @@ public class FirebaseSave{
     };
   }
 
+  //Return a string that represents a json of all timelines in the database
   public String getJson(){
     return json;
   }
 
+  //Set the string that represents a json of all timelines in the database
   public void setJson(String json){
     this.json = json;
   }
 
+  //Precondition: item is a timeline that is not in the database
+  //Postcondition: Generate a unique id for item and save it into the database
   public void saveNewTimeline(Timeline item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -81,6 +91,8 @@ public class FirebaseSave{
     }
   }
 
+  //Precondition: A timeline whose id matches the timeline_id in item exists in the database
+  //Postcondition: The instance fields of the Timeline in the database get updated to match the parameter
   public void updateTimeline(Timeline item){
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");
@@ -92,14 +104,26 @@ public class FirebaseSave{
 
     timelinesRef.updateChildren(timelineUpdates, listener);
 
+    try{
+      Thread.sleep(10000);
+    }
+    catch(InterruptedException e){
+      System.out.println("Thread interrupted");
+    }
+
   }
 
+  //Precondition: id is a valid id of a Timeline in the database
+  //Postcondition: The timeline whose id matches the parameter is deleted from the database
   public void deleteTimeline(String id){
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");
     ref.child(id).removeValue(listener);
   }
 
+
+  //Precondition: There is an existing Timeline with an id matching timeline_id
+  //Postcondition: A new Article, item, is saved in the database and belongs to corresponding timeline
   public void saveNewArticle(String timeline_id, Article item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -123,12 +147,17 @@ public class FirebaseSave{
     }
   }
 
+  //Precondition: timeline_id is the id of a Timeline in the database
+  // This timeline has an article with an id that matches article_id
+  //Postcondition: The article that matches article_id will be deleted from the timeline whose id matches timeline_id
   public void deleteArticle(String timeline_id, String article_id){
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/" + timeline_id + "/articles/");
     ref.child(article_id).removeValue(listener);
   }
 
+  //Everytime our database is updated, this updates the json instance variable as well
+  //Therefore, the front end will display up-to-date data with the backend
   public void loadAllTimelines(){
     // Get a reference to our posts
     final FirebaseDatabase database = FirebaseDatabase.getInstance();

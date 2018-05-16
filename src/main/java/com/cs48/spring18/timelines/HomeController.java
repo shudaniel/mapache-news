@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 
+//This controller class is how the front end HTML/Javascript interacts with the backend Java
+
+
 @Controller
 public class HomeController {
 
+  //This class uses the FirebaseSave class to take input from the front end and 
+  //use it to save/edit/delete from the database
   FirebaseSave saver;
 
   public HomeController(){
@@ -25,17 +30,21 @@ public class HomeController {
     saver.loadAllTimelines();
   }
 
+  //Returns index.html at relative url: "/"
   @RequestMapping(value = "/")
   public String index() {
     return "index";
   }
 
+  //The json containing all timelines is placed here so the frontend can read it
   @RequestMapping(path = "/all", produces = "application/json; charset=UTF-8")
   @ResponseBody
   public String allTimelines() {
     return saver.getJson();
   }
 
+  //When a post request is made, take the provided name and description and create
+  //a Timeline in the database
   @RequestMapping(value = "/create", method = RequestMethod.POST)
   public void create(
     @RequestParam(value="name", defaultValue="") String name, 
@@ -45,6 +54,7 @@ public class HomeController {
     saver.saveNewTimeline(newEntry);
   }
 
+  //Update an existing Timeline in the database that matches the provided id
   @RequestMapping(value = "/update_timeline", method = RequestMethod.POST)
   public void updateTimeline(
     @RequestParam(value="timeline_id", defaultValue="") String id,
@@ -56,11 +66,13 @@ public class HomeController {
     saver.updateTimeline(item);
   }
 
+  //Delete an existing Timeline in the database that matches the provided it
   @RequestMapping(value = "/delete_timeline", method = RequestMethod.POST)
   public void deleteTimeline(@RequestParam(value="timeline_id", defaultValue="") String id){
     saver.deleteTimeline(id);
   }
 
+  //Create an article in the database and add to the Timeline whose id matches the parameter id
   @RequestMapping(value = "/add_article", method = RequestMethod.POST)
   public void addArticle(
       @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
@@ -73,8 +85,12 @@ public class HomeController {
     saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
   }
 
+
+  //Precondition: An Article and Timeline exist in the database whose ids match the provided article_id and tiemline_id
+  //The Article specified belongs to the Tiemeline specified
+  //Postcondition: The article specified is deleted
   @RequestMapping(value = "/delete_article", method = RequestMethod.POST)
-  public void deleteTimeline(
+  public void deleteArticle(
     @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
     @RequestParam(value="article_id", defaultValue="") String article_id
   ){

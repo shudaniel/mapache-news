@@ -48,33 +48,7 @@ class View extends Component {
 
 
   getArticles(){
-	 /* 
-    var urls = [];
-    if(this.state.timelines["articles"] != null){
-      // console.log(this.state.timelines["articles"])
-      var articles = Object.values(this.state.timelines["articles"]);
-      // console.log(articles);
-      for(var i = 0; i < articles.length; i++){
-        if(articles[i] != null){
-          console.log(articles[i])
-          urls.push(
-            <Article timeline_id={this.props.timeline_id} article_id={articles[i]["id"]} title={articles[i]["name"]} url={articles[i]["link"]} description={articles[i]["description"]}/>
-          );
-          urls.push(<div class="horizontalgap"></div>);
-        }
-      
-      }
-    }
-    else{
-      urls.push(<h3>No Articles</h3>);
-    }
-
-    return(
-      <div>
-        {urls}
-      </div>
-      );
-	  */
+	 
   	const styles = {
   	  root: {
   		display: 'flex',

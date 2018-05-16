@@ -42,7 +42,6 @@ class Timeline extends Component{
         + "timeline_id=" + this.props.timeline_id
         + "&name=" + this.state.formName
         + "&description=" + this.state.formDescription;
-      // console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {
@@ -55,7 +54,7 @@ class Timeline extends Component{
           description: this.state.formDescription,
         })
       })
-      location.reload();
+      window.location.reload();
 
     }
   }
