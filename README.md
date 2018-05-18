@@ -11,9 +11,11 @@
 
 ## To Run
 
- - Make sure you have the JDK 1.8 installed and you have set the JAVA_HOME environment variable on your system to point to the jdk.
- - If these are setup, then running `javac -version` should display version 1.8
- - To launch server, do: `./mvnw spring-boot:run`
+ - Make sure you have the JDK 1.8 installed and you have set the JAVA_HOME environment variable on your system to point to the JDK home directory.
+ - Open a terminal window.
+ **Note** Does not work on windows command prompt. Must be launched from Bash (unix shell).
+ - If jdk is setup, then running `javac -version` should display version 1.8
+ - To launch server, run: `./mvnw spring-boot:run`
  - Navigate to: localhost:8080
  
 ## How to Use
@@ -26,7 +28,8 @@
 
  ## Known Bugs
  - It does not work on Internet Explorer or Microsoft Edge.
- - When you edit a Timeline and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.
- - When you edit a Timeline from the view page, the current name and description aren't filled in as default values in the edit form.
+ - On Google Chrome and Safari, when you edit a Timeline and click submit, the page won't refresh automatically, but the change was made in the database. You have to manually refresh to see it.
+ - On Firefox, the page will always refresh after submitting an edit and the information is updated 99% of the time. However, very rarely, the edit does not save the information and nothing is changed.
+ - On all browsers, when you edit a Timeline from the view page, the current name and description aren't filled in as default values in the edit form.
  - When you create an article, you need to put http:// or else it won't link correctly.
  
