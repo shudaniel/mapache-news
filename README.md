@@ -7,12 +7,12 @@
 
 ## Required Tools
  - Java 1.8
+ - Maven
 
 ## To Run
 
  - Make sure you have the JDK 1.8 installed and you have set the JAVA_HOME environment variable on your system to point to the jdk.
  - If these are setup, then running `javac -version` should display version 1.8
- - You must relaunch the server to see a change
  - To launch server, do: `./mvnw spring-boot:run`
  - Navigate to: localhost:8080
  
