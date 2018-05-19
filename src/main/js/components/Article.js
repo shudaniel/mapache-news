@@ -11,7 +11,9 @@ class Article extends Component {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+    this.get_screenshot = this.get_screenshot.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+
   }
   
   get_logo(url){
@@ -20,9 +22,13 @@ class Article extends Component {
 	return (result + "favicon.ico")
   }
 
-  get_screenshot(url){
-    var src = "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window/resize=width:300/" + url;
-    return src;
+  get_screenshot(){
+    if(this.props.image != null && this.props.image.length > 0){
+      return this.props.image
+    }
+    else{
+      return "https://process.filestackapi.com/" + API_KEY + "/urlscreenshot=m:window/resize=width:300/" + this.props.url
+    }
   }
 
   handleClick(event){
@@ -55,7 +61,7 @@ class Article extends Component {
       <div className = "article">
         <h3 className="hover" onClick={this.handleClick}>{this.props.title}</h3>
         <p>{this.props.description}</p>
-			  <img className="hover" src={this.get_screenshot(this.props.url)} onClick={this.handleClick} sizes="32x32"/>
+			  <img className="thumbnail hover" src={this.get_screenshot()} onClick={this.handleClick} sizes="32x32"/>
         <button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>
       </div>
     );

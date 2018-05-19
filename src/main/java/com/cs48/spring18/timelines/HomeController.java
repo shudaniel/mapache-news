@@ -101,7 +101,6 @@ public class HomeController {
     String url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
     System.out.println(url);
     ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
-    String output = "";
     for(Article a : articles){
       saver.saveNewArticle(id, a);
     }

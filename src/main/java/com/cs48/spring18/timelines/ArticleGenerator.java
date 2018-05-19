@@ -45,10 +45,11 @@ public class ArticleGenerator{
           String description = post.get("description").getAsString();
           String link = post.get("url").getAsString();
           String date = post.get("publishedAt").getAsString();
+          String image = post.get("urlToImage").getAsString();
 
           date = date.substring(0,10);
 
-          articles.add(new Article(name, link, description, date));
+          articles.add(new Article(name, link, description, image, date));
       }
 
     }
