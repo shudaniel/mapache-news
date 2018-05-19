@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ public class HomeController {
   //This class uses the FirebaseSave class to take input from the front end and 
   //use it to save/edit/delete from the database
   FirebaseSave saver;
+  private final String NEWS_API_KEY = "70e77920c76840b0805076533088e5e7";
 
   public HomeController(){
     saver = new FirebaseSave();
@@ -83,6 +85,26 @@ public class HomeController {
     ){
     //FORMAT: saver.saveArticle(timeline id, article)
     saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
+  }
+
+  @RequestMapping(value = "/generate", method = RequestMethod.POST)
+  @ResponseBody
+  public void generate(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="start_date", defaultValue="") String start,
+    @RequestParam(value="end_date", defaultValue="") String end,
+    @RequestParam(value="query", defaultValue="") String query
+  ){
+
+    //Remove all white spaces
+    query = query.replaceAll(" ", "%20");
+    String url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
+    System.out.println(url);
+    ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
+    String output = "";
+    for(Article a : articles){
+      saver.saveNewArticle(id, a);
+    }
   }
 
 

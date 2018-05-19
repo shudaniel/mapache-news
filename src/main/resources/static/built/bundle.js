@@ -10473,8 +10473,18 @@
 	
 	    _this.state = {
 	      name: "",
-	      description: ""
+	      description: "",
+	      query: "",
+	      startDate: "",
+	      endDate: "",
+	      hideSearch: true
 	    };
+	
+	    _this.handleAutoGenerateArticles = _this.handleAutoGenerateArticles.bind(_this);
+	    _this.showSearchForm = _this.showSearchForm.bind(_this);
+	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
+	    _this.handleStartDateChange = _this.handleStartDateChange.bind(_this);
+	    _this.handleEndDateChange = _this.handleEndDateChange.bind(_this);
 	
 	    return _this;
 	  }
@@ -10498,13 +10508,6 @@
 	        });
 	      });
 	    }
-	    // componentDidMount(){
-	    //   console.log("did mount");
-	    //   console.log(this.state.timelines);
-	    //   console.log(this.state.timelines.length);
-	    //   this.setTimelineInfo();
-	    // }
-	
 	  }, {
 	    key: 'setTimelineInfo',
 	    value: function setTimelineInfo() {
@@ -10517,6 +10520,57 @@
 	          description: timeline["description"]
 	        });
 	      }
+	    }
+	  }, {
+	    key: 'handleAutoGenerateArticles',
+	    value: function handleAutoGenerateArticles(event) {
+	      if (this.state.query.length < 1) {
+	        window.alert("Please enter a query.");
+	      } else if (this.state.startDate.length < 1) {
+	        window.alert("Please enter a start date.");
+	      } else if (this.state.endDate.length < 1) {
+	        window.alert("Please enter an end date.");
+	      } else {
+	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + this.state.query + "&start_date=" + this.state.startDate + "&end_date=" + this.state.endDate;
+	        console.log(url);
+	        fetch(url, {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            timeline_id: this.props.params.timeline_id,
+	            query: this.state.query
+	          })
+	        });
+	        location.reload();
+	      }
+	    }
+	  }, {
+	    key: 'handleQueryChange',
+	    value: function handleQueryChange(event) {
+	      this.setState({ query: event.target.value });
+	    }
+	  }, {
+	    key: 'handleStartDateChange',
+	    value: function handleStartDateChange(event) {
+	      this.setState({ startDate: event.target.value });
+	    }
+	  }, {
+	    key: 'handleEndDateChange',
+	    value: function handleEndDateChange(event) {
+	      this.setState({ endDate: event.target.value });
+	    }
+	  }, {
+	    key: 'showSearchForm',
+	    value: function showSearchForm() {
+	      this.setState(function (prevState) {
+	        return {
+	          hideSearch: !prevState.hideSearch
+	        };
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -10542,6 +10596,42 @@
 	            { className: 'button view-button', type: 'button' },
 	            'Home'
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { className: 'button green-button', type: 'button', onClick: this.showSearchForm },
+	          'Auto-Generate Articles'
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.handleAutoGenerateArticles },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Query:'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', onChange: this.handleQueryChange }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Start Date:'
+	          ),
+	          _react2.default.createElement('input', { id: 'start_date', type: 'date', onChange: this.handleStartDateChange }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'End Date:'
+	          ),
+	          _react2.default.createElement('input', { id: 'end_date', type: 'date', onChange: this.handleEndDateChange }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            '*Note: Automatically generated articles are published between these dates and are based on the query term'
+	          ),
+	          _react2.default.createElement('input', { className: 'button green-button', type: 'submit', value: 'Submit' })
 	        ),
 	        _react2.default.createElement(
 	          'p',
