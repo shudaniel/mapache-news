@@ -128,7 +128,7 @@ class View extends Component {
           <label>End Date:</label>
           <input id="end_date" type="date" onChange={this.handleEndDateChange} />
           <br/>
-          <p>*Note: Automatically generated articles are published between these dates and are based on the query term</p>
+          <p>*Automatically generates articles between specified dates based on query term</p>
           <input className="button green-button" type="submit" value="Submit"/>
         </form>
         

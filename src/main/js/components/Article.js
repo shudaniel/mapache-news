@@ -59,9 +59,8 @@ class Article extends Component {
 	  
     return (
       <div className = "article">
-        <h3 className="hover" onClick={this.handleClick}>{this.props.title}</h3>
-        <p>{this.props.description}</p>
-			  <img className="thumbnail hover" src={this.get_screenshot()} onClick={this.handleClick} sizes="32x32"/>
+        <h3 title={this.props.description} className="hover" onClick={this.handleClick}>{this.props.title}</h3>
+			  <img title={this.props.description} className="thumbnail hover" src={this.get_screenshot()} onClick={this.handleClick} sizes="32x32"/>
         <button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>
       </div>
     );

@@ -78,7 +78,7 @@ class View extends Component {
   		  <Grid container className={"articles"} justify="left" spacing={40} style={styles['gridList']}>
   				{articles.map((article) => (
   					<Grid key={article.title} item>
-  						<Article timeline_id={this.props.timeline_id} article_id={article.id} title={article.name} url={article.link} image={article.imageUrl} description={articles.description}/>
+  						<Article timeline_id={this.props.timeline_id} article_id={article.id} title={article.name} url={article.link} image={article.imageUrl} description={article.description}/>
   					</Grid>
   				))}
   			</Grid>
