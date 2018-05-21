@@ -25,7 +25,6 @@ public class HomeController {
   //This class uses the FirebaseSave class to take input from the front end and 
   //use it to save/edit/delete from the database
   FirebaseSave saver;
-  private final String NEWS_API_KEY = "70e77920c76840b0805076533088e5e7";
 
   public HomeController(){
     saver = new FirebaseSave();
@@ -53,7 +52,7 @@ public class HomeController {
     @RequestParam(value="description", defaultValue="") String description
   ){
     Timeline newEntry = new Timeline(name, description);
-    saver.saveNewTimeline(newEntry);
+    saver.save(newEntry);
   }
 
   //Update an existing Timeline in the database that matches the provided id
@@ -84,7 +83,7 @@ public class HomeController {
       @RequestParam(value="date", defaultValue="") String date
     ){
     //FORMAT: saver.saveArticle(timeline id, article)
-    saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
+    saver.save(timeline_id, new Article(name, link, description, date));
   }
 
   @RequestMapping(value = "/generate", method = RequestMethod.POST)
@@ -96,14 +95,8 @@ public class HomeController {
     @RequestParam(value="query", defaultValue="") String query
   ){
 
-    //Remove all white spaces
-    query = query.replaceAll(" ", "%20");
-    String url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
-    System.out.println(url);
-    ArrayList<Article> articles = ArticleGenerator.generateArticles(url);
-    for(Article a : articles){
-      saver.saveNewArticle(id, a);
-    }
+    ArrayList<Article> articles = ArticleGenerator.generateArticles(query, start, end);
+    saver.save(id, articles);
   }
 
 

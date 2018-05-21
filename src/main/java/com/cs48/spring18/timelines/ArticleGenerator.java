@@ -19,10 +19,16 @@ import java.text.ParseException;
 
 public class ArticleGenerator{
 
+  private static final String NEWS_API_KEY = "70e77920c76840b0805076533088e5e7";
+
   //Returns an Arraylist of Articles that were parsed from the url
-  //Precondition: The url is a json from News API
-  //Postcondition: Creates an arraylist of Articles 
-  public static ArrayList<Article> generateArticles(String string_url){
+  //Precondition: The start and end are dates in the form YYYY-MM-DD
+  //Postcondition: Creates and returns an arraylist of Articles 
+  public static ArrayList<Article> generateArticles(String query, String start, String end){
+
+    query = query.replaceAll(" ", "%20");  //Remove white spaces
+    String string_url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
+
 
     ArrayList<Article> articles = new ArrayList<Article>();
 
