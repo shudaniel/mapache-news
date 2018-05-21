@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class HomeController {
     @RequestParam(value="description", defaultValue="") String description
   ){
     Timeline newEntry = new Timeline(name, description);
-    saver.saveNewTimeline(newEntry);
+    saver.save(newEntry);
   }
 
   //Update an existing Timeline in the database that matches the provided id
@@ -82,7 +83,20 @@ public class HomeController {
       @RequestParam(value="date", defaultValue="") String date
     ){
     //FORMAT: saver.saveArticle(timeline id, article)
-    saver.saveNewArticle(timeline_id, new Article(name, link, description, date));
+    saver.save(timeline_id, new Article(name, link, description, date));
+  }
+
+  @RequestMapping(value = "/generate", method = RequestMethod.POST)
+  @ResponseBody
+  public void generate(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="start_date", defaultValue="") String start,
+    @RequestParam(value="end_date", defaultValue="") String end,
+    @RequestParam(value="query", defaultValue="") String query
+  ){
+
+    ArrayList<Article> articles = ArticleGenerator.generateArticles(query, start, end);
+    saver.save(id, articles);
   }
 
 

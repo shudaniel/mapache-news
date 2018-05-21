@@ -7,6 +7,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -66,7 +67,7 @@ public class FirebaseSave{
 
   //Precondition: item is a timeline that is not in the database
   //Postcondition: Generate a unique id for item and save it into the database
-  public void saveNewTimeline(Timeline item){
+  public void save(Timeline item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
@@ -124,7 +125,7 @@ public class FirebaseSave{
 
   //Precondition: There is an existing Timeline with an id matching timeline_id
   //Postcondition: A new Article, item, is saved in the database and belongs to corresponding timeline
-  public void saveNewArticle(String timeline_id, Article item){
+  public void save(String timeline_id, Article item){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");
@@ -145,6 +146,23 @@ public class FirebaseSave{
     catch(InterruptedException e){
       System.out.println("Thread interrupted");
     }
+  }
+
+  public void save(String timeline_id, ArrayList<Article> articles){
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("/timelines/");
+    DatabaseReference timelinesRef = (ref.child(timeline_id)).child("articles");
+    Map<String, Object> data = new HashMap<>();
+
+    for(Article a : articles){
+      DatabaseReference pushedRef = timelinesRef.push();
+      String postId = pushedRef.getKey(); //Generate a unique ID for item
+      a.setId(postId);
+      data.put(a.getId(), a);
+    }
+
+    timelinesRef.updateChildren(data, listener);
+
   }
 
   //Precondition: timeline_id is the id of a Timeline in the database
@@ -175,7 +193,6 @@ public class FirebaseSave{
         //Convert this map into a json format to be read by the frontend
         try {
           String jsonResp = mapperObj.writeValueAsString(post);
-          System.out.println(jsonResp);
           setJson(jsonResp);
 
         } catch (IOException e) {
