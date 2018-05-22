@@ -71,7 +71,7 @@ html *
   /* Add shadows to create the "card" effect */
   /* background-color: Gainsboro;  */
   margin: auto;
-  min-width: 300px;
+  width: 300px;
   padding: 10px;
  /* background-clip: content-box; */
   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */

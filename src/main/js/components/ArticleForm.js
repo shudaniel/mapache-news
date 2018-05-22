@@ -7,11 +7,19 @@ class ArticleForm extends Component {
 
     this.state = {
       not_visible: true,
-      button_name: "Add Article"
+      button_name: "Add Article",
+      formName: "",
+      formDescription: "",
+      formLink: "",
+      formDate: ""
     }
   
     this.changeVisibility = this.changeVisibility.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleLinkChange = this.handleLinkChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleDateChange = this.handleDateChange.bind(this);
   }
 
   changeVisibility() {
@@ -32,18 +40,13 @@ class ArticleForm extends Component {
 
   handleSubmit(event){
     event.preventDefault();
-    var name = document.getElementById("name").value;
-    var description = document.getElementById("description").value;
-    var link = document.getElementById("url").value;
-    var date = document.getElementById("date").value;
-
-    if(name.length < 1){
+    if(this.state.formName.length < 1){
       window.alert("Please enter Article Name");
     }
-    else if(link.length < 1){
+    else if(this.state.formLink.length < 1){
       window.alert("Please enter the Article URL");
     }
-    else if (date.length < 1){
+    else if (this.state.formDate.length < 1){
       window.alert("Please enter the Article Date");
     }
     else{
@@ -52,10 +55,11 @@ class ArticleForm extends Component {
 
       var url = url + "add_article?"
         + "timeline_id=" + this.props.timeline_id
-        + "&name=" + name 
-        + "&link=" + link
-        + "&date=" + date
-        + "&description=" + description;
+        + "&name=" + this.state.formName 
+        + "&link=" + this.state.formLink
+        + "&date=" + this.state.formDate
+        + "&description=" + this.state.formDescription;
+      console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {
@@ -63,14 +67,30 @@ class ArticleForm extends Component {
         'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: name,
-          description: description,
-          link: link,
-          date: date
+          name: this.state.formName,
+          description: this.state.formDescription,
+          link: this.state.formLink,
+          date: this.state.formDate
         })
       })
       location.reload();
     }
+  }
+  
+  handleNameChange(event){
+    this.setState({formName: event.target.value});
+  }
+
+  handleLinkChange(event){
+    this.setState({formLink: event.target.value});
+  }
+  
+  handleDescriptionChange(event){
+    this.setState({formDescription: event.target.value});
+  }
+
+  handleDateChange(event){
+    this.setState({formDate: event.target.value});
   }
   
 
@@ -83,16 +103,16 @@ class ArticleForm extends Component {
           </form>
           <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
             <label>Name:</label>
-            <input id="name" type="text"  />
+            <input type="text" value={this.state.formName} onChange={this.handleNameChange} />
             <br/>
             <label>URL:</label>
-            <input id="url" type="text" />
+            <input type="text" value={this.state.formLink} onChange={this.handleLinkChange} />
             <br/>
             <label>Date:</label>
-            <input id="date" type="date" />
+            <input id="date" type="date" onChange={this.handleDateChange} />
             <br/>
             <label>Description:</label>
-            <textarea id="description" type="text" />
+            <textarea type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange}/>
             <br/>
             <input type="submit" value="Submit"/>
           </form>

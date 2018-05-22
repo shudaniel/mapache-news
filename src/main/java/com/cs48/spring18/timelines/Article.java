@@ -15,7 +15,7 @@ public class Article implements Comparable<Article> {
     private String dateString; 
     private String imageUrl;
     private Date date;
-    private Keys keys;
+    private Key key;
     private String article_id;
 
 
@@ -50,13 +50,13 @@ public class Article implements Comparable<Article> {
 
     }
 
-    Article(String name, String link, String description, String imageUrl, String date, Keys keys){
+    Article(String name, String link, String description, String imageUrl, String date, Key key){
         this.name = name;
         this.link = link;
         this.description = description;
         this.imageUrl = imageUrl;
         this.dateString = date;
-        this.keys = keys;
+        this.key = key;
         this.article_id = "";
 
     }

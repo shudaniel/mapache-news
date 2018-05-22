@@ -60,8 +60,7 @@ public class HomeController {
   public void updateTimeline(
     @RequestParam(value="timeline_id", defaultValue="") String id,
     @RequestParam(value="name", defaultValue="") String newName, 
-    @RequestParam(value="description", defaultValue="") String newDescription,
-    @RequestParam(value="password", defaultValue="") String password
+    @RequestParam(value="description", defaultValue="") String newDescription
   ){
     Timeline item = new Timeline(newName, newDescription);
     item.setId(id);

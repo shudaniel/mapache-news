@@ -13,11 +13,18 @@ class View extends Component {
     this.state = {
       name: "",
       description: "",
+      query: "",
+      startDate: "",
+      endDate: "",
       hideSearch: true
     }
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleAutoGenerateArticles = this.handleAutoGenerateArticles.bind(this);
     this.showSearchForm = this.showSearchForm.bind(this);
+    this.handleQueryChange = this.handleQueryChange.bind(this);
+    this.handleStartDateChange = this.handleStartDateChange.bind(this);
+    this.handleEndDateChange = this.handleEndDateChange.bind(this);
+
   }
 
   componentWillMount() {
@@ -48,27 +55,23 @@ class View extends Component {
     }
   }
 
-  onSubmit(event){
-    var query = document.getElementById("query").value;
-    var start_date = document.getElementById("start_date").value;
-    var end_date = document.getElementById("end_date").value;
-
-    if(query.length < 1){
+  handleAutoGenerateArticles(event){
+    if(this.state.query.length < 1){
       window.alert("Please enter a query.");
     }
-    else if(start_date.length < 1){
+    else if(this.state.startDate.length < 1){
       window.alert("Please enter a start date.");
     }
-    else if(end_date.length < 1){
+    else if(this.state.endDate.length < 1){
       window.alert("Please enter an end date.");
     }
     else{
       var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
       var url = root_url + "generate?"
         + "timeline_id=" + this.props.params.timeline_id
-        + "&query=" + query
-        + "&start_date=" + start_date
-        + "&end_date=" + end_date
+        + "&query=" + this.state.query 
+        + "&start_date=" + this.state.startDate 
+        + "&end_date=" + this.state.endDate;
       console.log(url);
       fetch(url, {
         method: 'POST',
@@ -78,11 +81,23 @@ class View extends Component {
         },
         body: JSON.stringify({
           timeline_id: this.props.params.timeline_id,
-          query: query
+          query: this.state.query
         })
       })
       location.reload();
     }
+  }
+
+  handleQueryChange(event){
+    this.setState({query: event.target.value});
+  }
+
+  handleStartDateChange(event){
+    this.setState({startDate: event.target.value});
+  }
+
+  handleEndDateChange(event){
+    this.setState({endDate: event.target.value});
   }
 
   showSearchForm(){
@@ -103,15 +118,15 @@ class View extends Component {
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
         <button className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
-        <form className="form" hidden={this.state.hideSearch} onSubmit={this.onSubmit}>
+        <form className="form" hidden={this.state.hideSearch} onSubmit={this.handleAutoGenerateArticles}>
           <label>Query:</label>
-          <input id="query" type="text"  />
+          <input type="text" onChange={this.handleQueryChange} />
           <br/>
           <label>Start Date:</label>
-            <input id="start_date" type="date" />
+            <input id="start_date" type="date" onChange={this.handleStartDateChange} />
           <br/>
           <label>End Date:</label>
-          <input id="end_date" type="date" />
+          <input id="end_date" type="date" onChange={this.handleEndDateChange} />
           <br/>
           <p>*Automatically generates articles between specified dates based on query term</p>
           <input className="button green-button" type="submit" value="Submit"/>
