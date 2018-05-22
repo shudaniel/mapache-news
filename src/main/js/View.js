@@ -13,7 +13,8 @@ class View extends Component {
     this.state = {
       name: "",
       description: "",
-      hideSearch: true
+      hideSearch: true,
+	  password:""
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -31,7 +32,8 @@ class View extends Component {
       .then((findresponse)=>{
         this.setState({
           name: findresponse.timelines[this.props.params.timeline_id]["name"],
-          description: findresponse.timelines[this.props.params.timeline_id]["description"],
+          description: findresponse.timelines[this.props.params.timeline_id]["description"]
+//		  password: findresponse.timelines[this.props.params.timeline_id]["password"]
         });
       })
   }
