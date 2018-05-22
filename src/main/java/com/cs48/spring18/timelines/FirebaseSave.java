@@ -107,6 +107,7 @@ public class FirebaseSave{
 
     timelineUpdates.put("name", item.getName());
     timelineUpdates.put("description", item.getDescription());
+	timelineUpdates.put("password", item.getPassword());
 
     timelinesRef.updateChildren(timelineUpdates, listener);
 

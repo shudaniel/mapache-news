@@ -14,6 +14,7 @@ public class Timeline {
     private String timeline_id;
     private String name;
     private String description;
+	private String password;
     Map<String, Object> articles;
 
     Timeline(){
@@ -21,7 +22,7 @@ public class Timeline {
         this.description = "";
         timeline_id = ""; //This is set when saved into database
         articles = new HashMap<>();
-
+		this.password="";
     }
 
     Timeline(String name, String description){
@@ -29,7 +30,15 @@ public class Timeline {
         this.description = description;
         timeline_id = ""; //This is set when saved into database
         articles = new HashMap<>();
-
+		this.password="";
+    }
+	
+	Timeline(String name, String description, String password){
+        this.name = name;
+        this.description = description;
+        timeline_id = ""; //This is set when saved into database
+        articles = new HashMap<>();
+		this.password=password;
     }
 
 
@@ -47,6 +56,14 @@ public class Timeline {
 
     public void setDescription(String description){
         this.description = description;
+    }
+	
+	public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password){
+        this.password = password;
     }
 
 
@@ -87,6 +104,7 @@ public class Timeline {
                 "id=" + timeline_id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
+				", password='" + password + '\'' +
                 '}';
     }
 

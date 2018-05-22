@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
+import authenticate from '../util/Authentication.js';
 
 class Timeline extends Component{
 
@@ -18,10 +19,16 @@ class Timeline extends Component{
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
   }
 
+  
   changeVisibility(event){
-    this.setState(prevState => ({
-      hide_edit_form: !prevState.hide_edit_form
-    }));
+	console.log('idkman');
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			this.setState(prevState => ({
+				hide_edit_form: !prevState.hide_edit_form
+			}));
+		}
+	});
   }
 
   handleNameChange(event){
@@ -33,6 +40,7 @@ class Timeline extends Component{
   }
 
   handleEdit(event){
+	  
     if(this.state.formName.length < 1){
       window.alert("Timeline name cannot be blank");
     }
@@ -60,6 +68,8 @@ class Timeline extends Component{
   }
 
   handleDelete(event){
+
+	  
     var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     var url = root_url + "delete_timeline?"
       + "timeline_id=" + this.props.timeline_id
