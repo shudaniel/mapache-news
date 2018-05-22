@@ -27,8 +27,8 @@ public class ArticleGenerator{
   public static ArrayList<Article> generateArticles(String query, String start, String end){
 
     query = query.replaceAll(" ", "%20");  //Remove white spaces
-    String string_url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
-
+    String string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
+    System.out.println(string_url);
 
     ArrayList<Article> articles = new ArrayList<Article>();
 
@@ -43,19 +43,50 @@ public class ArticleGenerator{
       JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent())); //Convert the input stream to a json element
       JsonObject rootobj = root.getAsJsonObject();  
       JsonArray data = rootobj.getAsJsonArray("articles");
+      String name, description, link, date, image;
 
       for(JsonElement entry : data){
         JsonObject post = entry.getAsJsonObject();
+        if(post.get("title").isJsonNull()){
+          name = "";
+        }
+        else{
+          name = post.get("title").getAsString();
+        }
 
-          String name = post.get("title").getAsString();
-          String description = post.get("description").getAsString();
-          String link = post.get("url").getAsString();
-          String date = post.get("publishedAt").getAsString();
-          String image = post.get("urlToImage").getAsString();
+        if(post.get("description").isJsonNull()){
+          description = "";
+        }
+        else{
+          description = post.get("description").getAsString();
+        }
 
+        if(post.get("url").isJsonNull()){
+          link = "";
+        }
+        else{
+          link = post.get("url").getAsString();
+        }
+
+        if(post.get("publishedAt").isJsonNull()){
+          SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+          Date now = new Date();
+          date = sdf.format(now);
+        }
+        else{
+          date = post.get("publishedAt").getAsString();
           date = date.substring(0,10);
+        }
 
-          articles.add(new Article(name, link, description, image, date));
+        if(post.get("urlToImage").isJsonNull()){
+          image = "";
+        }
+        else{
+          image = post.get("urlToImage").getAsString();
+        }
+        
+
+        articles.add(new Article(name, link, description, image, date));
       }
 
     }
