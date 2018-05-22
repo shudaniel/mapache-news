@@ -9991,14 +9991,12 @@
 	    _this.state = {
 	      not_visible: true,
 	      button_name: "Create Timeline",
-	      formName: "",
-	      formDescription: ""
+	      disablePassword: true
 	    };
 	
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.handleNameChange = _this.handleNameChange.bind(_this);
-	    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
+	    _this.handleCheckbox = _this.handleCheckbox.bind(_this);
 	    return _this;
 	  }
 	
@@ -10024,15 +10022,23 @@
 	    key: "handleSubmit",
 	    value: function handleSubmit(event) {
 	      event.preventDefault();
-	      if (this.state.formName.length < 1) {
+	      var name = document.getElementById("name").value;
+	      var description = document.getElementById("description").value;
+	      var password = document.getElementById("password").value;
+	      var confirmPassword = document.getElementById("confirmPassword").value;
+	      if (name.length < 1) {
 	        window.alert("Please enter a name for this Timeline");
+	      } else if (!this.state.disablePassword && password != confirmPassword) {
+	        window.alert("Passwords do not match");
 	      } else {
-	
 	        var home_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	
-	        // console.log(this.state.formName);
-	        // console.log(this.state.formDescription);
-	        var url = home_url + "create?name=" + this.state.formName + "&description=" + this.state.formDescription;
+	        // console.log(name);
+	        // console.log(description);
+	        var url = home_url + "create?name=" + name + "&description=" + description;
+	        if (!this.state.disablePassword) {
+	          url = url + "&password=" + password;
+	        }
 	        console.log(url);
 	        fetch(url, {
 	          method: 'POST',
@@ -10041,22 +10047,21 @@
 	            'Content-Type': 'application/json'
 	          },
 	          body: JSON.stringify({
-	            name: this.state.formName,
-	            description: this.state.formDescription
+	            name: name,
+	            description: description
 	          })
 	        });
 	        location.reload();
 	      }
 	    }
 	  }, {
-	    key: "handleNameChange",
-	    value: function handleNameChange(event) {
-	      this.setState({ formName: event.target.value });
-	    }
-	  }, {
-	    key: "handleDescriptionChange",
-	    value: function handleDescriptionChange(event) {
-	      this.setState({ formDescription: event.target.value });
+	    key: "handleCheckbox",
+	    value: function handleCheckbox(event) {
+	      this.setState(function (prevState) {
+	        return {
+	          disablePassword: !prevState.disablePassword
+	        };
+	      });
 	    }
 	  }, {
 	    key: "render",
@@ -10074,17 +10079,43 @@
 	          { className: "form", hidden: this.state.not_visible, onSubmit: this.handleSubmit },
 	          _react2.default.createElement(
 	            "label",
+	            { "for": "name" },
+	            "Name:"
+	          ),
+	          _react2.default.createElement("input", { id: "name", type: "text" }),
+	          _react2.default.createElement("br", null),
+	          _react2.default.createElement(
+	            "label",
+	            { "for": "description" },
+	            "Description: "
+	          ),
+	          _react2.default.createElement("textarea", { id: "description", type: "text" }),
+	          _react2.default.createElement("br", null),
+	          _react2.default.createElement(
+	            "p",
 	            null,
-	            "Name:",
-	            _react2.default.createElement("input", { type: "text", value: this.state.formName, onChange: this.handleNameChange })
+	            " You can lock the Timeline by setting a password. If you do not, anybody can edit or delete this Timeline. "
+	          ),
+	          _react2.default.createElement("input", { id: "checkBox", type: "checkbox", onClick: this.handleCheckbox }),
+	          _react2.default.createElement(
+	            "label",
+	            { "for": "checkBox" },
+	            "Lock Timeline"
 	          ),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
-	            null,
-	            "Description:",
-	            _react2.default.createElement("textarea", { type: "text", value: this.state.formDescription, onChange: this.handleDescriptionChange })
+	            { "for": "password" },
+	            "Password:"
 	          ),
+	          _react2.default.createElement("input", { id: "password", type: "text", disabled: this.state.disablePassword }),
+	          _react2.default.createElement("br", null),
+	          _react2.default.createElement(
+	            "label",
+	            { "for": "confirmPassword" },
+	            "Confirm Password:"
+	          ),
+	          _react2.default.createElement("input", { id: "confirmPassword", type: "text", disabled: this.state.disablePassword }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement("input", { type: "submit", value: "Submit" })
 	        )
@@ -10474,18 +10505,11 @@
 	    _this.state = {
 	      name: "",
 	      description: "",
-	      query: "",
-	      startDate: "",
-	      endDate: "",
 	      hideSearch: true
 	    };
 	
-	    _this.handleAutoGenerateArticles = _this.handleAutoGenerateArticles.bind(_this);
+	    _this.onSubmit = _this.onSubmit.bind(_this);
 	    _this.showSearchForm = _this.showSearchForm.bind(_this);
-	    _this.handleQueryChange = _this.handleQueryChange.bind(_this);
-	    _this.handleStartDateChange = _this.handleStartDateChange.bind(_this);
-	    _this.handleEndDateChange = _this.handleEndDateChange.bind(_this);
-	
 	    return _this;
 	  }
 	
@@ -10522,17 +10546,21 @@
 	      }
 	    }
 	  }, {
-	    key: 'handleAutoGenerateArticles',
-	    value: function handleAutoGenerateArticles(event) {
-	      if (this.state.query.length < 1) {
+	    key: 'onSubmit',
+	    value: function onSubmit(event) {
+	      var query = document.getElementById("query").value;
+	      var start_date = document.getElementById("start_date").value;
+	      var end_date = document.getElementById("end_date").value;
+	
+	      if (query.length < 1) {
 	        window.alert("Please enter a query.");
-	      } else if (this.state.startDate.length < 1) {
+	      } else if (start_date.length < 1) {
 	        window.alert("Please enter a start date.");
-	      } else if (this.state.endDate.length < 1) {
+	      } else if (end_date.length < 1) {
 	        window.alert("Please enter an end date.");
 	      } else {
 	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + this.state.query + "&start_date=" + this.state.startDate + "&end_date=" + this.state.endDate;
+	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + query + "&start_date=" + start_date + "&end_date=" + end_date;
 	        console.log(url);
 	        fetch(url, {
 	          method: 'POST',
@@ -10542,26 +10570,11 @@
 	          },
 	          body: JSON.stringify({
 	            timeline_id: this.props.params.timeline_id,
-	            query: this.state.query
+	            query: query
 	          })
 	        });
 	        location.reload();
 	      }
-	    }
-	  }, {
-	    key: 'handleQueryChange',
-	    value: function handleQueryChange(event) {
-	      this.setState({ query: event.target.value });
-	    }
-	  }, {
-	    key: 'handleStartDateChange',
-	    value: function handleStartDateChange(event) {
-	      this.setState({ startDate: event.target.value });
-	    }
-	  }, {
-	    key: 'handleEndDateChange',
-	    value: function handleEndDateChange(event) {
-	      this.setState({ endDate: event.target.value });
 	    }
 	  }, {
 	    key: 'showSearchForm',
@@ -10604,27 +10617,27 @@
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.handleAutoGenerateArticles },
+	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.onSubmit },
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'Query:'
 	          ),
-	          _react2.default.createElement('input', { type: 'text', onChange: this.handleQueryChange }),
+	          _react2.default.createElement('input', { id: 'query', type: 'text' }),
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'Start Date:'
 	          ),
-	          _react2.default.createElement('input', { id: 'start_date', type: 'date', onChange: this.handleStartDateChange }),
+	          _react2.default.createElement('input', { id: 'start_date', type: 'date' }),
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
 	            'label',
 	            null,
 	            'End Date:'
 	          ),
-	          _react2.default.createElement('input', { id: 'end_date', type: 'date', onChange: this.handleEndDateChange }),
+	          _react2.default.createElement('input', { id: 'end_date', type: 'date' }),
 	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
 	            'p',
@@ -22230,19 +22243,11 @@
 	
 	    _this.state = {
 	      not_visible: true,
-	      button_name: "Add Article",
-	      formName: "",
-	      formDescription: "",
-	      formLink: "",
-	      formDate: ""
+	      button_name: "Add Article"
 	    };
 	
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
 	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.handleNameChange = _this.handleNameChange.bind(_this);
-	    _this.handleLinkChange = _this.handleLinkChange.bind(_this);
-	    _this.handleDescriptionChange = _this.handleDescriptionChange.bind(_this);
-	    _this.handleDateChange = _this.handleDateChange.bind(_this);
 	    return _this;
 	  }
 	
@@ -22268,18 +22273,22 @@
 	    key: "handleSubmit",
 	    value: function handleSubmit(event) {
 	      event.preventDefault();
-	      if (this.state.formName.length < 1) {
+	      var name = document.getElementById("name").value;
+	      var description = document.getElementById("description").value;
+	      var link = document.getElementById("url").value;
+	      var date = document.getElementById("date").value;
+	
+	      if (name.length < 1) {
 	        window.alert("Please enter Article Name");
-	      } else if (this.state.formLink.length < 1) {
+	      } else if (link.length < 1) {
 	        window.alert("Please enter the Article URL");
-	      } else if (this.state.formDate.length < 1) {
+	      } else if (date.length < 1) {
 	        window.alert("Please enter the Article Date");
 	      } else {
 	
 	        var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	
-	        var url = url + "add_article?" + "timeline_id=" + this.props.timeline_id + "&name=" + this.state.formName + "&link=" + this.state.formLink + "&date=" + this.state.formDate + "&description=" + this.state.formDescription;
-	        console.log(url);
+	        var url = url + "add_article?" + "timeline_id=" + this.props.timeline_id + "&name=" + name + "&link=" + link + "&date=" + date + "&description=" + description;
 	        fetch(url, {
 	          method: 'POST',
 	          headers: {
@@ -22287,34 +22296,14 @@
 	            'Content-Type': 'application/json'
 	          },
 	          body: JSON.stringify({
-	            name: this.state.formName,
-	            description: this.state.formDescription,
-	            link: this.state.formLink,
-	            date: this.state.formDate
+	            name: name,
+	            description: description,
+	            link: link,
+	            date: date
 	          })
 	        });
 	        location.reload();
 	      }
-	    }
-	  }, {
-	    key: "handleNameChange",
-	    value: function handleNameChange(event) {
-	      this.setState({ formName: event.target.value });
-	    }
-	  }, {
-	    key: "handleLinkChange",
-	    value: function handleLinkChange(event) {
-	      this.setState({ formLink: event.target.value });
-	    }
-	  }, {
-	    key: "handleDescriptionChange",
-	    value: function handleDescriptionChange(event) {
-	      this.setState({ formDescription: event.target.value });
-	    }
-	  }, {
-	    key: "handleDateChange",
-	    value: function handleDateChange(event) {
-	      this.setState({ formDate: event.target.value });
 	    }
 	  }, {
 	    key: "render",
@@ -22335,28 +22324,28 @@
 	            null,
 	            "Name:"
 	          ),
-	          _react2.default.createElement("input", { type: "text", value: this.state.formName, onChange: this.handleNameChange }),
+	          _react2.default.createElement("input", { id: "name", type: "text" }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
 	            "URL:"
 	          ),
-	          _react2.default.createElement("input", { type: "text", value: this.state.formLink, onChange: this.handleLinkChange }),
+	          _react2.default.createElement("input", { id: "url", type: "text" }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
 	            "Date:"
 	          ),
-	          _react2.default.createElement("input", { id: "date", type: "date", onChange: this.handleDateChange }),
+	          _react2.default.createElement("input", { id: "date", type: "date" }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement(
 	            "label",
 	            null,
 	            "Description:"
 	          ),
-	          _react2.default.createElement("textarea", { type: "text", value: this.state.formDescription, onChange: this.handleDescriptionChange }),
+	          _react2.default.createElement("textarea", { id: "description", type: "text" }),
 	          _react2.default.createElement("br", null),
 	          _react2.default.createElement("input", { type: "submit", value: "Submit" })
 	        )

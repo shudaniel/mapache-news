@@ -14,12 +14,16 @@ body{
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: unset;
 }
-
+/*
 html *
 {
-   font-family: "Merriweather" !important;
+   font-family: "Merriweather";
+}
+*/
+html body {
+  font-family: "Merriweather";
 }
 
 .App-logo {
@@ -71,7 +75,7 @@ html *
   /* Add shadows to create the "card" effect */
   /* background-color: Gainsboro;  */
   margin: auto;
-  width: 300px;
+  min-width: 300px;
   padding: 10px;
  /* background-clip: content-box; */
   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
