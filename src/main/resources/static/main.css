@@ -1,10 +1,9 @@
 body{
- background-color: whitesmoke;  
+ background-color: whitesmoke;
 }
 
 .App {
   text-align: center;
- 
 }
 
 .hover {
@@ -20,7 +19,7 @@ body {
 
 html *
 {
-   font-family: "Arial" !important;
+   font-family: "Merriweather" !important;
 }
 
 .App-logo {
@@ -29,6 +28,7 @@ html *
 }
 
 .App-header {
+  font-family: "Quantum";
   background-color: #222;
   height: 150px;
   padding: 20px;
@@ -44,17 +44,17 @@ html *
 }
 
 .main-button {
-  min-width: 300px; 
-  padding: 20px; 
-  cursor: pointer; 
+  min-width: 300px;
+  padding: 20px;
+  cursor: pointer;
   /* box-shadow: 6px 6px 5px; */
   /* -webkit-box-shadow: 6px 6px 5px #999;  */
   /* -moz-box-shadow: 6px 6px 5px #999;  */
-  font-weight: bold; 
-  background: #3b5998;  
-  color: white; 
-  border-radius: 10px; 
-  border: 1px solid #999; 
+  font-weight: bold;
+  background: #3b5998;
+  color: white;
+  border-radius: 10px;
+  border: 1px solid #999;
   font-size: 150%;
 }
 
@@ -76,7 +76,7 @@ html *
  /* background-clip: content-box; */
   /* box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); */
   /* transition: 0.3s; */
-  
+
 }
 
 /* On mouse-over, add a deeper shadow */
@@ -96,21 +96,21 @@ html *
 
 .timeline-item{
   /* This adds a line separating each item in the list */
-  /*box-shadow: 0 -1px 0 #000;*/ 
+  /*box-shadow: 0 -1px 0 #000;*/
   padding-top: 3px;
   padding-bottom: 20px;
-  
+
   margin: auto;
   width: 300px;
   padding: 10px;
-  
+
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 5px; /* 5px rounded corners */
-  
+
   /* background-color: #E8E8E8; */
   background-color: Gainsboro;
-  
+
 }
 /* On mouse-over, add a deeper shadow */
 .timeline-item:hover {
@@ -118,28 +118,28 @@ html *
 }
 
 .button{
-  padding: 20px; 
+  padding: 20px;
   margin-left: 3px;
   margin-right: 3px;
-  color: black; 
+  color: black;
   border: 2px;
-  font-weight: bold; 
+  font-weight: bold;
   font-size: 80%;
 
 }
 
 .view-button{
-  background: #29CBF0; 
+  background: #29CBF0;
 
 }
 
 .delete-button{
-  background: #F02929; 
+  background: #F02929;
 
 }
 
 .edit-button{
-  background: #F0E629; 
+  background: #F0E629;
 
 }
 
@@ -157,7 +157,7 @@ html *
   box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
   transition: 0.3s;
   border-radius: 5px; /* 5px rounded corners */
-  width:300px; 
+  width:300px;
   display: inline-block;
 }
 
