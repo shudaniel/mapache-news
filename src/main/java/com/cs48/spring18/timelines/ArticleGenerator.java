@@ -27,7 +27,7 @@ public class ArticleGenerator{
   public static ArrayList<Article> generateArticles(String query, String start, String end){
 
     query = query.replaceAll(" ", "%20");  //Remove white spaces
-    String string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&apiKey=" + NEWS_API_KEY;
+    String string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&apiKey=" + NEWS_API_KEY;
     System.out.println(string_url);
 
     ArrayList<Article> articles = new ArrayList<Article>();
