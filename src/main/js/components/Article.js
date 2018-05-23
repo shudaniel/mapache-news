@@ -10,12 +10,25 @@ class Article extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      date: this.props.date
+    }
+
     this.handleClick = this.handleClick.bind(this);
     this.get_screenshot = this.get_screenshot.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
 
   }
   
+  componentWillMount(){
+    var formattedDate = new Date(this.state.date);
+    formattedDate = new Date(formattedDate).toUTCString();
+    formattedDate = formattedDate.split(' ').slice(0, 4).join(' ');
+    this.setState({
+      date: formattedDate
+    })
+  }
+
   get_logo(url){
 	var pattern = /.*\.\w*\//
 	var result = pattern.exec(url)
@@ -62,6 +75,8 @@ class Article extends Component {
         <h3 title={this.props.description} className="hover" onClick={this.handleClick}>{this.props.title}</h3>
 			  <img title={this.props.description} className="thumbnail hover" src={this.get_screenshot()} onClick={this.handleClick} sizes="32x32"/>
         <button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>
+        <br/>
+        <p>{this.state.date}</p>
       </div>
     );
   }

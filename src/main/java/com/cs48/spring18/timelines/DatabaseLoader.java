@@ -39,6 +39,8 @@ public class DatabaseLoader{
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/");
     DatabaseReference timelinesRef = ref.child("timelines");
+    timelinesRef.orderByChild("name");
+
 
     // Attach a listener to read the data at our posts reference
     ref.addValueEventListener(new ValueEventListener() {

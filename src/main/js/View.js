@@ -21,7 +21,6 @@ class View extends Component {
   }
 
   componentWillMount() {
-    console.log("Component will mount");
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
     // console.log(url);
@@ -69,7 +68,7 @@ class View extends Component {
         + "&query=" + query
         + "&start_date=" + start_date
         + "&end_date=" + end_date
-      console.log(url);
+      // console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {

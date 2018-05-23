@@ -10518,7 +10518,6 @@
 	    value: function componentWillMount() {
 	      var _this2 = this;
 	
-	      console.log("Component will mount");
 	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	      url = url + "all";
 	      // console.log(url);
@@ -10561,7 +10560,7 @@
 	      } else {
 	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + query + "&start_date=" + start_date + "&end_date=" + end_date;
-	        console.log(url);
+	        // console.log(url);
 	        fetch(url, {
 	          method: 'POST',
 	          headers: {
@@ -10792,7 +10791,7 @@
 	              return _react2.default.createElement(
 	                _Grid2.default,
 	                { key: article.title, item: true },
-	                _react2.default.createElement(_Article2.default, { timeline_id: _this3.props.timeline_id, article_id: article.id, title: article.name, url: article.link, image: article.imageUrl, description: article.description })
+	                _react2.default.createElement(_Article2.default, { timeline_id: _this3.props.timeline_id, article_id: article.id, date: article.dateString, title: article.name, url: article.link, image: article.imageUrl, description: article.description })
 	              );
 	            })
 	          )
@@ -10835,7 +10834,7 @@
 /* 101 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -10869,6 +10868,10 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, props));
 	
+	    _this.state = {
+	      date: _this.props.date
+	    };
+	
 	    _this.handleClick = _this.handleClick.bind(_this);
 	    _this.get_screenshot = _this.get_screenshot.bind(_this);
 	    _this.handleDelete = _this.handleDelete.bind(_this);
@@ -10877,14 +10880,24 @@
 	  }
 	
 	  _createClass(Article, [{
-	    key: "get_logo",
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var formattedDate = new Date(this.state.date);
+	      formattedDate = new Date(formattedDate).toUTCString();
+	      formattedDate = formattedDate.split(' ').slice(0, 4).join(' ');
+	      this.setState({
+	        date: formattedDate
+	      });
+	    }
+	  }, {
+	    key: 'get_logo',
 	    value: function get_logo(url) {
 	      var pattern = /.*\.\w*\//;
 	      var result = pattern.exec(url);
 	      return result + "favicon.ico";
 	    }
 	  }, {
-	    key: "get_screenshot",
+	    key: 'get_screenshot',
 	    value: function get_screenshot() {
 	      if (this.props.image != null && this.props.image.length > 0) {
 	        return this.props.image;
@@ -10893,12 +10906,12 @@
 	      }
 	    }
 	  }, {
-	    key: "handleClick",
+	    key: 'handleClick',
 	    value: function handleClick(event) {
 	      window.open(this.props.url, '_blank');
 	    }
 	  }, {
-	    key: "handleDelete",
+	    key: 'handleDelete',
 	    value: function handleDelete(event) {
 	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	      var url = root_url + "delete_article?" + "timeline_id=" + this.props.timeline_id + "&article_id=" + this.props.article_id;
@@ -10917,22 +10930,28 @@
 	      window.location.reload();
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "article" },
+	        'div',
+	        { className: 'article' },
 	        _react2.default.createElement(
-	          "h3",
-	          { title: this.props.description, className: "hover", onClick: this.handleClick },
+	          'h3',
+	          { title: this.props.description, className: 'hover', onClick: this.handleClick },
 	          this.props.title
 	        ),
-	        _react2.default.createElement("img", { title: this.props.description, className: "thumbnail hover", src: this.get_screenshot(), onClick: this.handleClick, sizes: "32x32" }),
+	        _react2.default.createElement('img', { title: this.props.description, className: 'thumbnail hover', src: this.get_screenshot(), onClick: this.handleClick, sizes: '32x32' }),
 	        _react2.default.createElement(
-	          "button",
-	          { className: "button delete-button", type: "button", onClick: this.handleDelete },
-	          "Delete"
+	          'button',
+	          { className: 'button delete-button', type: 'button', onClick: this.handleDelete },
+	          'Delete'
+	        ),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement(
+	          'p',
+	          null,
+	          this.state.date
 	        )
 	      );
 	    }

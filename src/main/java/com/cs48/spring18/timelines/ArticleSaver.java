@@ -36,6 +36,8 @@ public class ArticleSaver{
 
 
     timelinesRef.updateChildren(article, listener);
+    timelinesRef.orderByChild("dateString");
+
 
     try{
       Thread.sleep(10000);
@@ -59,7 +61,8 @@ public class ArticleSaver{
     }
 
     timelinesRef.updateChildren(data, listener);
-
+    timelinesRef.orderByChild("dateString");
+    
   }
 
   //Precondition: timeline_id is the id of a Timeline in the database

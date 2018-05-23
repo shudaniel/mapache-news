@@ -35,7 +35,7 @@ public class TimelineSaver{
     timelines.put(item.getId(), item);
 
     timelinesRef.updateChildren(timelines, listener);
-
+    timelinesRef.orderByChild("name");
     try{
       Thread.sleep(10000);
     }
@@ -56,14 +56,13 @@ public class TimelineSaver{
     timelineUpdates.put("description", item.getDescription());
 
     timelinesRef.updateChildren(timelineUpdates, listener);
-
+    timelinesRef.orderByChild("name");
     try{
       Thread.sleep(10000);
     }
     catch(InterruptedException e){
       System.out.println("Thread interrupted");
     }
-
   }
 
   //Precondition: id is a valid id of a Timeline in the database
