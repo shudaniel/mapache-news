@@ -24,11 +24,10 @@ public class HomeController {
 
   //This class uses the FirebaseSave class to take input from the front end and 
   //use it to save/edit/delete from the database
-  FirebaseSave saver;
+  FirebaseFacade saver;
 
   public HomeController(){
-    saver = new FirebaseSave();
-    saver.loadAllTimelines();
+    saver = new FirebaseFacade();
   }
 
   //Returns index.html at relative url: "/"
@@ -65,13 +64,13 @@ public class HomeController {
   ){
     Timeline item = new Timeline(newName, newDescription);
     item.setId(id);
-    saver.updateTimeline(item);
+    saver.update(item);
   }
 
   //Delete an existing Timeline in the database that matches the provided it
   @RequestMapping(value = "/delete_timeline", method = RequestMethod.POST)
   public void deleteTimeline(@RequestParam(value="timeline_id", defaultValue="") String id){
-    saver.deleteTimeline(id);
+    saver.delete(id);
   }
 
   //Create an article in the database and add to the Timeline whose id matches the parameter id
@@ -83,7 +82,6 @@ public class HomeController {
       @RequestParam(value="description", defaultValue="") String description,
       @RequestParam(value="date", defaultValue="") String date
     ){
-    //FORMAT: saver.saveArticle(timeline id, article)
     saver.save(timeline_id, new Article(name, link, description, date));
   }
 
@@ -96,8 +94,7 @@ public class HomeController {
     @RequestParam(value="query", defaultValue="") String query
   ){
 
-    ArrayList<Article> articles = ArticleGenerator.generateArticles(query, start, end);
-    saver.save(id, articles);
+    saver.save(id, query, start, end);
   }
 
 
@@ -109,7 +106,7 @@ public class HomeController {
     @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
     @RequestParam(value="article_id", defaultValue="") String article_id
   ){
-    saver.deleteArticle(timeline_id, article_id);
+    saver.delete(timeline_id, article_id);
   }
 
 
