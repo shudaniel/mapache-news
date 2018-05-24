@@ -19,7 +19,6 @@ class TimelineList extends React.Component{
   componentDidMount() {
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
-    // console.log(url);
 
     fetch(url)
       .then((response) => response.json())
@@ -29,7 +28,6 @@ class TimelineList extends React.Component{
   }
 
   changeVisibility() {
-    // console.log(JSON.stringify(this.state.timelines));
 
     this.setState(prevState => ({
       not_visible: !prevState.not_visible
@@ -56,7 +54,6 @@ class TimelineList extends React.Component{
     for(var i = 0; i < Object.keys(this.state.timelines).length; i++){
       var arr = this.state.timelines[keys[i]];
       if(arr != null){
-        // console.log(arr)
         list.push(
           <Timeline timeline_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
         );

@@ -23,7 +23,6 @@ class View extends Component {
   componentWillMount() {
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
-    // console.log(url);
 
     fetch(url)
       .then((response) => response.json())
@@ -36,9 +35,7 @@ class View extends Component {
   }
 
   setTimelineInfo(){
-    console.log(this.state.timelines);
     var timeline = this.state.timelines[this.props.params.timeline_id];
-    console.log(timeline);
     if(timeline != null){
       this.setState({
         name: timeline["name"],
@@ -68,7 +65,6 @@ class View extends Component {
         + "&query=" + query
         + "&start_date=" + start_date
         + "&end_date=" + end_date
-      // console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {
