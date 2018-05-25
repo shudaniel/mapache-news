@@ -128,7 +128,7 @@ class Timeline extends Component{
         timeline_id: this.props.timeline_id,
       })
     }).then(function(response) {
-        window.location.reload();
+        window.location = root_url;
       });
     
   }
