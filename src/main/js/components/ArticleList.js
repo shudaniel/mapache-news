@@ -46,6 +46,13 @@ class View extends Component {
     }
   }
 
+  compare(a,b) {
+    if (a.dateString < b.dateString)
+      return -1;
+    if (a.dateString > b.dateString)
+      return 1;
+    return 0;
+  }
 
   getArticles(){
 	 
@@ -67,12 +74,10 @@ class View extends Component {
   	
   	
   	var html =  <h3>No Articles</h3>
-
-
   	
   	if(this.state.timelines["articles"] != null){
       var articles = Object.values(this.state.timelines["articles"]);
-
+      articles.sort(this.compare);
   		html = 
       <MuiThemeProvider>
   		  <Grid container className={"articles"} justify="left" spacing={40} style={styles['gridList']}>
