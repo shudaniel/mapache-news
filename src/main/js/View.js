@@ -13,7 +13,8 @@ class View extends Component {
     this.state = {
       name: "",
       description: "",
-      hideSearch: true
+      hideSearch: true,
+      hideLoader: true
     }
 
     this.onSubmit = this.onSubmit.bind(this);
@@ -34,15 +35,6 @@ class View extends Component {
       })
   }
 
-  setTimelineInfo(){
-    var timeline = this.state.timelines[this.props.params.timeline_id];
-    if(timeline != null){
-      this.setState({
-        name: timeline["name"],
-        description: timeline["description"]
-      });
-    }
-  }
 
   onSubmit(event){
     var query = document.getElementById("query").value;
@@ -59,6 +51,14 @@ class View extends Component {
       window.alert("Please enter an end date.");
     }
     else{
+
+      document.getElementById("generator").disabled = true;
+
+      this.setState(prevState => ({
+        hideSearch: true,
+        hideLoader: false
+      }));
+
       var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
       var url = root_url + "generate?"
         + "timeline_id=" + this.props.params.timeline_id
@@ -98,7 +98,9 @@ class View extends Component {
         </header>
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
-        <button className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
+        <button id="generator" className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
+        <div hidden={this.state.hideLoader} className="loader" />
+        <br/>
         <form className="form" hidden={this.state.hideSearch} onSubmit={this.onSubmit}>
           <label>Query:</label>
           <input id="query" type="text"  />

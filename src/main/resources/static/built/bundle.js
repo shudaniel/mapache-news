@@ -10537,7 +10537,8 @@
 	    _this.state = {
 	      name: "",
 	      description: "",
-	      hideSearch: true
+	      hideSearch: true,
+	      hideLoader: true
 	    };
 	
 	    _this.onSubmit = _this.onSubmit.bind(_this);
@@ -10563,17 +10564,6 @@
 	      });
 	    }
 	  }, {
-	    key: 'setTimelineInfo',
-	    value: function setTimelineInfo() {
-	      var timeline = this.state.timelines[this.props.params.timeline_id];
-	      if (timeline != null) {
-	        this.setState({
-	          name: timeline["name"],
-	          description: timeline["description"]
-	        });
-	      }
-	    }
-	  }, {
 	    key: 'onSubmit',
 	    value: function onSubmit(event) {
 	      var query = document.getElementById("query").value;
@@ -10587,6 +10577,16 @@
 	      } else if (end_date.length < 1) {
 	        window.alert("Please enter an end date.");
 	      } else {
+	
+	        document.getElementById("generator").disabled = true;
+	
+	        this.setState(function (prevState) {
+	          return {
+	            hideSearch: true,
+	            hideLoader: false
+	          };
+	        });
+	
 	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	        var url = root_url + "generate?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + query + "&start_date=" + start_date + "&end_date=" + end_date;
 	        fetch(url, {
@@ -10640,9 +10640,11 @@
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'button green-button', type: 'button', onClick: this.showSearchForm },
+	          { id: 'generator', className: 'button green-button', type: 'button', onClick: this.showSearchForm },
 	          'Auto-Generate Articles'
 	        ),
+	        _react2.default.createElement('div', { hidden: this.state.hideLoader, className: 'loader' }),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'form',
 	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.onSubmit },
