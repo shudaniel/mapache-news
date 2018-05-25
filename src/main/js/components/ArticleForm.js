@@ -94,7 +94,7 @@ class ArticleForm extends Component {
             <label>Description:</label>
             <textarea id="description" type="text" />
             <br/>
-            <input type="submit" value="Submit"/>
+            <input className="button green-button" type="submit" value="Submit"/>
           </form>
         </div>
       );

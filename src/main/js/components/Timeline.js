@@ -7,7 +7,8 @@ class Timeline extends Component{
     super(props);
 
     this.state = {
-      hide_edit_form: true,
+      hideEdit: true,
+      hideLoader: true,
       formName: "",
       formDescription: "",
       info: [],
@@ -31,13 +32,13 @@ class Timeline extends Component{
 
     var buttons = [];
     if(this.props.displayView){
-      buttons.push(<Link to={"/view/" + this.props.timeline_id}><button className="button view-button" type="button">View</button></Link>);
+      buttons.push(<Link to={"/view/" + this.props.timeline_id}><button id="view" className="button view-button" type="button">View</button></Link>);
     }
     if(this.props.displayEdit){
-      buttons.push(<button className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>);
+      buttons.push(<button id="edit" className="button edit-button" type="button" onClick={this.changeVisibility}>Edit</button>);
     }
     if(this.props.displayDelete){
-      buttons.push(<button className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>);
+      buttons.push(<button id="delete" className="button delete-button" type="button" onClick={this.handleDelete}>Delete</button>);
     }
 
     this.setState({
@@ -48,7 +49,7 @@ class Timeline extends Component{
 
   changeVisibility(event){
     this.setState(prevState => ({
-      hide_edit_form: !prevState.hide_edit_form
+      hideEdit: !prevState.hideEdit
     }));
   }
 
@@ -62,18 +63,33 @@ class Timeline extends Component{
 
   handleEdit(event){
 
-    if(this.state.formName.length < 1){
-      window.alert("Timeline name cannot be blank");
+    var name = this.state.formName;
+    var description = this.state.formDescription;
+    if(name.length < 1 && description.length < 1){
+      window.alert("Please change at least one field");
     }
     else{
-      var description = this.state.formDescription;
+      //Disable the button so it can't be pressed again
+      document.getElementById("edit").disabled = true;
+      document.getElementById("delete").disabled = true;
+
+
+      this.setState({
+        hideEdit: true,
+        hideLoader: false
+      });
+
+      if(name.length < 1){
+        name = this.props.name;
+      }
       if(description.length < 1){
         description = this.props.description;
       }
+
       var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
       var url = root_url + "update_timeline?"
         + "timeline_id=" + this.props.timeline_id
-        + "&name=" + this.state.formName
+        + "&name=" + name
         + "&description=" + description;
       fetch(url, {
         method: 'POST',
@@ -83,16 +99,21 @@ class Timeline extends Component{
         },
         body: JSON.stringify({
           timeline_id: this.props.timeline_id,
-          name: this.state.formName,
+          name: name,
           description: description,
         })
-      })
-      window.location.reload();
-
+      }).then(function(response) {
+        window.location.reload();
+      });
     }
+
+    
   }
 
   handleDelete(event){
+    document.getElementById("delete").disabled = true;
+    document.getElementById("edit").disabled = true;
+
     var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     var url = root_url + "delete_timeline?"
       + "timeline_id=" + this.props.timeline_id
@@ -106,8 +127,10 @@ class Timeline extends Component{
       body: JSON.stringify({
         timeline_id: this.props.timeline_id,
       })
-    })
-    window.location = root_url;
+    }).then(function(response) {
+        window.location.reload();
+      });
+    
   }
 
   render(){
@@ -115,16 +138,17 @@ class Timeline extends Component{
       <div className="timeline-item" id={this.props.timeline_id}>
         {this.state.info}
         {this.state.display_buttons}
-        <form className="form" hidden={this.state.hide_edit_form} onSubmit={this.handleEdit}>
+        <div hidden={this.state.hideLoader} className="loader" />
+        <form className="form" hidden={this.state.hideEdit} onSubmit={this.handleEdit}>
           <label>New Name:</label>
           <input type="text" value={this.state.formName} onChange={this.handleNameChange} />
           <br/>
           <label>New Description:</label>
           <textarea type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange}/>
           <br/>
-          <input type="submit" value="Submit"/>
+          <input className="button green-button" type="submit" value="Submit"/>
         </form>
-        <button className="button delete-button" type="button" hidden={this.state.hide_edit_form} onClick={this.changeVisibility}>Cancel</button>
+        <button className="button delete-button" type="button" hidden={this.state.hideEdit} onClick={this.changeVisibility}>Cancel</button>
       </div>
     );
   }

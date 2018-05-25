@@ -64,8 +64,10 @@ class Article extends Component {
         timeline_id: this.props.timeline_id,
         article_id: this.props.article_id,
       })
-    })
-    window.location.reload();
+    }).then(function(response) {
+        window.location.reload();
+      });
+    
   }
 
   render() {

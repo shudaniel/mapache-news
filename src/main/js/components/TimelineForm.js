@@ -101,7 +101,7 @@ class TimelineForm extends Component {
             <label>Confirm Password:</label>
             <input id="confirmPassword" type="text" disabled={this.state.disablePassword}/>
             <br/>
-            <input type="submit" value="Submit"/>
+            <input className="button green-button" type="submit" value="Submit"/>
 
           </form>
         </div>

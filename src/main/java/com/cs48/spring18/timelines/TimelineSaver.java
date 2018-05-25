@@ -36,12 +36,7 @@ public class TimelineSaver{
 
     timelinesRef.updateChildren(timelines, listener);
     timelinesRef.orderByChild("name");
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
+    
   }
 
   //Precondition: A timeline whose id matches the timeline_id in item exists in the database
@@ -57,12 +52,7 @@ public class TimelineSaver{
 
     timelinesRef.updateChildren(timelineUpdates, listener);
     timelinesRef.orderByChild("name");
-    try{
-      Thread.sleep(10000);
-    }
-    catch(InterruptedException e){
-      System.out.println("Thread interrupted");
-    }
+    
   }
 
   //Precondition: id is a valid id of a Timeline in the database

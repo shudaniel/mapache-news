@@ -75,8 +75,9 @@ class View extends Component {
           timeline_id: this.props.params.timeline_id,
           query: query
         })
-      })
-      location.reload();
+      }).then(function(response) {
+        window.location.reload();
+      });
     }
   }
 
