@@ -12,9 +12,10 @@ import java.util.ArrayList;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
 
-public class ArticleGenerator{
+public class ArticleFactory{
 
   private static final String NEWS_API_KEY = "70e77920c76840b0805076533088e5e7";
 

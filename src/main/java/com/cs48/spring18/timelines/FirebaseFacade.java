@@ -56,9 +56,14 @@ public class FirebaseFacade{
     articleSaver.save(timeline_id, item);
   }
 
-  public void save(String timeline_id, String query, String start, String end){
-    ArrayList<Article> articles = ArticleGenerator.generateArticles(query, start, end);
-    articleSaver.save(timeline_id, articles);
+  public void generateArticles(String timeline_id, String query, String start, String end){
+    ArrayList<Article> articles = ArticleFactory.generateArticles(query, start, end);
+    articleSaver.save(timeline_id, articles, false);
+  }
+
+  public void generatePolitifactArticles(String timeline_id, String query){
+    ArrayList<Article> articles = PolitifactFactory.generate(query);
+    articleSaver.save(timeline_id, articles, true);
   }
 
   //Update Timeline in the database to match the item parameter

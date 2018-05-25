@@ -94,9 +94,8 @@ public class HomeController {
     @RequestParam(value="query", defaultValue="") String query
   ){
 
-    saver.save(id, query, start, end);
+    saver.generateArticles(id, query, start, end);
   }
-
 
   //Precondition: An Article and Timeline exist in the database whose ids match the provided article_id and tiemline_id
   //The Article specified belongs to the Tiemeline specified
@@ -110,6 +109,11 @@ public class HomeController {
   }
 
 
-  
+  @RequestMapping(path = "/politifact", produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public ArrayList<Article> politifact() {
+    return PolitifactFactory.generate("trump");
+  }
+
 
 }

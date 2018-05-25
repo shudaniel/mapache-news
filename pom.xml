@@ -62,6 +62,11 @@
 		  <artifactId>firebase-admin</artifactId>
 		  <version>5.11.0</version>
 		</dependency>
+		<dependency>  
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <version>2.19</version>
+		</dependency>
 	</dependencies>
 
 	<build>
