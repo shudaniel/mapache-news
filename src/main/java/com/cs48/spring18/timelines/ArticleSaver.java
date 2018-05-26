@@ -39,7 +39,6 @@ public class ArticleSaver{
 
 
     timelinesRef.updateChildren(article, listener);
-    timelinesRef.orderByChild("dateString");
 
   }
 
@@ -62,10 +61,9 @@ public class ArticleSaver{
     }
 
     timelinesRef.updateChildren(data, listener);
-    timelinesRef.orderByChild("dateString");
 
     try{
-      Thread.sleep(1000);
+      Thread.sleep(5000);
     }
     catch(InterruptedException e){
       System.out.println("Thread interrupted");
