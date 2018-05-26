@@ -22530,7 +22530,9 @@
 	      } else {
 	
 	        var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	
+	        if (link.substring(0, 7) != "http://") {
+	          link = "http://" + link;
+	        }
 	        var url = url + "add_article?" + "timeline_id=" + this.props.timeline_id + "&name=" + name + "&link=" + link + "&date=" + date + "&description=" + description;
 	        fetch(url, {
 	          method: 'POST',
