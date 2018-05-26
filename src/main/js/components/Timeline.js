@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
+import authenticate from '../util/Authentication.js';
 
 class Timeline extends Component{
 
@@ -47,10 +48,17 @@ class Timeline extends Component{
     })
   }
 
+
+  
   changeVisibility(event){
-    this.setState(prevState => ({
-      hideEdit: !prevState.hideEdit
-    }));
+    console.log('idkman');
+    authenticate(this.props.timeline_id).then((hasAccess) => {
+    	if(hasAccess){
+    		this.setState(prevState => ({
+    			hide_edit_form: !prevState.hide_edit_form
+    		}));
+    	}
+    });
   }
 
   handleNameChange(event){

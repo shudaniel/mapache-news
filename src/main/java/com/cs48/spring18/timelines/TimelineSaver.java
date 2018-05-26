@@ -49,6 +49,7 @@ public class TimelineSaver{
 
     timelineUpdates.put("name", item.getName());
     timelineUpdates.put("description", item.getDescription());
+    timelineUpdates.put("password", item.getPassword());
 
     timelinesRef.updateChildren(timelineUpdates, listener);
     timelinesRef.orderByChild("name");
