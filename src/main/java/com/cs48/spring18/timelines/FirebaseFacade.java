@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FirebaseFacade{
 
@@ -52,22 +53,39 @@ public class FirebaseFacade{
     timelineSaver.save(item);
   }
 
-  //Save item as an Article to the Timeline with corresponding timeline_id
-  public void save(String timeline_id, Article item){
-    articleSaver.save(timeline_id, item);
+  //Create an Article and save into database to Timeline with corresonding timeline_id
+  public void save(String timeline_id, String name, String link, String description, String date){
+    factory = new ArticleFactory();
+    HashMap<String, String> info = new HashMap<String, String>();
+    info.put("name", name);
+    info.put("link", link);
+    info.put("image", "");
+    info.put("description", description);
+    
+    Article item = factory.buildSingle(info, date);
+    articleSaver.save(timeline_id, item, false);
+  }
+
+  //Save item as a Politifact Article to the Timeline with corresponding timeline_id
+  public void save(String timeline_id, String url, String date){
+    factory = new PolitifactFactory();
+    HashMap<String, String> info = new HashMap<String, String>();
+    info.put("url", url);
+    Article item = factory.buildSingle(info, date);
+    articleSaver.save(timeline_id, item, true);
   }
 
   public void generateArticles(String timeline_id, String query, String start, String end){
     factory = new ArticleFactory();
     query = query.replaceAll(" ", "%20");  //Remove white spaces
     String info = query + " " + start + " " + end;
-    ArrayList<Article> articles = factory.build(info);
+    ArrayList<Article> articles = factory.buildList(info);
     articleSaver.save(timeline_id, articles, false);
   }
 
   public void generatePolitifactArticles(String timeline_id, String query){
     factory = new PolitifactFactory();
-    ArrayList<Article> articles = factory.build(query);
+    ArrayList<Article> articles = factory.buildList(query);
     articleSaver.save(timeline_id, articles, true);
   }
 

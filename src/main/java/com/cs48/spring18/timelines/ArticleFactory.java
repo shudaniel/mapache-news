@@ -9,6 +9,7 @@ import com.google.gson.*;
 import java.util.Map;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
@@ -23,7 +24,7 @@ public class ArticleFactory implements SimpleArticleFactory{
   //Precondition: The start and end are dates in the form YYYY-MM-DD
   // The only whitespaces in parameter are to mark separation between the query, start-date, and end-date all 
   //Postcondition: Creates and returns an arraylist of Articles 
-  public ArrayList<Article> build(String info){
+  public ArrayList<Article> buildList(String info){
 
     String[] splitStr = info.trim().split("\\s+");
     String query = splitStr[0];
@@ -74,6 +75,18 @@ public class ArticleFactory implements SimpleArticleFactory{
 
     return articles;
 
+  }
+
+  //Create a single Article
+  public Article buildSingle(HashMap<String,String> info, String date){
+
+    String name = info.get("name");
+    String link = info.get("link");
+    String description = info.get("description");
+    String image = info.get("image");
+
+    return new Article(name, link, description, image, date);
+    
   }
 
   //Move the information from data into Articles and add them to the Arraylist

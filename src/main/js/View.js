@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ArticleList from './components/ArticleList'
 import ArticleForm from './components/ArticleForm'
 import Timeline from './components/Timeline'
+import PolitifactForm from './components/PolitifactForm'
 
 
 class View extends Component {
@@ -177,6 +178,7 @@ class View extends Component {
             <p>*Automatically generates Politifact articles based on query term</p>
             <input className="button green-button" type="submit" value="Submit"/>
           </form>
+          <PolitifactForm timeline_id = {this.props.params.timeline_id} />
           <ArticleList timeline_id={this.props.params.timeline_id} isPolitifact={true} />
 
         </div>

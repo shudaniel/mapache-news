@@ -82,7 +82,7 @@ public class HomeController {
       @RequestParam(value="description", defaultValue="") String description,
       @RequestParam(value="date", defaultValue="") String date
     ){
-    saver.save(timeline_id, new Article(name, link, description, date));
+    saver.save(timeline_id, name, link, description, date);
   }
 
   @RequestMapping(value = "/generate", method = RequestMethod.POST)
@@ -107,6 +107,17 @@ public class HomeController {
     saver.delete(timeline_id, article_id);
   }
 
+  @RequestMapping(value = "/add_politifact", method = RequestMethod.POST)
+  @ResponseBody
+  public void generate(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="link", defaultValue="") String url,
+    @RequestParam(value="date", defaultValue="") String date
+  ){
+    System.out.println("id:" + id + "\nurl:" + url + "\ndate:" + date);
+    saver.save(id, url, date);
+  }
+
   @RequestMapping(value = "/politifact", method = RequestMethod.POST)
   @ResponseBody
   public void generate(
@@ -117,11 +128,6 @@ public class HomeController {
   }
 
 
-  // @RequestMapping(path = "/politifact", produces = "application/json; charset=UTF-8")
-  // @ResponseBody
-  // public ArrayList<Article> politifact() {
-  //   return PolitifactFactory.generate("trump");
-  // }
 
 
 }

@@ -13,7 +13,7 @@ import java.text.ParseException;
 
 public class PolitifactFactory implements SimpleArticleFactory{
 
-  public ArrayList<Article> build(String query){
+  public ArrayList<Article> buildList(String query){
     ArrayList<Article> politifact = new ArrayList<Article>();
 
     WebClient client = new WebClient();  
@@ -22,9 +22,7 @@ public class PolitifactFactory implements SimpleArticleFactory{
 
     try {  
       String url = "http://www.politifact.com/search/?q=" + URLEncoder.encode(query, "UTF-8");
-      // final WebRequest settings = new WebRequest( new URL(url) );
-      // settings.setCharset( "UTF-8" );
-      // final HtmlPage page = (HtmlPage) client.getPage(settings);
+
       HtmlPage page = client.getPage(url);
       List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//li[@class='search-results__item']") ;  
 
@@ -58,6 +56,36 @@ public class PolitifactFactory implements SimpleArticleFactory{
     return politifact;
 
   
+  }
+
+  public Article buildSingle(HashMap<String, String> info, String date){
+    String url = info.get("url");
+    String name = "";
+    String description = "";
+    String image = "";
+
+
+    WebClient client = new WebClient();  
+    client.getOptions().setCssEnabled(false);  
+    client.getOptions().setJavaScriptEnabled(false);  
+
+    try {  
+      HtmlPage page = client.getPage(url);
+      name = ((HtmlElement) page.getFirstByXPath(".//h1[@class='article__title']")).asText();
+      HtmlDivision meter =  page.getFirstByXPath(".//div[@class='meter']");
+      if(meter != null){
+        //This article has a truth-o-meter
+        image = ((HtmlImage)(meter.getFirstByXPath(".//img"))).getSrcAttribute();
+      }
+    }catch(Exception e){
+      name = "The page at: " + url + " does not exist";
+      url = "http://www.politifact.com/thispagedoesnotexist/";
+      return new Article(name, url, description, image, date);
+      // e.printStackTrace();
+    }
+
+    Article item = new Article(name, url, description, image, date);
+    return item;
   }
 
   private String dateParser(String string_date){

@@ -22,12 +22,15 @@ public class ArticleSaver{
 
   //Precondition: There is an existing Timeline with an id matching timeline_id
   //Postcondition: A new Article, item, is saved in the database and belongs to corresponding timeline
-  public void save(String timeline_id, Article item){
+  public void save(String timeline_id, Article item, boolean isPolitifact){
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");
-
-    DatabaseReference timelinesRef = (ref.child(timeline_id)).child("articles");
+    String child = "articles";
+    if(isPolitifact){
+      child = "politifact";
+    }
+    DatabaseReference timelinesRef = (ref.child(timeline_id)).child(child);
     DatabaseReference pushedRef = timelinesRef.push();
     String postId = pushedRef.getKey(); //Generate a unique ID for item
     item.setId(postId);
