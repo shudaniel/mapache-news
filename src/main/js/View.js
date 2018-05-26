@@ -94,7 +94,7 @@ class View extends Component {
     }
     else{
 
-      document.getElementById("generator").disabled = true;
+      document.getElementById("politifact-generator").disabled = true;
 
       this.setState(prevState => ({
         hidePolitifactForm: true,
@@ -169,7 +169,7 @@ class View extends Component {
         <ArticleList timeline_id={this.props.params.timeline_id} />
         <div>
           <h3>Politifact</h3>
-          <button id="generator" className="button green-button" type="button" onClick={this.showPolitifactForm}>Generate Politifact Articles</button>
+          <button id="politifact-generator" className="button green-button" type="button" onClick={this.showPolitifactForm}>Generate Politifact Articles</button>
           <div hidden={this.state.hidePolitifactLoader} className="loader" />
           <form className="form" hidden={this.state.hidePolitifactForm} onSubmit={this.handlePolitifact}>
             <label>Query:</label>

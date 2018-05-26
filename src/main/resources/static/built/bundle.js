@@ -10621,7 +10621,7 @@
 	        window.alert("Please enter a query term.");
 	      } else {
 	
-	        document.getElementById("generator").disabled = true;
+	        document.getElementById("politifact-generator").disabled = true;
 	
 	        this.setState(function (prevState) {
 	          return {
@@ -10746,7 +10746,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'button',
-	            { id: 'generator', className: 'button green-button', type: 'button', onClick: this.showPolitifactForm },
+	            { id: 'politifact-generator', className: 'button green-button', type: 'button', onClick: this.showPolitifactForm },
 	            'Generate Politifact Articles'
 	          ),
 	          _react2.default.createElement('div', { hidden: this.state.hidePolitifactLoader, className: 'loader' }),
