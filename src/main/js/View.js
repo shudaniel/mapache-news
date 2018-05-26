@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import ArticleList from './components/ArticleList'
 import ArticleForm from './components/ArticleForm'
 import Timeline from './components/Timeline'
+import PolitifactForm from './components/PolitifactForm'
 
 
 class View extends Component {
@@ -13,18 +14,21 @@ class View extends Component {
     this.state = {
       name: "",
       description: "",
-      hideSearch: true
+      hideSearch: true,
+      hideLoader: true,
+      hidePolitifactForm: true,
+      hidePolitifactLoader: true
     }
 
-    this.onSubmit = this.onSubmit.bind(this);
+    this.handleAutoGenerate = this.handleAutoGenerate.bind(this);
+    this.handlePolitifact = this.handlePolitifact.bind(this);
     this.showSearchForm = this.showSearchForm.bind(this);
+    this.showPolitifactForm = this.showPolitifactForm.bind(this);
   }
 
   componentWillMount() {
-    console.log("Component will mount");
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
-    // console.log(url);
 
     fetch(url)
       .then((response) => response.json())
@@ -36,19 +40,8 @@ class View extends Component {
       })
   }
 
-  setTimelineInfo(){
-    console.log(this.state.timelines);
-    var timeline = this.state.timelines[this.props.params.timeline_id];
-    console.log(timeline);
-    if(timeline != null){
-      this.setState({
-        name: timeline["name"],
-        description: timeline["description"]
-      });
-    }
-  }
 
-  onSubmit(event){
+  handleAutoGenerate(event){
     var query = document.getElementById("query").value;
     var start_date = document.getElementById("start_date").value;
     var end_date = document.getElementById("end_date").value;
@@ -63,13 +56,20 @@ class View extends Component {
       window.alert("Please enter an end date.");
     }
     else{
+
+      document.getElementById("generator").disabled = true;
+
+      this.setState(prevState => ({
+        hideSearch: true,
+        hideLoader: false
+      }));
+
       var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
       var url = root_url + "generate?"
         + "timeline_id=" + this.props.params.timeline_id
         + "&query=" + query
         + "&start_date=" + start_date
         + "&end_date=" + end_date
-      console.log(url);
       fetch(url, {
         method: 'POST',
         headers: {
@@ -80,9 +80,46 @@ class View extends Component {
           timeline_id: this.props.params.timeline_id,
           query: query
         })
-      })
-      location.reload();
+      }).then(function(response) {
+        window.location.reload();
+      });
     }
+  }
+
+  handlePolitifact(event){
+    var query = document.getElementById("politifact_search").value;
+
+    if(query.length < 1){
+      window.alert("Please enter a query term.");
+    }
+    else{
+
+      document.getElementById("generator").disabled = true;
+
+      this.setState(prevState => ({
+        hidePolitifactForm: true,
+        hidePolitifactLoader: false
+      }));
+
+      var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+      var url = root_url + "politifact?"
+        + "timeline_id=" + this.props.params.timeline_id
+        + "&query=" + query
+      fetch(url, {
+        method: 'POST',
+        headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          timeline_id: this.props.params.timeline_id,
+          query: query
+        })
+      }).then(function(response) {
+        window.location.reload();
+      });
+    }
+
   }
 
   showSearchForm(){
@@ -91,7 +128,11 @@ class View extends Component {
     }));
   }
 
-
+  showPolitifactForm(){
+    this.setState(prevState => ({
+      hidePolitifactForm: !prevState.hidePolitifactForm
+    }));
+  }
   
   render() {
     return (
@@ -102,8 +143,10 @@ class View extends Component {
         </header>
 
         <Link to="/"><button className="button view-button" type="button">Home</button></Link>
-        <button className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
-        <form className="form" hidden={this.state.hideSearch} onSubmit={this.onSubmit}>
+        <button id="generator" className="button green-button" type="button" onClick={this.showSearchForm}>Auto-Generate Articles</button>
+        <div hidden={this.state.hideLoader} className="loader" />
+        <br/>
+        <form className="form" hidden={this.state.hideSearch} onSubmit={this.handleAutoGenerate}>
           <label>Query:</label>
           <input id="query" type="text"  />
           <br/>
@@ -120,9 +163,25 @@ class View extends Component {
         <p className="App-intro">
           {this.state.description}
         </p>
+
         <Timeline timeline_id={this.props.params.timeline_id} displayView={false} displayName={false} displayDescription={false} name={this.state.name} description={this.state.description} />
         <ArticleForm timeline_id={this.props.params.timeline_id} />
         <ArticleList timeline_id={this.props.params.timeline_id} />
+        <div>
+          <h3>Politifact</h3>
+          <button id="generator" className="button green-button" type="button" onClick={this.showPolitifactForm}>Generate Politifact Articles</button>
+          <div hidden={this.state.hidePolitifactLoader} className="loader" />
+          <form className="form" hidden={this.state.hidePolitifactForm} onSubmit={this.handlePolitifact}>
+            <label>Query:</label>
+            <input id="politifact_search" type="text"  />
+            <br/>
+            <p>*Automatically generates Politifact articles based on query term</p>
+            <input className="button green-button" type="submit" value="Submit"/>
+          </form>
+          <PolitifactForm timeline_id = {this.props.params.timeline_id} />
+          <ArticleList timeline_id={this.props.params.timeline_id} isPolitifact={true} />
+
+        </div>
       </div>
     );
   }

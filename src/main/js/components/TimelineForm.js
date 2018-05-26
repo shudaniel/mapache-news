@@ -85,23 +85,23 @@ class TimelineForm extends Component {
             <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
           </form>
           <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
-            <label for="name">Name:</label>
+            <label>Name:</label>
             <input id="name" type="text" />
             <br/>
-            <label for="description">Description: </label>
+            <label>Description: </label>
             <textarea id="description" type="text" />
             <br/>
             <p> You can lock the Timeline by setting a password. If you do not, anybody can edit or delete this Timeline. </p>
             <input id="checkBox" type="checkbox" onClick={this.handleCheckbox}/>
-            <label for="checkBox">Lock Timeline</label>
+            <label>Lock Timeline</label>
             <br/>
-            <label for="password">Password:</label>
+            <label>Password:</label>
             <input id="password" type="text" disabled={this.state.disablePassword}/>
             <br/>
-            <label for="confirmPassword">Confirm Password:</label>
+            <label>Confirm Password:</label>
             <input id="confirmPassword" type="text" disabled={this.state.disablePassword}/>
             <br/>
-            <input type="submit" value="Submit"/>
+            <input className="button green-button" type="submit" value="Submit"/>
 
           </form>
         </div>

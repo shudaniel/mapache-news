@@ -49,7 +49,9 @@ class ArticleForm extends Component {
     else{
 
       var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-
+      if(link.substring(0,7) != "http://"){
+        link = "http://" + link;
+      }
       var url = url + "add_article?"
         + "timeline_id=" + this.props.timeline_id
         + "&name=" + name 
@@ -94,7 +96,7 @@ class ArticleForm extends Component {
             <label>Description:</label>
             <textarea id="description" type="text" />
             <br/>
-            <input type="submit" value="Submit"/>
+            <input className="button green-button" type="submit" value="Submit"/>
           </form>
         </div>
       );
