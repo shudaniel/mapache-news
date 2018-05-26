@@ -62,6 +62,11 @@
 		  <artifactId>firebase-admin</artifactId>
 		  <version>5.11.0</version>
 		</dependency>
+		<dependency>  
+		    <groupId>net.sourceforge.htmlunit</groupId>
+		    <artifactId>htmlunit</artifactId>
+		    <version>2.19</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -84,8 +89,8 @@
 							<goal>install-node-and-npm</goal>
 						</goals>
 						<configuration>
-							<nodeVersion>v4.4.5</nodeVersion>
-							<npmVersion>3.9.2</npmVersion>
+							<nodeVersion>v9.5.0</nodeVersion>
+							<npmVersion>6.0.0</npmVersion>
 						</configuration>
 					</execution>
 					<execution>

@@ -12,9 +12,10 @@ public class Article implements Comparable<Article> {
     private String name;
     private String link;
     private String description;
-    private String dateString;  // We should make a date class that can easily return and organize by date (or use an existing api)
+    private String dateString; 
+    private String imageUrl;
     private Date date;
-    private Key key;
+    private Keys keys;
     private String article_id;
 
 
@@ -22,8 +23,20 @@ public class Article implements Comparable<Article> {
         name = "";
         link = "";
         description = "";
+        imageUrl = "";
         dateString = "";
         article_id = "";
+    }
+
+    Article(String name, String link, String description, String imageUrl, String date){
+        this.name = name;
+        this.link = link;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.dateString = date;
+        this.date = convertStringToDate(this.dateString);
+        article_id = "";
+
     }
 
     Article(String name, String link, String description, String date){
@@ -31,17 +44,19 @@ public class Article implements Comparable<Article> {
         this.link = link;
         this.description = description;
         this.dateString = date;
+        this.imageUrl = "";
         this.date = convertStringToDate(this.dateString);
         article_id = "";
 
     }
 
-    Article(String name, String link, String description, String date, Key key){
+    Article(String name, String link, String description, String imageUrl, String date, Keys keys){
         this.name = name;
         this.link = link;
         this.description = description;
+        this.imageUrl = imageUrl;
         this.dateString = date;
-        this.key = key;
+        this.keys = keys;
         this.article_id = "";
 
     }
@@ -77,6 +92,15 @@ public class Article implements Comparable<Article> {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getImageUrl(){
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl){
+        this.imageUrl = imageUrl;
+    }
+
     public String getDateString(){
         return dateString;
     }
@@ -107,6 +131,18 @@ public class Article implements Comparable<Article> {
     @Override
     public int compareTo(Article o) {
         return getDate().compareTo(o.getDate());
+    }
+
+    @Override
+    public String toString() {
+        return "Article{" +
+                "id=" + article_id +
+                ", name='" + name + '\'' +
+                ", link='" + link + '\'' +
+                ", description='" + description + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", dateString='" + dateString + '\'' +
+                '}';
     }
 
     /*public String getKey(){
