@@ -16,14 +16,9 @@ body {
   padding: 0;
   font-family: unset;
 }
-/*
-html *
-{
-   font-family: "Merriweather";
-}
-*/
+
 html body {
-  font-family: "Merriweather";
+   font-family: "Merriweather" !important;
 }
 
 .App-logo {
@@ -176,6 +171,7 @@ html body {
 .thumbnail {
   max-width: 300px;
 }
+<<<<<<< HEAD
 
 /**************/
 /* Loader.css */
@@ -197,3 +193,5 @@ html body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+=======
+>>>>>>> 01baa97af745920a8d81a98e7e9b337de0b3f2f2
