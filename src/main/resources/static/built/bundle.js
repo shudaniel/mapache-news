@@ -10815,13 +10815,13 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var View = function (_Component) {
-	  _inherits(View, _Component);
+	var ArticleList = function (_Component) {
+	  _inherits(ArticleList, _Component);
 	
-	  function View(props) {
-	    _classCallCheck(this, View);
+	  function ArticleList(props) {
+	    _classCallCheck(this, ArticleList);
 	
-	    var _this = _possibleConstructorReturn(this, (View.__proto__ || Object.getPrototypeOf(View)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (ArticleList.__proto__ || Object.getPrototypeOf(ArticleList)).call(this, props));
 	
 	    _this.state = {
 	      timelines: {},
@@ -10840,7 +10840,7 @@
 	    return _this;
 	  }
 	
-	  _createClass(View, [{
+	  _createClass(ArticleList, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
@@ -10931,7 +10931,7 @@
 	              return _react2.default.createElement(
 	                _Grid2.default,
 	                { key: article.title, item: true },
-	                _react2.default.createElement(_Article2.default, { timeline_id: _this3.props.timeline_id, article_id: article.id, date: article.dateString, title: article.name, url: article.link, image: article.imageUrl, description: article.description })
+	                _react2.default.createElement(_Article2.default, { timeline_id: _this3.props.timeline_id, article_id: article.id, date: article.dateString, title: article.name, url: article.link, image: article.imageUrl, description: article.description, isPolitifact: _this3.props.isPolitifact })
 	              );
 	            })
 	          )
@@ -10965,10 +10965,14 @@
 	    }
 	  }]);
 	
-	  return View;
+	  return ArticleList;
 	}(_react.Component);
 	
-	exports.default = View;
+	ArticleList.defaultProps = {
+	  isPolitifact: false
+	};
+	
+	exports.default = ArticleList;
 
 /***/ }),
 /* 101 */
@@ -11047,7 +11051,12 @@
 	    key: 'handleDelete',
 	    value: function handleDelete(event) {
 	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	      var url = root_url + "delete_article?" + "timeline_id=" + this.props.timeline_id + "&article_id=" + this.props.article_id;
+	      var url = root_url + "delete_article?";
+	      if (this.props.isPolitifact) {
+	        url = root_url + "delete_politifact?";
+	      }
+	
+	      url = url + "timeline_id=" + this.props.timeline_id + "&article_id=" + this.props.article_id;
 	      // console.log(url);
 	      fetch(url, {
 	        method: 'POST',

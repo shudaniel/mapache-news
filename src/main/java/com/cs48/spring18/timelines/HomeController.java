@@ -104,12 +104,22 @@ public class HomeController {
     @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
     @RequestParam(value="article_id", defaultValue="") String article_id
   ){
+    System.out.println("timeline_id:" + timeline_id + "\narticle_id:" + article_id);
     saver.delete(timeline_id, article_id);
+  }
+
+  @RequestMapping(value = "/delete_politifact", method = RequestMethod.POST)
+  public void deletePolitifactArticle(
+    @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
+    @RequestParam(value="article_id", defaultValue="") String article_id
+  ){
+    System.out.println("timeline_id:" + timeline_id + "\narticle_id:" + article_id);
+    saver.delete(timeline_id, article_id, true);
   }
 
   @RequestMapping(value = "/add_politifact", method = RequestMethod.POST)
   @ResponseBody
-  public void generate(
+  public void addPolitifactArticle(
     @RequestParam(value="timeline_id", defaultValue="") String id,
     @RequestParam(value="link", defaultValue="") String url,
     @RequestParam(value="date", defaultValue="") String date

@@ -4,7 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Grid from 'material-ui/Grid';
 
 
-class View extends Component {
+class ArticleList extends Component {
   constructor(props){
     super(props);
     this.state = {
@@ -100,7 +100,7 @@ class View extends Component {
   		  <Grid container className={"articles"} justify="left" spacing={40} style={styles['gridList']}>
   				{articles.map((article) => (
   					<Grid key={article.title} item>
-  						<Article timeline_id={this.props.timeline_id} article_id={article.id} date={article.dateString} title={article.name} url={article.link} image={article.imageUrl} description={article.description}/>
+  						<Article timeline_id={this.props.timeline_id} article_id={article.id} date={article.dateString} title={article.name} url={article.link} image={article.imageUrl} description={article.description} isPolitifact={this.props.isPolitifact}/>
   					</Grid>
   				))}
   			</Grid>
@@ -132,4 +132,8 @@ class View extends Component {
   }
 }
 
-export default View;
+ArticleList.defaultProps = {
+  isPolitifact: false
+}
+
+export default ArticleList;

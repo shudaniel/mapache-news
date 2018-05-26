@@ -104,4 +104,8 @@ public class FirebaseFacade{
     articleSaver.delete(timeline_id, article_id);
   }
 
+  //Delete Politifact article in database
+  public void delete(String timeline_id, String article_id, boolean isPolitifact){
+    articleSaver.delete(timeline_id, article_id, isPolitifact);
+  }
 }
