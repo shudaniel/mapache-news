@@ -23,12 +23,10 @@ public class FirebaseFacade{
 
       //Use a different database for development vs production
 
-      // FileInputStream serviceAccount = new FileInputStream("timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json");
-      FileInputStream serviceAccount = new FileInputStream("timelines-dev-firebase-adminsdk-gbshw-83e10df814.json");
+      FileInputStream serviceAccount = new FileInputStream("timelines-6d652-firebase-adminsdk-m2lpy-fc11e8e9c0.json");
       FirebaseOptions options = new FirebaseOptions.Builder()
           .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-          .setDatabaseUrl("https://timelines-dev.firebaseio.com")
-          // .setDatabaseUrl("https://timelines-6d652.firebaseio.com")
+          .setDatabaseUrl("https://timelines-6d652.firebaseio.com")
           .build();
 
       FirebaseApp.initializeApp(options);
