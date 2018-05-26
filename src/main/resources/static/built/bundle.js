@@ -10538,11 +10538,15 @@
 	      name: "",
 	      description: "",
 	      hideSearch: true,
-	      hideLoader: true
+	      hideLoader: true,
+	      hidePolitifactForm: true,
+	      hidePolitifactLoader: true
 	    };
 	
-	    _this.onSubmit = _this.onSubmit.bind(_this);
+	    _this.handleAutoGenerate = _this.handleAutoGenerate.bind(_this);
+	    _this.handlePolitifact = _this.handlePolitifact.bind(_this);
 	    _this.showSearchForm = _this.showSearchForm.bind(_this);
+	    _this.showPolitifactForm = _this.showPolitifactForm.bind(_this);
 	    return _this;
 	  }
 	
@@ -10564,8 +10568,8 @@
 	      });
 	    }
 	  }, {
-	    key: 'onSubmit',
-	    value: function onSubmit(event) {
+	    key: 'handleAutoGenerate',
+	    value: function handleAutoGenerate(event) {
 	      var query = document.getElementById("query").value;
 	      var start_date = document.getElementById("start_date").value;
 	      var end_date = document.getElementById("end_date").value;
@@ -10605,11 +10609,55 @@
 	      }
 	    }
 	  }, {
+	    key: 'handlePolitifact',
+	    value: function handlePolitifact(event) {
+	      var query = document.getElementById("politifact_search").value;
+	
+	      if (query.length < 1) {
+	        window.alert("Please enter a query term.");
+	      } else {
+	
+	        document.getElementById("generator").disabled = true;
+	
+	        this.setState(function (prevState) {
+	          return {
+	            hidePolitifactForm: true,
+	            hidePolitifactLoader: false
+	          };
+	        });
+	
+	        var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	        var url = root_url + "politifact?" + "timeline_id=" + this.props.params.timeline_id + "&query=" + query;
+	        fetch(url, {
+	          method: 'POST',
+	          headers: {
+	            'Accept': 'application/json',
+	            'Content-Type': 'application/json'
+	          },
+	          body: JSON.stringify({
+	            timeline_id: this.props.params.timeline_id,
+	            query: query
+	          })
+	        }).then(function (response) {
+	          window.location.reload();
+	        });
+	      }
+	    }
+	  }, {
 	    key: 'showSearchForm',
 	    value: function showSearchForm() {
 	      this.setState(function (prevState) {
 	        return {
 	          hideSearch: !prevState.hideSearch
+	        };
+	      });
+	    }
+	  }, {
+	    key: 'showPolitifactForm',
+	    value: function showPolitifactForm() {
+	      this.setState(function (prevState) {
+	        return {
+	          hidePolitifactForm: !prevState.hidePolitifactForm
 	        };
 	      });
 	    }
@@ -10647,7 +10695,7 @@
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'form',
-	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.onSubmit },
+	          { className: 'form', hidden: this.state.hideSearch, onSubmit: this.handleAutoGenerate },
 	          _react2.default.createElement(
 	            'label',
 	            null,
@@ -10683,7 +10731,40 @@
 	        ),
 	        _react2.default.createElement(_Timeline2.default, { timeline_id: this.props.params.timeline_id, displayView: false, displayName: false, displayDescription: false, name: this.state.name, description: this.state.description }),
 	        _react2.default.createElement(_ArticleForm2.default, { timeline_id: this.props.params.timeline_id }),
-	        _react2.default.createElement(_ArticleList2.default, { timeline_id: this.props.params.timeline_id })
+	        _react2.default.createElement(_ArticleList2.default, { timeline_id: this.props.params.timeline_id }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'h3',
+	            null,
+	            'Politifact'
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { id: 'generator', className: 'button green-button', type: 'button', onClick: this.showPolitifactForm },
+	            'Generate Politifact Articles'
+	          ),
+	          _react2.default.createElement('div', { hidden: this.state.hidePolitifactLoader, className: 'loader' }),
+	          _react2.default.createElement(
+	            'form',
+	            { className: 'form', hidden: this.state.hidePolitifactForm, onSubmit: this.handlePolitifact },
+	            _react2.default.createElement(
+	              'label',
+	              null,
+	              'Query:'
+	            ),
+	            _react2.default.createElement('input', { id: 'politifact_search', type: 'text' }),
+	            _react2.default.createElement('br', null),
+	            _react2.default.createElement(
+	              'p',
+	              null,
+	              '*Automatically generates Politifact articles based on query term'
+	            ),
+	            _react2.default.createElement('input', { className: 'button green-button', type: 'submit', value: 'Submit' })
+	          ),
+	          _react2.default.createElement(_ArticleList2.default, { timeline_id: this.props.params.timeline_id, isPolitifact: true })
+	        )
 	      );
 	    }
 	  }]);
@@ -10743,6 +10824,12 @@
 	      button_name: "View Articles"
 	    };
 	
+	    if (_this.props.isPolitifact) {
+	      _this.setState({
+	        button_name: "View Politifact Articles"
+	      });
+	    }
+	
 	    _this.getArticles = _this.getArticles.bind(_this);
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
 	    return _this;
@@ -10777,9 +10864,15 @@
 	          button_name: "Hide Articles"
 	        });
 	      } else {
-	        this.setState({
-	          button_name: "View Articles"
-	        });
+	        if (this.props.isPolitifact) {
+	          this.setState({
+	            button_name: "View Politifact Articles"
+	          });
+	        } else {
+	          this.setState({
+	            button_name: "View Articles"
+	          });
+	        }
 	      }
 	    }
 	  }, {
@@ -10815,9 +10908,13 @@
 	        null,
 	        'No Articles'
 	      );
+	      var category = "articles";
+	      if (this.props.isPolitifact) {
+	        category = "politifact";
+	      }
 	
-	      if (this.state.timelines["articles"] != null) {
-	        var articles = Object.values(this.state.timelines["articles"]);
+	      if (this.state.timelines[category] != null) {
+	        var articles = Object.values(this.state.timelines[category]);
 	        articles.sort(this.compare);
 	        html = _react2.default.createElement(
 	          _MuiThemeProvider2.default,
@@ -10928,13 +11025,6 @@
 	      });
 	    }
 	  }, {
-	    key: 'get_logo',
-	    value: function get_logo(url) {
-	      var pattern = /.*\.\w*\//;
-	      var result = pattern.exec(url);
-	      return result + "favicon.ico";
-	    }
-	  }, {
 	    key: 'get_screenshot',
 	    value: function get_screenshot() {
 	      if (this.props.image != null && this.props.image.length > 0) {
@@ -10981,6 +11071,7 @@
 	          this.props.title
 	        ),
 	        _react2.default.createElement('img', { title: this.props.description, className: 'thumbnail hover', src: this.get_screenshot(), onClick: this.handleClick, sizes: '32x32' }),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'button delete-button', type: 'button', onClick: this.handleDelete },

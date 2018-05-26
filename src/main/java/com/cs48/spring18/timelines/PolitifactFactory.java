@@ -1,8 +1,10 @@
 package com.cs48.spring18.timelines;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.WebRequest;
 import com.gargoylesoftware.htmlunit.html.*;
 import java.net.URLEncoder;
+import java.net.URL;
 import java.util.*;
 import java.text.SimpleDateFormat;
 import java.text.DateFormat;
@@ -17,14 +19,18 @@ public class PolitifactFactory implements SimpleArticleFactory{
     WebClient client = new WebClient();  
     client.getOptions().setCssEnabled(false);  
     client.getOptions().setJavaScriptEnabled(false);  
+
     try {  
       String url = "http://www.politifact.com/search/?q=" + URLEncoder.encode(query, "UTF-8");
+      // final WebRequest settings = new WebRequest( new URL(url) );
+      // settings.setCharset( "UTF-8" );
+      // final HtmlPage page = (HtmlPage) client.getPage(settings);
       HtmlPage page = client.getPage(url);
       List<HtmlElement> items = (List<HtmlElement>) page.getByXPath("//li[@class='search-results__item']") ;  
 
       for(HtmlElement item : items){  
-        HtmlAnchor itemAnchor =  ((HtmlAnchor) item.getFirstByXPath(".//a"));
 
+        HtmlAnchor itemAnchor =  ((HtmlAnchor) item.getFirstByXPath(".//a[@class='search-results__link link']"));
         String name = itemAnchor.asText();
         String link = "http://www.politifact.com" +  itemAnchor.getHrefAttribute() ;
         String date =((HtmlElement) item.getFirstByXPath(".//strong")).asText() ;
@@ -32,7 +38,16 @@ public class PolitifactFactory implements SimpleArticleFactory{
 
         //It is possible that not all results have a truth-o-meter
         HtmlImage truthOMeter = item.getFirstByXPath(".//img") ;
-        String image = truthOMeter == null ? "" : truthOMeter.getSrcAttribute() ;
+        String image = "";
+        if(truthOMeter != null){
+          image = truthOMeter.getSrcAttribute();
+
+          //If the truth-o-meter is not null, than this is a quote with a speaker
+          HtmlElement speaker =((HtmlElement) item.getFirstByXPath(".//p"));
+          if(speaker != null){
+            name = name + "\n" + speaker.asText();
+          }
+        }
 
         politifact.add(new Article(name, link, "", image, date));
       }

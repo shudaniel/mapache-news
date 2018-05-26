@@ -13,6 +13,12 @@ class View extends Component {
       button_name: "View Articles"
     }
 
+    if(this.props.isPolitifact){
+      this.setState({
+        button_name: "View Politifact Articles"
+      })
+    }
+
     this.getArticles = this.getArticles.bind(this);
     this.changeVisibility = this.changeVisibility.bind(this);
   }
@@ -40,9 +46,16 @@ class View extends Component {
       })
     }
     else{
-      this.setState({
-        button_name: "View Articles"
-      })
+      if(this.props.isPolitifact){
+        this.setState({
+          button_name: "View Politifact Articles"
+        })
+      }
+      else{
+        this.setState({
+          button_name: "View Articles"
+        })
+      }
     }
   }
 
@@ -74,9 +87,13 @@ class View extends Component {
   	
   	
   	var html =  <h3>No Articles</h3>
+    var category = "articles";
+    if(this.props.isPolitifact){
+      category = "politifact"
+    }
   	
-  	if(this.state.timelines["articles"] != null){
-      var articles = Object.values(this.state.timelines["articles"]);
+  	if(this.state.timelines[category] != null){
+      var articles = Object.values(this.state.timelines[category]);
       articles.sort(this.compare);
   		html = 
       <MuiThemeProvider>
