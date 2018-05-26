@@ -13,17 +13,17 @@ class ArticleList extends Component {
       button_name: "View Articles"
     }
 
-    if(this.props.isPolitifact){
-      this.setState({
-        button_name: "View Politifact Articles"
-      })
-    }
-
     this.getArticles = this.getArticles.bind(this);
     this.changeVisibility = this.changeVisibility.bind(this);
   }
 
   componentDidMount(){
+    if(this.props.isPolitifact){
+      this.setState({
+        button_name: "View Politifact Articles"
+      })
+    }
+    
     var url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
     url = url + "all";
     console.log(url);

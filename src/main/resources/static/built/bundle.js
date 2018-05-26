@@ -10829,12 +10829,6 @@
 	      button_name: "View Articles"
 	    };
 	
-	    if (_this.props.isPolitifact) {
-	      _this.setState({
-	        button_name: "View Politifact Articles"
-	      });
-	    }
-	
 	    _this.getArticles = _this.getArticles.bind(_this);
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
 	    return _this;
@@ -10844,6 +10838,12 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var _this2 = this;
+	
+	      if (this.props.isPolitifact) {
+	        this.setState({
+	          button_name: "View Politifact Articles"
+	        });
+	      }
 	
 	      var url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	      url = url + "all";
