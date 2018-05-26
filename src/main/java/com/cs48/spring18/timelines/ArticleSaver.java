@@ -43,13 +43,11 @@ public class ArticleSaver{
   public void save(String timeline_id, ArrayList<Article> articles, boolean isPolitifact){
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("/timelines/");
-    String child = "";
+    String child = "articles";
     if(isPolitifact){
       child = "politifact";
     }
-    else{
-      child = "articles";
-    }
+
     DatabaseReference timelinesRef = (ref.child(timeline_id)).child(child);
     Map<String, Object> data = new HashMap<>();
 

@@ -15,6 +15,7 @@ public class FirebaseFacade{
   private ArticleSaver articleSaver;
   private DatabaseLoader loader;
   private DatabaseReference.CompletionListener listener;
+  private SimpleArticleFactory factory;
 
   public FirebaseFacade(){
     try {
@@ -57,12 +58,16 @@ public class FirebaseFacade{
   }
 
   public void generateArticles(String timeline_id, String query, String start, String end){
-    ArrayList<Article> articles = ArticleFactory.generateArticles(query, start, end);
+    factory = new ArticleFactory();
+    query = query.replaceAll(" ", "%20");  //Remove white spaces
+    String info = query + " " + start + " " + end;
+    ArrayList<Article> articles = factory.build(info);
     articleSaver.save(timeline_id, articles, false);
   }
 
   public void generatePolitifactArticles(String timeline_id, String query){
-    ArrayList<Article> articles = PolitifactFactory.generate(query);
+    factory = new PolitifactFactory();
+    ArrayList<Article> articles = factory.build(query);
     articleSaver.save(timeline_id, articles, true);
   }
 

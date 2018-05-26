@@ -15,18 +15,22 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 
-public class ArticleFactory{
+public class ArticleFactory implements SimpleArticleFactory{
 
   private static final String NEWS_API_KEY = "70e77920c76840b0805076533088e5e7";
 
   //Returns an Arraylist of Articles that were parsed from the url
   //Precondition: The start and end are dates in the form YYYY-MM-DD
+  // The only whitespaces in parameter are to mark separation between the query, start-date, and end-date all 
   //Postcondition: Creates and returns an arraylist of Articles 
-  public static ArrayList<Article> generateArticles(String query, String start, String end){
+  public ArrayList<Article> build(String info){
 
-    query = query.replaceAll(" ", "%20");  //Remove white spaces
+    String[] splitStr = info.trim().split("\\s+");
+    String query = splitStr[0];
+    String start = splitStr[1];
+    String end = splitStr[2];
+
     String string_url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&apiKey=" + NEWS_API_KEY;
-    System.out.println(string_url);
 
     ArrayList<Article> articles = new ArrayList<Article>();
 
@@ -73,7 +77,7 @@ public class ArticleFactory{
   }
 
   //Move the information from data into Articles and add them to the Arraylist
-  private static void jsonToArrayList(ArrayList<Article> articles, JsonArray data){
+  private void jsonToArrayList(ArrayList<Article> articles, JsonArray data){
     String name, description, link, date, image;
 
     for(JsonElement entry : data){

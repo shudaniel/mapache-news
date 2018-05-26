@@ -9,9 +9,9 @@ import java.text.DateFormat;
 import java.text.ParseException;
 
 
-public class PolitifactFactory{
+public class PolitifactFactory implements SimpleArticleFactory{
 
-  public static ArrayList<Article> generate(String query){
+  public ArrayList<Article> build(String query){
     ArrayList<Article> politifact = new ArrayList<Article>();
 
     WebClient client = new WebClient();  
@@ -45,7 +45,7 @@ public class PolitifactFactory{
   
   }
 
-  private static String dateParser(String string_date){
+  private String dateParser(String string_date){
     String dateString = "";
     try{
       DateFormat old_format = new SimpleDateFormat("MMMMM dd, yyyy");

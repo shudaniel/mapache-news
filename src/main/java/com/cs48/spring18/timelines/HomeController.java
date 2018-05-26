@@ -93,7 +93,6 @@ public class HomeController {
     @RequestParam(value="end_date", defaultValue="") String end,
     @RequestParam(value="query", defaultValue="") String query
   ){
-
     saver.generateArticles(id, query, start, end);
   }
 
@@ -108,12 +107,21 @@ public class HomeController {
     saver.delete(timeline_id, article_id);
   }
 
-
-  @RequestMapping(path = "/politifact", produces = "application/json; charset=UTF-8")
+  @RequestMapping(value = "/politifact", method = RequestMethod.POST)
   @ResponseBody
-  public ArrayList<Article> politifact() {
-    return PolitifactFactory.generate("trump");
+  public void generate(
+    @RequestParam(value="timeline_id", defaultValue="") String id,
+    @RequestParam(value="query", defaultValue="") String query
+  ){
+    saver.generatePolitifactArticles(id, query);
   }
+
+
+  // @RequestMapping(path = "/politifact", produces = "application/json; charset=UTF-8")
+  // @ResponseBody
+  // public ArrayList<Article> politifact() {
+  //   return PolitifactFactory.generate("trump");
+  // }
 
 
 }
