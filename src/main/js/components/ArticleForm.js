@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import authenticate from '../util/Authentication.js';
 
 class ArticleForm extends Component {
 
@@ -15,19 +16,24 @@ class ArticleForm extends Component {
   }
 
   changeVisibility() {
-    this.setState(prevState => ({
-      not_visible: !prevState.not_visible
-    }));
-    if(this.state.not_visible){
-      this.setState({
-        button_name: "Cancel"
-      })
-    }
-    else{
-      this.setState({
-        button_name: "Add Article"
-      })
-    }
+	  
+	 authenticate(this.props.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			this.setState(prevState => ({
+			  not_visible: !prevState.not_visible
+			}));
+			if(this.state.not_visible){
+			  this.setState({
+				button_name: "Cancel"
+			  })
+			}
+			else{
+			  this.setState({
+				button_name: "Add Article"
+			  })
+			}			
+		}
+	});
   }
 
   handleSubmit(event){

@@ -9,13 +9,17 @@ Utility script to handle authentication in timelines
  * @return {boolean}
  */
 function authenticate(timelineid){
+
 	console.info('authenticating...')
 	return getCorrectPassword(timelineid).then((correct) => {
-		
-		//if there is no password
-		if(correct == ''){
+		if(sessionStorage.getItem(timelineid)){
 			return true;
 		}
+		//if there is no password
+		if(correct == ''|| correct == undefined){
+			return true;
+		}
+		
 		
 		//check to see if the user has already authenticated or not (caching)
 		
@@ -23,8 +27,13 @@ function authenticate(timelineid){
 		//if there is a password, and the user has not already authenticated
 		//then prompt them for the password
 		var password=prompt('Enter the password for this timeline:',' ');
+		console.log("input: " + password);
+		console.log("correct: " + correct);
+		
+		
 		if(password == correct){
 			return true;
+			sessionStorage.setItem(timelineid,true);
 		}
 		return false;
 	});
@@ -42,7 +51,10 @@ function getCorrectPassword(timelineid){
     url = url + "all";
 	return fetch(url)
       .then((response) => response.json())
-      .then((findresponse)=>findresponse.timelines['password']);
+      .then((findresponse)=>{
+		  console.log(findresponse)
+		  return findresponse.timelines[timelineid]['password']
+	  });
 }
 
 export default authenticate;
