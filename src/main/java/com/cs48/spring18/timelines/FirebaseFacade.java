@@ -73,11 +73,10 @@ public class FirebaseFacade{
     articleSaver.save(timeline_id, item, true);
   }
 
-  public void generateArticles(String timeline_id, String query, String start, String end){
+  public void generateArticles(String timeline_id, String query){
     factory = new ArticleFactory();
     query = query.replaceAll(" ", "%20");  //Remove white spaces
-    String info = query + " " + start + " " + end;
-    ArrayList<Article> articles = factory.buildList(info);
+    ArrayList<Article> articles = factory.buildList(query);
     articleSaver.save(timeline_id, articles, false);
   }
 

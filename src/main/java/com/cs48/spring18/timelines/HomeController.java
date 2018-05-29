@@ -109,11 +109,9 @@ public class HomeController {
   @ResponseBody
   public void generate(
     @RequestParam(value="timeline_id", defaultValue="") String id,
-    @RequestParam(value="start_date", defaultValue="") String start,
-    @RequestParam(value="end_date", defaultValue="") String end,
     @RequestParam(value="query", defaultValue="") String query
   ){
-    saver.generateArticles(id, query, start, end);
+    saver.generateArticles(id, query);
   }
 
   //Precondition: An Article and Timeline exist in the database whose ids match the provided article_id and tiemline_id
@@ -150,7 +148,7 @@ public class HomeController {
 
   @RequestMapping(value = "/politifact", method = RequestMethod.POST)
   @ResponseBody
-  public void generate(
+  public void generatePolitifactList(
     @RequestParam(value="timeline_id", defaultValue="") String id,
     @RequestParam(value="query", defaultValue="") String query
   ){

@@ -45,17 +45,9 @@ class View extends Component {
 
   handleAutoGenerate(event){
     var query = document.getElementById("query").value;
-    var start_date = document.getElementById("start_date").value;
-    var end_date = document.getElementById("end_date").value;
 
     if(query.length < 1){
       window.alert("Please enter a query.");
-    }
-    else if(start_date.length < 1){
-      window.alert("Please enter a start date.");
-    }
-    else if(end_date.length < 1){
-      window.alert("Please enter an end date.");
     }
     else{
 
@@ -70,8 +62,6 @@ class View extends Component {
       var url = root_url + "generate?"
         + "timeline_id=" + this.props.params.timeline_id
         + "&query=" + query
-        + "&start_date=" + start_date
-        + "&end_date=" + end_date
       fetch(url, {
         method: 'POST',
         headers: {
@@ -152,13 +142,7 @@ class View extends Component {
           <label>Query:</label>
           <input id="query" type="text"  />
           <br/>
-          <label>Start Date:</label>
-            <input id="start_date" type="date" />
-          <br/>
-          <label>End Date:</label>
-          <input id="end_date" type="date" />
-          <br/>
-          <p>*Automatically generates articles between specified dates based on query term</p>
+          <p>*Automatically generates articles based on query term</p>
           <input className="button green-button" type="submit" value="Submit"/>
         </form>
         

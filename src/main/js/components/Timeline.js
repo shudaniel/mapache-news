@@ -51,7 +51,6 @@ class Timeline extends Component{
 
   
   changeVisibility(event){
-	console.log('idkman');
 	authenticate(this.props.timeline_id).then((hasAccess) => {
 		console.log(hasAccess);
 		if(hasAccess){

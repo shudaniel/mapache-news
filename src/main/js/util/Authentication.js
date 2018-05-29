@@ -26,15 +26,17 @@ function authenticate(timelineid){
 		
 		//if there is a password, and the user has not already authenticated
 		//then prompt them for the password
-		var password=prompt('Enter the password for this timeline:',' ');
+		var password=prompt('Enter the password for this timeline:','');
 		console.log("input: " + password);
 		console.log("correct: " + correct);
 		
 		
 		if(password == correct){
-			return true;
 			sessionStorage.setItem(timelineid,true);
+			return true;
+			// sessionStorage.setItem(timelineid,true);
 		}
+		window.alert("Incorrect Password");
 		return false;
 	});
 }

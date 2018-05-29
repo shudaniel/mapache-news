@@ -24,15 +24,10 @@ public class ArticleFactory implements SimpleArticleFactory{
   //Precondition: The start and end are dates in the form YYYY-MM-DD
   // The only whitespaces in parameter are to mark separation between the query, start-date, and end-date all 
   //Postcondition: Creates and returns an arraylist of Articles 
-  public ArrayList<Article> buildList(String info){
+  public ArrayList<Article> buildList(String query){
 
-    String[] splitStr = info.trim().split("\\s+");
-    String query = splitStr[0];
-    String start = splitStr[1];
-    String end = splitStr[2];
-
-    String string_url = "https://newsapi.org/v2/top-headlines?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&apiKey=" + NEWS_API_KEY;
-
+    String string_url = "https://newsapi.org/v2/top-headlines?q=" + query + "&sortBy=popularity&apiKey=" + NEWS_API_KEY;
+    System.out.println(string_url);
     ArrayList<Article> articles = new ArrayList<Article>();
 
     // Connect to the URL using java's native library
@@ -51,8 +46,11 @@ public class ArticleFactory implements SimpleArticleFactory{
 
       //If there are not that many headlines from the top-headlines category, grab articles from the everyting categorty
       if(numResults < 5){
-        string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&language=en&apiKey=" + NEWS_API_KEY;
+        string_url = "https://newsapi.org/v2/everything?q=" + query + "&sortBy=popularity&language=en&apiKey=" + NEWS_API_KEY;
+        System.out.println(string_url);
+
         URL url2 = new URL(string_url);
+
         URLConnection request2 = url2.openConnection();
         request2.connect();
         jp = new JsonParser(); 
