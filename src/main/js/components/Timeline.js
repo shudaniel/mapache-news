@@ -51,14 +51,15 @@ class Timeline extends Component{
 
   
   changeVisibility(event){
-    console.log('idkman');
-    authenticate(this.props.timeline_id).then((hasAccess) => {
-    	if(hasAccess){
-    		this.setState(prevState => ({
-    			hide_edit_form: !prevState.hide_edit_form
-    		}));
-    	}
-    });
+	console.log('idkman');
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		console.log(hasAccess);
+		if(hasAccess){
+			this.setState(prevState => ({
+				hide_edit_form: !prevState.hide_edit_form
+			}));
+		}
+	});
   }
 
   handleNameChange(event){
@@ -119,26 +120,27 @@ class Timeline extends Component{
   }
 
   handleDelete(event){
-    document.getElementById("delete").disabled = true;
-    document.getElementById("edit").disabled = true;
-
-    var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-    var url = root_url + "delete_timeline?"
-      + "timeline_id=" + this.props.timeline_id
-    // console.log(url);
-    fetch(url, {
-      method: 'POST',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timeline_id: this.props.timeline_id,
-      })
-    }).then(function(response) {
-        window.location = root_url;
-      });
-    
+  
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			
+		var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+		var url = root_url + "delete_timeline?"
+		  + "timeline_id=" + this.props.timeline_id
+		// console.log(url);
+		fetch(url, {
+		  method: 'POST',
+		  headers: {
+		  'Accept': 'application/json',
+		  'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({
+			timeline_id: this.props.timeline_id,
+		  })
+		})
+		window.location = root_url;
+		}
+	});
   }
 
   render(){
