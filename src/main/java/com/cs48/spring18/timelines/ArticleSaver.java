@@ -71,6 +71,24 @@ public class ArticleSaver{
     
   }
 
+  public void update(String timeline_id, Article item, boolean isPolitifact){
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    String child = "articles";
+    if(isPolitifact){
+      child = "politifact";
+    }
+    DatabaseReference ref = database.getReference("/timelines/" + timeline_id + "/" + child + "/");
+    DatabaseReference articleRef = ref.child(item.getId());
+    Map<String, Object> articleUpdates = new HashMap<>();
+
+    articleUpdates.put("name", item.getName());
+    articleUpdates.put("description", item.getDescription());
+    articleUpdates.put("link", item.getLink());
+    articleUpdates.put("dateString", item.getDateString());
+
+    articleRef.updateChildren(articleUpdates, listener);
+  }
+
   //Precondition: timeline_id is the id of a Timeline in the database
   // This timeline has an article with an id that matches article_id
   //Postcondition: The article that matches article_id will be deleted from the timeline whose id matches timeline_id

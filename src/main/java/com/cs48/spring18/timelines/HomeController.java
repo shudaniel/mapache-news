@@ -48,9 +48,10 @@ public class HomeController {
   @RequestMapping(value = "/create", method = RequestMethod.POST)
   public void create(
     @RequestParam(value="name", defaultValue="") String name, 
-    @RequestParam(value="description", defaultValue="") String description
+    @RequestParam(value="description", defaultValue="") String description,
+	  @RequestParam(value="password", defaultValue="") String password
   ){
-    Timeline newEntry = new Timeline(name, description);
+    Timeline newEntry = new Timeline(name, description, password);
     saver.save(newEntry);
   }
 
@@ -84,6 +85,25 @@ public class HomeController {
     ){
     saver.save(timeline_id, name, link, description, date);
   }
+
+  @RequestMapping(value = "/update_article", method = RequestMethod.POST)
+  public void updateArticle(
+      @RequestParam(value="timeline_id", defaultValue="") String timeline_id,
+      @RequestParam(value="article_id", defaultValue="") String article_id,
+      @RequestParam(value="name", defaultValue="") String name,
+      @RequestParam(value="link", defaultValue="") String link,
+      @RequestParam(value="description", defaultValue="") String description,
+      @RequestParam(value="date", defaultValue="") String date,
+      @RequestParam(value="politifact", defaultValue="") String politifact
+
+    ){
+    boolean isPolitifact = false;
+    if(politifact.equals("true")){
+      isPolitifact = true;
+    }
+    saver.update(timeline_id, article_id, name, link, description, date, isPolitifact);
+  }
+
 
   @RequestMapping(value = "/generate", method = RequestMethod.POST)
   @ResponseBody

@@ -92,6 +92,19 @@ public class FirebaseFacade{
     timelineSaver.update(item);
   }
 
+  public void update(String timeline_id, String article_id, String name, String link, String description, String date, boolean isPolitifact){
+    factory = new ArticleFactory();
+    HashMap<String, String> info = new HashMap<String, String>();
+    info.put("name", name);
+    info.put("link", link);
+    info.put("image", "");
+    info.put("description", description);
+    
+    Article item = factory.buildSingle(info, date);
+    item.setId(article_id);
+    articleSaver.update(timeline_id, item, isPolitifact);
+
+  } 
   //Delete Timeline in the database with corresponding timeline_id
   public void delete(String timeline_id){
     timelineSaver.delete(timeline_id);

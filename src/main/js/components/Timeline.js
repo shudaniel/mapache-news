@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import React, { Component } from 'react';
+import authenticate from '../util/Authentication.js';
 
 class Timeline extends Component{
 
@@ -47,10 +48,18 @@ class Timeline extends Component{
     })
   }
 
+
+  
   changeVisibility(event){
-    this.setState(prevState => ({
-      hideEdit: !prevState.hideEdit
-    }));
+	console.log('idkman');
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		console.log(hasAccess);
+		if(hasAccess){
+			this.setState(prevState => ({
+				hideEdit: !prevState.hideEdit
+			}));
+		}
+	});
   }
 
   handleNameChange(event){
@@ -111,26 +120,27 @@ class Timeline extends Component{
   }
 
   handleDelete(event){
-    document.getElementById("delete").disabled = true;
-    document.getElementById("edit").disabled = true;
-
-    var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-    var url = root_url + "delete_timeline?"
-      + "timeline_id=" + this.props.timeline_id
-    // console.log(url);
-    fetch(url, {
-      method: 'POST',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timeline_id: this.props.timeline_id,
-      })
-    }).then(function(response) {
-        window.location = root_url;
-      });
-    
+  
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			
+		var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+		var url = root_url + "delete_timeline?"
+		  + "timeline_id=" + this.props.timeline_id
+		// console.log(url);
+		fetch(url, {
+		  method: 'POST',
+		  headers: {
+		  'Accept': 'application/json',
+		  'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({
+			timeline_id: this.props.timeline_id,
+		  })
+		})
+		window.location = root_url;
+		}
+	});
   }
 
   render(){
