@@ -51,7 +51,7 @@ public class ArticleFactory implements SimpleArticleFactory{
 
       //If there are not that many headlines from the top-headlines category, grab articles from the everyting categorty
       if(numResults < 5){
-        string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&apiKey=" + NEWS_API_KEY;
+        string_url = "https://newsapi.org/v2/everything?q=" + query + "&from=" + start + "&to=" + end + "&sortBy=popularity&language=en&apiKey=" + NEWS_API_KEY;
         URL url2 = new URL(string_url);
         URLConnection request2 = url2.openConnection();
         request2.connect();

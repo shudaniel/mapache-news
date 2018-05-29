@@ -92,7 +92,7 @@ public class PolitifactFactory implements SimpleArticleFactory{
     String dateString = "";
     try{
       DateFormat old_format = new SimpleDateFormat("MMMMM dd, yyyy");
-      DateFormat new_format = new SimpleDateFormat("MM-dd-yyyy");
+      DateFormat new_format = new SimpleDateFormat("yyyy-MM-dd");
 
       Date date = old_format.parse(string_date);
       dateString = new_format.format(date);
