@@ -56,7 +56,7 @@ class Timeline extends Component{
 		console.log(hasAccess);
 		if(hasAccess){
 			this.setState(prevState => ({
-				hide_edit_form: !prevState.hide_edit_form
+				hideEdit: !prevState.hideEdit
 			}));
 		}
 	});
