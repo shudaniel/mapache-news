@@ -24,12 +24,12 @@ class ArticleForm extends Component {
 			}));
 			if(this.state.not_visible){
 			  this.setState({
-				button_name: "Cancel"
+				button_name: "Add Article"
 			  })
 			}
 			else{
 			  this.setState({
-				button_name: "Add Article"
+				button_name: "Cancel"
 			  })
 			}			
 		}

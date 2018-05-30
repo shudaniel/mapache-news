@@ -22742,11 +22742,11 @@
 	          });
 	          if (_this2.state.not_visible) {
 	            _this2.setState({
-	              button_name: "Cancel"
+	              button_name: "Add Article"
 	            });
 	          } else {
 	            _this2.setState({
-	              button_name: "Add Article"
+	              button_name: "Cancel"
 	            });
 	          }
 	        }
