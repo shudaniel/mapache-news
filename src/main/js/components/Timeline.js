@@ -126,7 +126,6 @@ class Timeline extends Component{
 		var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
 		var url = root_url + "delete_timeline?"
 		  + "timeline_id=" + this.props.timeline_id
-		// console.log(url);
 		fetch(url, {
 		  method: 'POST',
 		  headers: {

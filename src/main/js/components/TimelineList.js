@@ -14,6 +14,7 @@ class TimelineList extends React.Component{
     }
 
     this.changeVisibility = this.changeVisibility.bind(this);
+    this.filterTimelines = this.filterTimelines.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +45,22 @@ class TimelineList extends React.Component{
     }
   }
 
+  filterTimelines() {
+    var input, list, item, timeline, i;
+    input = document.getElementById("query");
+    input = input.value.toUpperCase();
+    list = document.getElementById("allTimelines");
+    item = list.getElementsByTagName("li");
+    for (i = 0; i < item.length; i++) {
+      if (item[i].id.toUpperCase().indexOf(input) > -1) {
+        item[i].style.display = "";
+      } else {
+        item[i].style.display = "none";
+
+      }
+    }
+  }
+
   generateTimelineList() {
     var list = [];
     var keys = Object.keys(this.state.timelines);
@@ -55,7 +72,7 @@ class TimelineList extends React.Component{
       var arr = this.state.timelines[keys[i]];
       if(arr != null){
         list.push(
-          <Timeline timeline_id={arr["id"]} name={arr["name"]} description={arr["description"]}/>
+          <li id={arr["name"] + " " + arr["description"]}><Timeline timeline_id={arr["id"]} name={arr["name"]} description={arr["description"]}/></li>
         );
         list.push(<br/>);
       }
@@ -72,9 +89,14 @@ class TimelineList extends React.Component{
         <form>
           <input className = "main-button" type="button" value={this.state.button_name} onClick={this.changeVisibility} />
         </form>
-        <div hidden={this.state.not_visible}>
-          {this.generateTimelineList()}
+        <br/>
+        <div className="search-bar" hidden={this.state.not_visible}>
+          <label>Search</label>
+          <input type="text" id="query" onKeyUp={this.filterTimelines} placeholder="Name/Description..." />
         </div>
+        <ul id="allTimelines" hidden={this.state.not_visible}>
+          {this.generateTimelineList()}
+        </ul>
       </div>
     );
   }

@@ -10170,6 +10170,7 @@
 	    };
 	
 	    _this.changeVisibility = _this.changeVisibility.bind(_this);
+	    _this.filterTimelines = _this.filterTimelines.bind(_this);
 	    return _this;
 	  }
 	
@@ -10207,6 +10208,22 @@
 	      }
 	    }
 	  }, {
+	    key: 'filterTimelines',
+	    value: function filterTimelines() {
+	      var input, list, item, timeline, i;
+	      input = document.getElementById("query");
+	      input = input.value.toUpperCase();
+	      list = document.getElementById("allTimelines");
+	      item = list.getElementsByTagName("li");
+	      for (i = 0; i < item.length; i++) {
+	        if (item[i].id.toUpperCase().indexOf(input) > -1) {
+	          item[i].style.display = "";
+	        } else {
+	          item[i].style.display = "none";
+	        }
+	      }
+	    }
+	  }, {
 	    key: 'generateTimelineList',
 	    value: function generateTimelineList() {
 	      var list = [];
@@ -10222,7 +10239,11 @@
 	      for (var i = 0; i < Object.keys(this.state.timelines).length; i++) {
 	        var arr = this.state.timelines[keys[i]];
 	        if (arr != null) {
-	          list.push(_react2.default.createElement(_Timeline2.default, { timeline_id: arr["id"], name: arr["name"], description: arr["description"] }));
+	          list.push(_react2.default.createElement(
+	            'li',
+	            { id: arr["name"] + " " + arr["description"] },
+	            _react2.default.createElement(_Timeline2.default, { timeline_id: arr["id"], name: arr["name"], description: arr["description"] })
+	          ));
 	          list.push(_react2.default.createElement('br', null));
 	        }
 	      }
@@ -10239,9 +10260,20 @@
 	          null,
 	          _react2.default.createElement('input', { className: 'main-button', type: 'button', value: this.state.button_name, onClick: this.changeVisibility })
 	        ),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
-	          { hidden: this.state.not_visible },
+	          { className: 'search-bar', hidden: this.state.not_visible },
+	          _react2.default.createElement(
+	            'label',
+	            null,
+	            'Search'
+	          ),
+	          _react2.default.createElement('input', { type: 'text', id: 'query', onKeyUp: this.filterTimelines, placeholder: 'Name/Description...' })
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { id: 'allTimelines', hidden: this.state.not_visible },
 	          this.generateTimelineList()
 	        )
 	      );
@@ -10437,7 +10469,6 @@
 	
 	          var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
 	          var url = root_url + "delete_timeline?" + "timeline_id=" + _this3.props.timeline_id;
-	          // console.log(url);
 	          fetch(url, {
 	            method: 'POST',
 	            headers: {
