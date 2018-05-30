@@ -68,7 +68,7 @@ public class FirebaseFacade{
   public void save(String timeline_id, String url, String date){
     factory = new PolitifactFactory();
     HashMap<String, String> info = new HashMap<String, String>();
-    info.put("url", url);
+    info.put("link", url);
     Article item = factory.buildSingle(info, date);
     articleSaver.save(timeline_id, item, true);
   }
@@ -92,14 +92,25 @@ public class FirebaseFacade{
   }
 
   public void update(String timeline_id, String article_id, String name, String link, String description, String date, boolean isPolitifact){
-    factory = new ArticleFactory();
     HashMap<String, String> info = new HashMap<String, String>();
-    info.put("name", name);
+    if(isPolitifact){
+      factory = new PolitifactFactory();
+    }
+    else{
+      factory = new ArticleFactory();
+      info.put("name", name);
+      info.put("image", "");
+      info.put("description", description);
+    }
+
     info.put("link", link);
-    info.put("image", "");
-    info.put("description", description);
     
     Article item = factory.buildSingle(info, date);
+    if(isPolitifact){
+      if(name.length() > 1)
+        item.setName(name);
+      item.setDescription(description);
+    }
     item.setId(article_id);
     articleSaver.update(timeline_id, item, isPolitifact);
 

@@ -65,7 +65,7 @@ class Article extends Component {
     var description = this.state.formDescription;
     var link = this.state.formLink;
     var date = this.state.formDate;
-    if(name.length < 1){
+    if(name.length < 1 && !this.props.isPolitifact){
       window.alert("Please enter a Timeline name");
     }
     else if(link.length < 1){
@@ -84,6 +84,9 @@ class Article extends Component {
         hideEdit: true,
         hideLoader: false
       });
+      if(link.substring(0,7) != "http://"){
+        link = "http://" + link;
+      }
 
       var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
       var url = root_url + "update_article?";
@@ -177,7 +180,7 @@ class Article extends Component {
         <form className="form" hidden={this.state.hideEdit} onSubmit={this.handleEdit}>
           <label>Name:</label>
           <textarea id="name" type="text" value={this.state.formName} onChange={this.handleNameChange} />
-          <br/>
+          <br />
           <label>Description:</label>
           <textarea id="description" type="text" value={this.state.formDescription} onChange={this.handleDescriptionChange} />
           <br/>

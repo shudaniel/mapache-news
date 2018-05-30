@@ -85,6 +85,7 @@ public class ArticleSaver{
     articleUpdates.put("description", item.getDescription());
     articleUpdates.put("link", item.getLink());
     articleUpdates.put("dateString", item.getDateString());
+    articleUpdates.put("imageUrl", item.getImageUrl());
 
     articleRef.updateChildren(articleUpdates, listener);
   }

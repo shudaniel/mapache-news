@@ -59,7 +59,7 @@ public class PolitifactFactory implements SimpleArticleFactory{
   }
 
   public Article buildSingle(HashMap<String, String> info, String date){
-    String url = info.get("url");
+    String url = info.get("link");
     String name = "";
     String description = "";
     String image = "";
