@@ -91,15 +91,15 @@ class ArticleForm extends Component {
           </form>
           <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
             <label>Name:</label>
-            <input id="name" type="text"  />
+            <textarea id="name" type="text"  />
             <br/>
             <label>URL:</label>
-            <input id="url" type="text" />
+            <textarea id="url" type="text" />
             <br/>
             <label>Date:</label>
             <input id="date" type="date" />
             <br/>
-            <label>Description:</label>
+            <label>On-Hover Description:</label>
             <textarea id="description" type="text" />
             <br/>
             <input className="button green-button" type="submit" value="Submit"/>

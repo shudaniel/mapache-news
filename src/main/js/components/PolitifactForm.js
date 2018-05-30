@@ -86,11 +86,12 @@ class PolitifactForm extends Component {
           <div hidden={this.state.hideLoader} className="loader" />
           <form className="form" hidden={this.state.not_visible} onSubmit={this.handleSubmit}>
             <label>URL: http://www.politifact.com/</label>
-            <input id="url" type="text" value={this.state.formLink} onChange={this.handleLinkChange}/>
+            <textarea id="url" type="text" value={this.state.formLink} onChange={this.handleLinkChange}/>
             <br/>
             <label>Publication Date:</label>
             <input id="date" type="date" value={this.state.formDate} onChange={this.handleDateChange} />
             <br/>
+            <p> Note: This must be a valid politifact article </p>
             <input className="button green-button" type="submit" value="Submit"/>
           </form>
         </div>
