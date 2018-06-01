@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import authenticate from '../util/Authentication.js';
+
 
 class PolitifactForm extends Component {
 
@@ -20,9 +22,13 @@ class PolitifactForm extends Component {
   }
 
   changeVisibility() {
-    this.setState(prevState => ({
-      not_visible: !prevState.not_visible
-    }));
+    authenticate(this.props.timeline_id).then((hasAccess) => {
+      if(hasAccess){
+        this.setState(prevState => ({
+                not_visible: !prevState.not_visible
+              }));
+      }
+    })
   }
 
   handleSubmit(event){

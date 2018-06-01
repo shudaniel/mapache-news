@@ -115,19 +115,23 @@ class View extends Component {
   }
 
   showSearchForm(){
-	authenticate(this.props.params.timeline_id).then((hasAccess) => {
-		if(hasAccess){
-			this.setState(prevState => ({
-				hideSearch: !prevState.hideSearch
-			}));
-		}
-	})
+  	authenticate(this.props.params.timeline_id).then((hasAccess) => {
+  		if(hasAccess){
+  			this.setState(prevState => ({
+  				hideSearch: !prevState.hideSearch
+  			}));
+  		}
+  	})
   }
 
   showPolitifactForm(){
-    this.setState(prevState => ({
-      hidePolitifactForm: !prevState.hidePolitifactForm
-    }));
+    authenticate(this.props.params.timeline_id).then((hasAccess) => {
+      if(hasAccess){
+        this.setState(prevState => ({
+          hidePolitifactForm: !prevState.hidePolitifactForm
+        }));
+      }
+    })
   }
   
   render() {

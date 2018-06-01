@@ -150,9 +150,13 @@ class Article extends Component {
   }
 
   changeVisibility(){
-    this.setState(prevState => ({
-      hideEdit: !prevState.hideEdit
-    }));
+    authenticate(this.props.timeline_id).then((hasAccess) => {
+      if(hasAccess){
+        this.setState(prevState => ({
+          hideEdit: !prevState.hideEdit
+        }));
+      }
+    })
   }
 
   handleNameChange(event){

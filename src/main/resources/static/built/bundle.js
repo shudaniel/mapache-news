@@ -10635,6 +10635,10 @@
 	
 	var _PolitifactForm2 = _interopRequireDefault(_PolitifactForm);
 	
+	var _Authentication = __webpack_require__(99);
+	
+	var _Authentication2 = _interopRequireDefault(_Authentication);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10759,19 +10763,31 @@
 	  }, {
 	    key: 'showSearchForm',
 	    value: function showSearchForm() {
-	      this.setState(function (prevState) {
-	        return {
-	          hideSearch: !prevState.hideSearch
-	        };
+	      var _this3 = this;
+	
+	      (0, _Authentication2.default)(this.props.params.timeline_id).then(function (hasAccess) {
+	        if (hasAccess) {
+	          _this3.setState(function (prevState) {
+	            return {
+	              hideSearch: !prevState.hideSearch
+	            };
+	          });
+	        }
 	      });
 	    }
 	  }, {
 	    key: 'showPolitifactForm',
 	    value: function showPolitifactForm() {
-	      this.setState(function (prevState) {
-	        return {
-	          hidePolitifactForm: !prevState.hidePolitifactForm
-	        };
+	      var _this4 = this;
+	
+	      (0, _Authentication2.default)(this.props.params.timeline_id).then(function (hasAccess) {
+	        if (hasAccess) {
+	          _this4.setState(function (prevState) {
+	            return {
+	              hidePolitifactForm: !prevState.hidePolitifactForm
+	            };
+	          });
+	        }
 	      });
 	    }
 	  }, {
@@ -11073,7 +11089,7 @@
 /* 102 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -11084,6 +11100,10 @@
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _Authentication = __webpack_require__(99);
+	
+	var _Authentication2 = _interopRequireDefault(_Authentication);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -11131,7 +11151,7 @@
 	  }
 	
 	  _createClass(Article, [{
-	    key: "componentWillMount",
+	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      var formattedDate = new Date(this.state.date);
 	      formattedDate = new Date(formattedDate).toUTCString();
@@ -11146,7 +11166,7 @@
 	      });
 	    }
 	  }, {
-	    key: "get_screenshot",
+	    key: 'get_screenshot',
 	    value: function get_screenshot() {
 	      if (this.props.image != null && this.props.image.length > 0) {
 	        return this.props.image;
@@ -11155,12 +11175,12 @@
 	      }
 	    }
 	  }, {
-	    key: "handleClick",
+	    key: 'handleClick',
 	    value: function handleClick(event) {
 	      window.open(this.props.url, '_blank');
 	    }
 	  }, {
-	    key: "handleEdit",
+	    key: 'handleEdit',
 	    value: function handleEdit(event) {
 	      var name = this.state.formName;
 	      var description = this.state.formDescription;
@@ -11206,120 +11226,133 @@
 	      }
 	    }
 	  }, {
-	    key: "handleDelete",
+	    key: 'handleDelete',
 	    value: function handleDelete(event) {
-	      var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
-	      var url = root_url + "delete_article?";
-	      if (this.props.isPolitifact) {
-	        url = root_url + "delete_politifact?";
-	      }
+	      var _this2 = this;
 	
-	      url = url + "timeline_id=" + this.props.timeline_id + "&article_id=" + this.props.article_id;
-	      // console.log(url);
-	      fetch(url, {
-	        method: 'POST',
-	        headers: {
-	          'Accept': 'application/json',
-	          'Content-Type': 'application/json'
-	        },
-	        body: JSON.stringify({
-	          timeline_id: this.props.timeline_id,
-	          article_id: this.props.article_id
-	        })
-	      }).then(function (response) {
-	        window.location.reload();
+	      (0, _Authentication2.default)(this.props.timeline_id).then(function (hasAccess) {
+	        if (hasAccess) {
+	
+	          var root_url = window.location.origin ? window.location.origin + '/' : window.location.protocol + '/' + window.location.host + '/';
+	          var url = root_url + "delete_article?";
+	          if (_this2.props.isPolitifact) {
+	            url = root_url + "delete_politifact?";
+	          }
+	
+	          url = url + "timeline_id=" + _this2.props.timeline_id + "&article_id=" + _this2.props.article_id;
+	          // console.log(url);
+	          fetch(url, {
+	            method: 'POST',
+	            headers: {
+	              'Accept': 'application/json',
+	              'Content-Type': 'application/json'
+	            },
+	            body: JSON.stringify({
+	              timeline_id: _this2.props.timeline_id,
+	              article_id: _this2.props.article_id
+	            })
+	          }).then(function (response) {
+	            window.location.reload();
+	          });
+	        }
 	      });
 	    }
 	  }, {
-	    key: "changeVisibility",
+	    key: 'changeVisibility',
 	    value: function changeVisibility() {
-	      this.setState(function (prevState) {
-	        return {
-	          hideEdit: !prevState.hideEdit
-	        };
+	      var _this3 = this;
+	
+	      (0, _Authentication2.default)(this.props.timeline_id).then(function (hasAccess) {
+	        if (hasAccess) {
+	          _this3.setState(function (prevState) {
+	            return {
+	              hideEdit: !prevState.hideEdit
+	            };
+	          });
+	        }
 	      });
 	    }
 	  }, {
-	    key: "handleNameChange",
+	    key: 'handleNameChange',
 	    value: function handleNameChange(event) {
 	      this.setState({ formName: event.target.value });
 	    }
 	  }, {
-	    key: "handleDescriptionChange",
+	    key: 'handleDescriptionChange',
 	    value: function handleDescriptionChange(event) {
 	      this.setState({ formDescription: event.target.value });
 	    }
 	  }, {
-	    key: "handleLinkChange",
+	    key: 'handleLinkChange',
 	    value: function handleLinkChange(event) {
 	      this.setState({ formLink: event.target.value });
 	    }
 	  }, {
-	    key: "handleDateChange",
+	    key: 'handleDateChange',
 	    value: function handleDateChange(event) {
 	      this.setState({ formDate: event.target.value });
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "article" },
+	        'div',
+	        { className: 'article' },
 	        _react2.default.createElement(
-	          "h3",
-	          { title: this.props.description, className: "hover", onClick: this.handleClick },
+	          'h3',
+	          { title: this.props.description, className: 'hover', onClick: this.handleClick },
 	          this.props.title
 	        ),
-	        _react2.default.createElement("img", { title: this.props.description, className: "thumbnail hover", src: this.get_screenshot(), onClick: this.handleClick, sizes: "32x32" }),
-	        _react2.default.createElement("br", null),
+	        _react2.default.createElement('img', { title: this.props.description, className: 'thumbnail hover', src: this.get_screenshot(), onClick: this.handleClick, sizes: '32x32' }),
+	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
-	          "button",
-	          { id: "edit", className: "button edit-button", type: "button", onClick: this.changeVisibility },
-	          "Edit"
+	          'button',
+	          { id: 'edit', className: 'button edit-button', type: 'button', onClick: this.changeVisibility },
+	          'Edit'
 	        ),
 	        _react2.default.createElement(
-	          "button",
-	          { id: "delete", className: "button delete-button", type: "button", onClick: this.handleDelete },
-	          "Delete"
+	          'button',
+	          { id: 'delete', className: 'button delete-button', type: 'button', onClick: this.handleDelete },
+	          'Delete'
 	        ),
-	        _react2.default.createElement("br", null),
-	        _react2.default.createElement("div", { hidden: this.state.hideLoader, className: "loader" }),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('div', { hidden: this.state.hideLoader, className: 'loader' }),
 	        _react2.default.createElement(
-	          "form",
-	          { className: "form", hidden: this.state.hideEdit, onSubmit: this.handleEdit },
+	          'form',
+	          { className: 'form', hidden: this.state.hideEdit, onSubmit: this.handleEdit },
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "Name:"
+	            'Name:'
 	          ),
-	          _react2.default.createElement("textarea", { id: "name", type: "text", value: this.state.formName, onChange: this.handleNameChange }),
-	          _react2.default.createElement("br", null),
+	          _react2.default.createElement('textarea', { id: 'name', type: 'text', value: this.state.formName, onChange: this.handleNameChange }),
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "Description:"
+	            'Description:'
 	          ),
-	          _react2.default.createElement("textarea", { id: "description", type: "text", value: this.state.formDescription, onChange: this.handleDescriptionChange }),
-	          _react2.default.createElement("br", null),
+	          _react2.default.createElement('textarea', { id: 'description', type: 'text', value: this.state.formDescription, onChange: this.handleDescriptionChange }),
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "Link:"
+	            'Link:'
 	          ),
-	          _react2.default.createElement("textarea", { id: "link", type: "text", value: this.state.formLink, onChange: this.handleLinkChange }),
-	          _react2.default.createElement("br", null),
+	          _react2.default.createElement('textarea', { id: 'link', type: 'text', value: this.state.formLink, onChange: this.handleLinkChange }),
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "Date:"
+	            'Date:'
 	          ),
-	          _react2.default.createElement("input", { id: "date", type: "date", value: this.state.formDate, onChange: this.handleDateChange }),
-	          _react2.default.createElement("br", null),
-	          _react2.default.createElement("input", { className: "button green-button", type: "submit", value: "Submit" })
+	          _react2.default.createElement('input', { id: 'date', type: 'date', value: this.state.formDate, onChange: this.handleDateChange }),
+	          _react2.default.createElement('br', null),
+	          _react2.default.createElement('input', { className: 'button green-button', type: 'submit', value: 'Submit' })
 	        ),
 	        _react2.default.createElement(
-	          "p",
+	          'p',
 	          null,
 	          this.state.date
 	        )
@@ -22847,7 +22880,7 @@
 /* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22858,6 +22891,10 @@
 	var _react = __webpack_require__(3);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _Authentication = __webpack_require__(99);
+	
+	var _Authentication2 = _interopRequireDefault(_Authentication);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -22891,16 +22928,22 @@
 	  }
 	
 	  _createClass(PolitifactForm, [{
-	    key: "changeVisibility",
+	    key: 'changeVisibility',
 	    value: function changeVisibility() {
-	      this.setState(function (prevState) {
-	        return {
-	          not_visible: !prevState.not_visible
-	        };
+	      var _this2 = this;
+	
+	      (0, _Authentication2.default)(this.props.timeline_id).then(function (hasAccess) {
+	        if (hasAccess) {
+	          _this2.setState(function (prevState) {
+	            return {
+	              not_visible: !prevState.not_visible
+	            };
+	          });
+	        }
 	      });
 	    }
 	  }, {
-	    key: "handleSubmit",
+	    key: 'handleSubmit',
 	    value: function handleSubmit(event) {
 	      event.preventDefault();
 	
@@ -22940,50 +22983,50 @@
 	      }
 	    }
 	  }, {
-	    key: "handleLinkChange",
+	    key: 'handleLinkChange',
 	    value: function handleLinkChange(event) {
 	      this.setState({ formLink: event.target.value });
 	    }
 	  }, {
-	    key: "handleDateChange",
+	    key: 'handleDateChange',
 	    value: function handleDateChange(event) {
 	      this.setState({ formDate: event.target.value });
 	    }
 	  }, {
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        "div",
-	        { className: "timeline_form" },
+	        'div',
+	        { className: 'timeline_form' },
 	        _react2.default.createElement(
-	          "button",
-	          { className: "button teal-button", type: "button", onClick: this.changeVisibility },
-	          "Add Single Politifact Article"
+	          'button',
+	          { className: 'button teal-button', type: 'button', onClick: this.changeVisibility },
+	          'Add Single Politifact Article'
 	        ),
-	        _react2.default.createElement("div", { hidden: this.state.hideLoader, className: "loader" }),
+	        _react2.default.createElement('div', { hidden: this.state.hideLoader, className: 'loader' }),
 	        _react2.default.createElement(
-	          "form",
-	          { className: "form", hidden: this.state.not_visible, onSubmit: this.handleSubmit },
+	          'form',
+	          { className: 'form', hidden: this.state.not_visible, onSubmit: this.handleSubmit },
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "URL: http://www.politifact.com/"
+	            'URL: http://www.politifact.com/'
 	          ),
-	          _react2.default.createElement("textarea", { id: "url", type: "text", value: this.state.formLink, onChange: this.handleLinkChange }),
-	          _react2.default.createElement("br", null),
+	          _react2.default.createElement('textarea', { id: 'url', type: 'text', value: this.state.formLink, onChange: this.handleLinkChange }),
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            "label",
+	            'label',
 	            null,
-	            "Publication Date:"
+	            'Publication Date:'
 	          ),
-	          _react2.default.createElement("input", { id: "date", type: "date", value: this.state.formDate, onChange: this.handleDateChange }),
-	          _react2.default.createElement("br", null),
+	          _react2.default.createElement('input', { id: 'date', type: 'date', value: this.state.formDate, onChange: this.handleDateChange }),
+	          _react2.default.createElement('br', null),
 	          _react2.default.createElement(
-	            "p",
+	            'p',
 	            null,
-	            " Note: This must be a valid politifact article "
+	            ' Note: This must be a valid politifact article '
 	          ),
-	          _react2.default.createElement("input", { className: "button green-button", type: "submit", value: "Submit" })
+	          _react2.default.createElement('input', { className: 'button green-button', type: 'submit', value: 'Submit' })
 	        )
 	      );
 	    }
