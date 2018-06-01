@@ -4,7 +4,7 @@ import ArticleList from './components/ArticleList'
 import ArticleForm from './components/ArticleForm'
 import Timeline from './components/Timeline'
 import PolitifactForm from './components/PolitifactForm'
-
+import authenticate from './util/Authentication.js';
 
 class View extends Component {
 
@@ -44,48 +44,48 @@ class View extends Component {
 
 
   handleAutoGenerate(event){
-    var query = document.getElementById("query").value;
-    var start_date = document.getElementById("start_date").value;
-    var end_date = document.getElementById("end_date").value;
+			var query = document.getElementById("query").value;
+			var start_date = document.getElementById("start_date").value;
+			var end_date = document.getElementById("end_date").value;
 
-    if(query.length < 1){
-      window.alert("Please enter a query.");
-    }
-    else if(start_date.length < 1){
-      window.alert("Please enter a start date.");
-    }
-    else if(end_date.length < 1){
-      window.alert("Please enter an end date.");
-    }
-    else{
+			if(query.length < 1){
+			  window.alert("Please enter a query.");
+			}
+			else if(start_date.length < 1){
+			  window.alert("Please enter a start date.");
+			}
+			else if(end_date.length < 1){
+			  window.alert("Please enter an end date.");
+			}
+			else{
 
-      document.getElementById("generator").disabled = true;
+			  document.getElementById("generator").disabled = true;
 
-      this.setState(prevState => ({
-        hideSearch: true,
-        hideLoader: false
-      }));
+			  this.setState(prevState => ({
+				hideSearch: true,
+				hideLoader: false
+			  }));
 
-      var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-      var url = root_url + "generate?"
-        + "timeline_id=" + this.props.params.timeline_id
-        + "&query=" + query
-        + "&start_date=" + start_date
-        + "&end_date=" + end_date
-      fetch(url, {
-        method: 'POST',
-        headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          timeline_id: this.props.params.timeline_id,
-          query: query
-        })
-      }).then(function(response) {
-        window.location.reload();
-      });
-    }
+			  var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+			  var url = root_url + "generate?"
+				+ "timeline_id=" + this.props.params.timeline_id
+				+ "&query=" + query
+				+ "&start_date=" + start_date
+				+ "&end_date=" + end_date
+			  fetch(url, {
+				method: 'POST',
+				headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({
+				  timeline_id: this.props.params.timeline_id,
+				  query: query
+				})
+			  }).then(function(response) {
+				window.location.reload();
+			  });
+			}
   }
 
   handlePolitifact(event){
@@ -125,9 +125,13 @@ class View extends Component {
   }
 
   showSearchForm(){
-    this.setState(prevState => ({
-      hideSearch: !prevState.hideSearch
-    }));
+	authenticate(this.props.params.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			this.setState(prevState => ({
+				hideSearch: !prevState.hideSearch
+			}));
+		}
+	})
   }
 
   showPolitifactForm(){
