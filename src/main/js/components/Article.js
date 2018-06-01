@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 const API_KEY = "AMHHd6U7KSJqFMjSzKlnoz"; 
+import authenticate from '../util/Authentication.js';
 
 //Filestack documentation: https://www.filestack.com/docs/image-transformations/screenshot
 //Filestack is used to grab screenshots of webpages through the url
@@ -118,30 +119,34 @@ class Article extends Component {
   }
 
   handleDelete(event){
-    var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
-    var url = root_url + "delete_article?";
-    if(this.props.isPolitifact){
-      url = root_url + "delete_politifact?"
-    }
+	authenticate(this.props.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+	  
+			var root_url = window.location.origin?window.location.origin+'/':window.location.protocol+'/'+window.location.host+'/';
+			var url = root_url + "delete_article?";
+			if(this.props.isPolitifact){
+			  url = root_url + "delete_politifact?"
+			}
 
-    url = url  
-      + "timeline_id=" + this.props.timeline_id 
-      + "&article_id=" + this.props.article_id
-    // console.log(url);
-    fetch(url, {
-      method: 'POST',
-      headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        timeline_id: this.props.timeline_id,
-        article_id: this.props.article_id,
-      })
-    }).then(function(response) {
-        window.location.reload();
-      });
-    
+			url = url  
+			  + "timeline_id=" + this.props.timeline_id 
+			  + "&article_id=" + this.props.article_id
+			// console.log(url);
+			fetch(url, {
+			  method: 'POST',
+			  headers: {
+			  'Accept': 'application/json',
+			  'Content-Type': 'application/json',
+			  },
+			  body: JSON.stringify({
+				timeline_id: this.props.timeline_id,
+				article_id: this.props.article_id,
+			  })
+			}).then(function(response) {
+				window.location.reload();
+			  });
+		}
+	})
   }
 
   changeVisibility(){

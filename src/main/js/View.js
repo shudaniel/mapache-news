@@ -4,7 +4,7 @@ import ArticleList from './components/ArticleList'
 import ArticleForm from './components/ArticleForm'
 import Timeline from './components/Timeline'
 import PolitifactForm from './components/PolitifactForm'
-
+import authenticate from './util/Authentication.js';
 
 class View extends Component {
 
@@ -115,9 +115,13 @@ class View extends Component {
   }
 
   showSearchForm(){
-    this.setState(prevState => ({
-      hideSearch: !prevState.hideSearch
-    }));
+	authenticate(this.props.params.timeline_id).then((hasAccess) => {
+		if(hasAccess){
+			this.setState(prevState => ({
+				hideSearch: !prevState.hideSearch
+			}));
+		}
+	})
   }
 
   showPolitifactForm(){
