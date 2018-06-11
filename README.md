@@ -37,4 +37,4 @@
  ## Known Bugs
  - It does not work on Internet Explorer or Microsoft Edge.
  - When system prompts for a password, if the user clicks cancel, it will still display "Invalid Password".
- - Very rarely, if the autogenerate does not load, you have to refresh. But this only happens every once in a while and unsure why/how/when it happens.
+ - Very rarely, if the autogenerate does not load, you have to refresh manually. But this only happens every once in a while and unsure why/how/when it happens.
