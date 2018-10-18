@@ -20,7 +20,7 @@ public class Article implements Comparable<Article> {
 
 
     Article(){
-        name = "";
+        name = ""; 
         link = "";
         description = "";
         imageUrl = "";
@@ -29,8 +29,8 @@ public class Article implements Comparable<Article> {
     }
 
     Article(String name, String link, String description, String imageUrl, String date){
-        this.name = name;
-        this.link = link;
+        this.name = name; //set name
+        this.link = link; //set link
         this.description = description;
         this.imageUrl = imageUrl;
         this.dateString = date;
